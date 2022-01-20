@@ -1,0 +1,8 @@
+{
+  "name": "gengEditor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:clydee-geng/gengEditor.git",
+  "author": "clydee <641365724@qq.com>",
+  "license": "MIT"
+}
