@@ -1,14 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Editor, EditorState} from 'draft-js';
-import 'draft-js/dist/Draft.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Editor, EditorState, RichUtils } from "draft-js";
+import "draft-js/dist/Draft.css";
 
 function MyEditor() {
-  const [editorState, setEditorState] = React.useState(
-    () => EditorState.createEmpty(),
+  const [editorState, setEditorState] = React.useState(() =>
+    EditorState.createEmpty()
   );
 
-  return <Editor editorState={editorState} onChange={setEditorState} />;
+  return (
+    <div>
+      <button
+        onClick={() =>
+          setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"))
+        }
+      >
+        Bold
+      </button>
+      <Editor editorState={editorState} onChange={setEditorState} />
+    </div>
+  );
 }
 
-ReactDOM.render(<MyEditor />, document.getElementById('container'));
+ReactDOM.render(<MyEditor />, document.getElementById("container"));
