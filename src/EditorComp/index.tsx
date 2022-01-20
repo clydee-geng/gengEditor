@@ -2,8 +2,7 @@ import React from "react";
 import { Editor, EditorState, RichUtils } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
-import { Button } from "antd";
-import "antd/dist/antd.css";
+import PresetsComps from "../PresetsComps";
 
 interface IProps {}
 
@@ -22,7 +21,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   return (
     <div className={styles.EditorComp}>
-      <div className={styles.text}>1111</div>
+      <PresetsComps.Bold></PresetsComps.Bold>
       <Editor editorState={editorState} onChange={setEditorState} />
     </div>
   );
