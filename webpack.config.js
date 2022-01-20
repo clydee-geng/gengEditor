@@ -11,6 +11,7 @@ module.exports = {
   devServer: {
     contentBase: "./dist",
     open: true,
+    overlay: true,
   },
   module: {
     rules: [
@@ -24,6 +25,7 @@ module.exports = {
               "@babel/preset-env",
               {
                 useBuiltIns: "usage",
+                corejs: 2,
                 targets: {
                   chrome: "67",
                 },
@@ -34,8 +36,28 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        test: /\.(css|less)$/,
+        use: [
+          "style-loader",
+
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "geng-[hash]-[local]",
+              },
+            },
+          },
+          "less-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [require("autoprefixer")],
+              },
+            },
+          },
+        ],
       },
     ],
   },
@@ -44,4 +66,8 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    mainFiles: ["index"],
+  },
 };
