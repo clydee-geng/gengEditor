@@ -18,22 +18,27 @@ module.exports = {
       {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
-        options: {
-          presets: [
-            [
-              "@babel/preset-env",
-              {
-                useBuiltIns: "usage",
-                corejs: 2,
-                targets: {
-                  chrome: "67",
-                },
-              },
-            ],
-            "@babel/preset-react",
-          ],
-        },
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                [
+                  "@babel/preset-env",
+                  {
+                    useBuiltIns: "usage",
+                    corejs: 2,
+                    targets: {
+                      chrome: "67",
+                    },
+                  },
+                ],
+                "@babel/preset-react",
+              ],
+            },
+          },
+          "ts-loader",
+        ],
       },
       {
         test: /\.(css|less)$/,

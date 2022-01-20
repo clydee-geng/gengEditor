@@ -5,7 +5,10 @@ import styles from "./index.less";
 import { Button } from "antd";
 import "antd/dist/antd.css";
 
-const EditorComp = () => {
+interface IProps {}
+
+const EditorComp: React.FC<IProps> = (props) => {
+  const {} = props;
   /**
    * hooks
    */
