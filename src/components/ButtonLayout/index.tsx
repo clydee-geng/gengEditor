@@ -4,10 +4,11 @@ import { ReactNode } from "react";
 interface IProps {
   icon: ReactNode;
   tip?: ReactNode;
+  clickPropsFn?: () => void;
 }
 
 const ButtonLayout: React.FC<IProps> = (props) => {
-  const { icon, tip } = props;
+  const { icon, tip, clickPropsFn } = props;
 
   /**
    * jsx
@@ -15,7 +16,7 @@ const ButtonLayout: React.FC<IProps> = (props) => {
 
   return (
     <Tooltip title={tip}>
-      <Button type="text" icon={icon}></Button>
+      <Button type="text" icon={icon} onClick={clickPropsFn}></Button>
     </Tooltip>
   );
 };

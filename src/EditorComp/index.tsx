@@ -1,13 +1,15 @@
 import React from "react";
-import { Editor, EditorState, RichUtils } from "draft-js";
+import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
 
-interface IProps {}
+interface IProps {
+  style?: React.CSSProperties;
+}
 
 const EditorComp: React.FC<IProps> = (props) => {
-  const {} = props;
+  const { style } = props;
   /**
    * hooks
    */
@@ -20,8 +22,11 @@ const EditorComp: React.FC<IProps> = (props) => {
    */
 
   return (
-    <div className={styles.EditorComp}>
-      <PresetsComps.Bold></PresetsComps.Bold>
+    <div className={styles.EditorComp} style={style}>
+      <PresetsComps.Bold
+        editorState={editorState}
+        setEditorState={setEditorState}
+      ></PresetsComps.Bold>
       <Editor editorState={editorState} onChange={setEditorState} />
     </div>
   );
