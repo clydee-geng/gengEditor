@@ -1,5 +1,5 @@
 import React from "react";
-import { Editor, EditorState } from "draft-js";
+import { Editor, EditorState, ContentBlock } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
@@ -17,6 +17,20 @@ const EditorComp: React.FC<IProps> = (props) => {
     EditorState.createEmpty()
   );
 
+  const editorRef = React.useRef<any>(null);
+
+  React.useEffect(() => {
+    keepEditorFocusBindFn();
+  }, [editorState]);
+
+  /**
+   * method
+   */
+
+  const keepEditorFocusBindFn = () => {
+    editorRef.current?.focus();
+  };
+
   /**
    * jsx
    */
@@ -27,7 +41,12 @@ const EditorComp: React.FC<IProps> = (props) => {
         editorState={editorState}
         setEditorState={setEditorState}
       ></PresetsComps.Bold>
-      <Editor editorState={editorState} onChange={setEditorState} />
+      <Editor
+        editorState={editorState}
+        onChange={setEditorState}
+        placeholder="请输入..."
+        ref={editorRef}
+      />
     </div>
   );
 };
