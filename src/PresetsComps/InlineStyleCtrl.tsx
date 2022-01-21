@@ -1,16 +1,25 @@
 import React from "react";
-import { BoldOutlined } from "@ant-design/icons";
-import ButtonLayout from "../../components/ButtonLayout";
+import ButtonLayout from "../components/ButtonLayout";
 import { RichUtils, EditorState } from "draft-js";
 
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
   keepEditorFocusPropsFn: () => void;
+  inlineStyleStr: string;
+  icon: React.ReactNode;
+  tip: React.ReactNode;
 }
 
-const Bold: React.FC<IProps> = (props) => {
-  const { editorState, setEditorState, keepEditorFocusPropsFn } = props;
+const InlineStyleCtrl: React.FC<IProps> = (props) => {
+  const {
+    editorState,
+    setEditorState,
+    keepEditorFocusPropsFn,
+    inlineStyleStr,
+    icon,
+    tip,
+  } = props;
 
   /**
    * methods
@@ -19,7 +28,7 @@ const Bold: React.FC<IProps> = (props) => {
   const isActiveBindFn = () => {
     let isActive = false;
     const currentStyle = editorState.getCurrentInlineStyle();
-    if (currentStyle.has("BOLD")) {
+    if (currentStyle.has(inlineStyleStr)) {
       isActive = true;
     }
     return isActive;
@@ -29,9 +38,12 @@ const Bold: React.FC<IProps> = (props) => {
     const SelectionState = editorState.getSelection();
     if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
       //有选中
-      setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"), () => {
-        keepEditorFocusPropsFn();
-      });
+      setEditorState(
+        RichUtils.toggleInlineStyle(editorState, inlineStyleStr),
+        () => {
+          keepEditorFocusPropsFn();
+        }
+      );
     }
   };
 
@@ -40,11 +52,11 @@ const Bold: React.FC<IProps> = (props) => {
    */
   return (
     <ButtonLayout
-      icon={<BoldOutlined />}
+      icon={icon}
       isActive={isActiveBindFn()}
-      tip="加粗"
+      tip={tip}
       clickPropsFn={clickBindFn}
     />
   );
 };
-export default Bold;
+export default InlineStyleCtrl;

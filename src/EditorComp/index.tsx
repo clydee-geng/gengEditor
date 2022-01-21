@@ -32,13 +32,17 @@ const EditorComp: React.FC<IProps> = (props) => {
    * jsx
    */
 
+  const PresetsCompsProps = {
+    editorState,
+    setEditorState,
+    keepEditorFocusPropsFn: keepEditorFocusBindFn,
+  };
+
   return (
     <div className={styles.EditorComp} style={style}>
-      <PresetsComps.Bold
-        editorState={editorState}
-        setEditorState={setEditorState}
-        keepEditorFocusPropsFn={keepEditorFocusBindFn}
-      ></PresetsComps.Bold>
+      <PresetsComps.Bold {...PresetsCompsProps}></PresetsComps.Bold>
+      <PresetsComps.Italic {...PresetsCompsProps}></PresetsComps.Italic>
+      <PresetsComps.Underline {...PresetsCompsProps}></PresetsComps.Underline>
       <Editor
         editorState={editorState}
         onChange={setEditorState}
