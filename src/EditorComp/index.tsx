@@ -1,8 +1,9 @@
 import React from "react";
-import { Editor, EditorState, ContentBlock } from "draft-js";
+import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
+import { useStateWithCallback } from "../hooks";
 
 interface IProps {
   style?: React.CSSProperties;
@@ -13,15 +14,11 @@ const EditorComp: React.FC<IProps> = (props) => {
   /**
    * hooks
    */
-  const [editorState, setEditorState] = React.useState(() =>
+  const [editorState, setEditorState] = useStateWithCallback(() =>
     EditorState.createEmpty()
   );
 
   const editorRef = React.useRef<any>(null);
-
-  React.useEffect(() => {
-    keepEditorFocusBindFn();
-  }, [editorState]);
 
   /**
    * method
@@ -40,6 +37,7 @@ const EditorComp: React.FC<IProps> = (props) => {
       <PresetsComps.Bold
         editorState={editorState}
         setEditorState={setEditorState}
+        keepEditorFocusPropsFn={keepEditorFocusBindFn}
       ></PresetsComps.Bold>
       <Editor
         editorState={editorState}
