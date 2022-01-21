@@ -24,6 +24,15 @@ const Bold: React.FC<IProps> = (props) => {
     return isActive;
   };
 
+  const clickBindFn = () => {
+    const SelectionState = editorState.getSelection();
+    console.log(SelectionState.getStartOffset(), SelectionState.getEndOffset());
+    if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
+      //有选中
+      setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"));
+    }
+  };
+
   /**
    * jsx
    */
@@ -32,9 +41,7 @@ const Bold: React.FC<IProps> = (props) => {
       icon={<BoldOutlined />}
       isActive={isActiveBindFn()}
       tip="加粗"
-      clickPropsFn={() => {
-        setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"));
-      }}
+      clickPropsFn={clickBindFn}
     />
   );
 };
