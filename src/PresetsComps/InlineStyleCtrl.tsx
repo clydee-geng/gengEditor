@@ -25,7 +25,7 @@ const InlineStyleCtrl: React.FC<IProps> = (props) => {
    * methods
    */
 
-  const isActiveBindFn = () => {
+  const renderActiveColor = () => {
     let isActive = false;
     const currentStyle = editorState.getCurrentInlineStyle();
     if (currentStyle.has(inlineStyleStr)) {
@@ -53,7 +53,7 @@ const InlineStyleCtrl: React.FC<IProps> = (props) => {
   return (
     <ButtonLayout
       icon={icon}
-      isActive={isActiveBindFn()}
+      activeColor={renderActiveColor()}
       tip={tip}
       clickPropsFn={clickBindFn}
     />

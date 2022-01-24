@@ -6,34 +6,34 @@ import ButtonLayout from "@components/ButtonLayout";
 import { Popover } from "antd";
 
 const fontColorsCustomStyleMap: DraftStyleMap = {
-  "COLOR:#000000": {
+  "COLOR_#000000": {
     color: "#000000",
   },
-  "COLOR:#FFFFFF": {
+  "COLOR_#FFFFFF": {
     color: "#FFFFFF",
   },
-  "COLOR:#FF0000": {
+  "COLOR_#FF0000": {
     color: "#FF0000",
   },
-  "COLOR:#FFA500": {
+  "COLOR_#FFA500": {
     color: "#FFA500",
   },
-  "COLOR:#FFFF00": {
+  "COLOR_#FFFF00": {
     color: "#FFFF00",
   },
-  "COLOR:#008000": {
+  "COLOR_#008000": {
     color: "#008000",
   },
-  "COLOR:#00FFFF": {
+  "COLOR_#00FFFF": {
     color: "#00FFFF",
   },
-  "COLOR:#0000FF": {
+  "COLOR_#0000FF": {
     color: "#0000FF",
   },
-  "COLOR:#800080": {
+  "COLOR_#800080": {
     color: "#800080",
   },
-  "COLOR:#FFC0CB": {
+  "COLOR_#FFC0CB": {
     color: "#FFC0CB",
   },
 };
@@ -69,7 +69,6 @@ const FontColors: React.FC<IProps> = (props) => {
    */
 
   const setColorBindFn = (itemData: any) => {
-    console.log(itemData);
     setVisible(false);
     const SelectionState = editorState.getSelection();
     if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
@@ -81,6 +80,18 @@ const FontColors: React.FC<IProps> = (props) => {
         }
       );
     }
+  };
+
+  const renderActiveColor = () => {
+    let activeColor: any = false;
+    const currentStyle = editorState.getCurrentInlineStyle();
+    const itemData = currentStyle.filter((item: any, index: any) => {
+      return item.includes("COLOR_");
+    });
+    if (itemData.last()) {
+      activeColor = itemData.last().replace("COLOR_", "");
+    }
+    return activeColor;
   };
 
   const convertFontColorsCustomStyleMap = () => {
@@ -125,7 +136,7 @@ const FontColors: React.FC<IProps> = (props) => {
       <div style={{ display: "inline" }}>
         <ButtonLayout
           icon={<FontColorsOutlined />}
-          // isActive={isActiveBindFn()}
+          activeColor={renderActiveColor()}
           tip="文本颜色"
         />
       </div>

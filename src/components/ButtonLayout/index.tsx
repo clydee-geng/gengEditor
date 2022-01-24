@@ -6,24 +6,24 @@ interface IProps {
   icon: ReactNode;
   tip?: ReactNode;
   clickPropsFn?: () => void;
-  isActive?: boolean;
+  activeColor?: string | boolean;
 }
 
 const ButtonLayout: React.FC<IProps> = (props) => {
-  const { icon, tip, clickPropsFn, isActive } = props;
+  const { icon, tip, clickPropsFn, activeColor } = props;
 
   /**
    * jsx
    */
-
   return (
     <Tooltip title={tip}>
       <Button
         type="text"
         icon={icon}
         onClick={clickPropsFn}
+        style={typeof activeColor === "string" ? { color: activeColor } : {}}
         className={
-          isActive
+          activeColor
             ? classnames(styles.active, styles.ButtonLayout)
             : styles.ButtonLayout
         }
