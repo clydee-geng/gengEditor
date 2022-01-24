@@ -3,7 +3,7 @@ import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
-import { useStateWithCallback } from "../hooks";
+import { useStateWithCallback } from "@alias/hooks";
 
 interface IProps {
   style?: React.CSSProperties;

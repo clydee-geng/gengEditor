@@ -100,7 +100,7 @@ module.exports = {
     extensions: [".js", ".jsx", ".d.ts", ".ts", ".tsx"],
     mainFiles: ["index"],
     alias: {
-      "@components": path.resolve(__dirname, "./src/components"),
+      "@alias": path.resolve(__dirname, "./src/alias"),
     },
   },
 };

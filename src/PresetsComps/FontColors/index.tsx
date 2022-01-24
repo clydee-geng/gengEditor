@@ -2,8 +2,9 @@ import React from "react";
 import { FontColorsOutlined } from "@ant-design/icons";
 import styles from "./index.less";
 import { RichUtils, EditorState, DraftStyleMap } from "draft-js";
-import ButtonLayout from "@components/ButtonLayout";
+import ButtonLayout from "@alias/components/ButtonLayout";
 import { Popover } from "antd";
+import { useStateWithCallback } from "@alias/hooks";
 
 const fontColorsCustomStyleMap: DraftStyleMap = {
   "COLOR_#000000": {
@@ -58,7 +59,7 @@ const FontColors: React.FC<IProps> = (props) => {
    * hooks
    */
 
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useStateWithCallback(false);
 
   React.useEffect(() => {
     setCustomStyleMap(fontColorsCustomStyleMap);
@@ -132,8 +133,9 @@ const FontColors: React.FC<IProps> = (props) => {
       }
       visible={visible}
       onVisibleChange={(e) => {
-        setVisible(e);
-        keepEditorFocusPropsFn();
+        setVisible(e, () => {
+          keepEditorFocusPropsFn();
+        });
       }}
     >
       <div style={{ display: "inline" }}>
