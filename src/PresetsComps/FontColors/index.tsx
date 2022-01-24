@@ -1,56 +1,98 @@
 import React from "react";
 import { FontColorsOutlined } from "@ant-design/icons";
 import styles from "./index.less";
-import { RichUtils, EditorState } from "draft-js";
+import { RichUtils, EditorState, DraftStyleMap } from "draft-js";
 import ButtonLayout from "@components/ButtonLayout";
 import { Popover } from "antd";
 
-interface FontColorsDataItem {
-  color: string;
-}
-
-const fontColorsData: FontColorsDataItem[] = [
-  {
-    color: "black",
+const fontColorsCustomStyleMap: DraftStyleMap = {
+  "COLOR:#000000": {
+    color: "#000000",
   },
-  {
-    color: "white",
+  "COLOR:#FFFFFF": {
+    color: "#FFFFFF",
   },
-  {
-    color: "red",
+  "COLOR:#FF0000": {
+    color: "#FF0000",
   },
-  {
-    color: "yellow",
+  "COLOR:#FFA500": {
+    color: "#FFA500",
   },
-  {
-    color: "blue",
+  "COLOR:#FFFF00": {
+    color: "#FFFF00",
   },
-  {
-    color: "green",
+  "COLOR:#008000": {
+    color: "#008000",
   },
-  {
-    color: "pink",
+  "COLOR:#00FFFF": {
+    color: "#00FFFF",
   },
-  {
-    color: "purple",
+  "COLOR:#0000FF": {
+    color: "#0000FF",
   },
-  {
-    color: "orange",
+  "COLOR:#800080": {
+    color: "#800080",
   },
-];
+  "COLOR:#FFC0CB": {
+    color: "#FFC0CB",
+  },
+};
 
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
   keepEditorFocusPropsFn: () => void;
+  customStyleMap: DraftStyleMap;
+  setCustomStyleMap: any;
 }
 
 const FontColors: React.FC<IProps> = (props) => {
-  const { editorState, setEditorState, keepEditorFocusPropsFn } = props;
+  const {
+    editorState,
+    setEditorState,
+    keepEditorFocusPropsFn,
+    setCustomStyleMap,
+  } = props;
 
   /**
    * hooks
    */
+
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    setCustomStyleMap(fontColorsCustomStyleMap);
+  }, []);
+
+  /**
+   * methods
+   */
+
+  const setColorBindFn = (itemData: any) => {
+    console.log(itemData);
+    setVisible(false);
+    const SelectionState = editorState.getSelection();
+    if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
+      //有选中
+      setEditorState(
+        RichUtils.toggleInlineStyle(editorState, itemData.key),
+        () => {
+          keepEditorFocusPropsFn();
+        }
+      );
+    }
+  };
+
+  const convertFontColorsCustomStyleMap = () => {
+    let arr = [];
+    for (let k in fontColorsCustomStyleMap) {
+      arr.push({
+        key: k,
+        val: fontColorsCustomStyleMap[k],
+      });
+    }
+    return arr;
+  };
 
   /** jsx */
   return (
@@ -59,7 +101,7 @@ const FontColors: React.FC<IProps> = (props) => {
       title="颜色"
       content={
         <div className={styles.popoverContent}>
-          {fontColorsData.map((item, index) => {
+          {convertFontColorsCustomStyleMap().map((item, index) => {
             return (
               <div
                 key={"FontColors" + index}
@@ -67,7 +109,8 @@ const FontColors: React.FC<IProps> = (props) => {
               >
                 <div
                   className={styles.popoverContentItemIcon}
-                  style={{ color: item.color }}
+                  style={item.val}
+                  onClick={() => setColorBindFn(item)}
                 >
                   <FontColorsOutlined />
                 </div>
@@ -76,6 +119,8 @@ const FontColors: React.FC<IProps> = (props) => {
           })}
         </div>
       }
+      visible={visible}
+      onVisibleChange={(e) => setVisible(e)}
     >
       <div style={{ display: "inline" }}>
         <ButtonLayout

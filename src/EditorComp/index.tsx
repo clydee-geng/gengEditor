@@ -18,6 +18,8 @@ const EditorComp: React.FC<IProps> = (props) => {
     EditorState.createEmpty()
   );
 
+  const [customStyleMap, setCustomStyleMap] = useStateWithCallback({});
+
   const editorRef = React.useRef<any>(null);
 
   /**
@@ -36,6 +38,8 @@ const EditorComp: React.FC<IProps> = (props) => {
     editorState,
     setEditorState,
     keepEditorFocusPropsFn: keepEditorFocusBindFn,
+    customStyleMap,
+    setCustomStyleMap,
   };
 
   return (
@@ -52,6 +56,7 @@ const EditorComp: React.FC<IProps> = (props) => {
         onChange={setEditorState}
         placeholder="请输入..."
         ref={editorRef}
+        customStyleMap={customStyleMap}
       />
     </div>
   );
