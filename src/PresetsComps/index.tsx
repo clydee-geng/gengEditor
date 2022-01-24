@@ -2,6 +2,7 @@ import {
   BoldOutlined,
   ItalicOutlined,
   UnderlineOutlined,
+  StrikethroughOutlined,
 } from "@ant-design/icons";
 import InlineStyleCtrl from "./InlineStyleCtrl";
 
@@ -32,8 +33,18 @@ const Underline = (props: any) => (
   />
 );
 
+const Strikethrough = (props: any) => (
+  <InlineStyleCtrl
+    {...props}
+    icon={<StrikethroughOutlined />}
+    tip="删除线"
+    inlineStyleStr="STRIKETHROUGH"
+  />
+);
+
 export default {
   Bold,
   Italic,
   Underline,
+  Strikethrough,
 };

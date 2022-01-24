@@ -43,6 +43,9 @@ const EditorComp: React.FC<IProps> = (props) => {
       <PresetsComps.Bold {...PresetsCompsProps}></PresetsComps.Bold>
       <PresetsComps.Italic {...PresetsCompsProps}></PresetsComps.Italic>
       <PresetsComps.Underline {...PresetsCompsProps}></PresetsComps.Underline>
+      <PresetsComps.Strikethrough
+        {...PresetsCompsProps}
+      ></PresetsComps.Strikethrough>
       <Editor
         editorState={editorState}
         onChange={setEditorState}
