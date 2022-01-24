@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonLayout from "../components/ButtonLayout";
+import ButtonLayout from "@components/ButtonLayout";
 import { RichUtils, EditorState } from "draft-js";
 
 interface IProps {

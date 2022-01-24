@@ -99,5 +99,8 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx", ".d.ts", ".ts", ".tsx"],
     mainFiles: ["index"],
+    alias: {
+      "@components": path.resolve(__dirname, "./src/components"),
+    },
   },
 };

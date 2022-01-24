@@ -15,6 +15,9 @@
     "isolatedModules": false,
     "noEmit": false,
     "jsx": "react-jsx",
+    "paths": {
+      "@components/*": ["./src/components/*"]
+    }
   },
   "include": ["src"]
 }
