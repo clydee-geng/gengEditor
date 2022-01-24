@@ -131,7 +131,10 @@ const FontColors: React.FC<IProps> = (props) => {
         </div>
       }
       visible={visible}
-      onVisibleChange={(e) => setVisible(e)}
+      onVisibleChange={(e) => {
+        setVisible(e);
+        keepEditorFocusPropsFn();
+      }}
     >
       <div style={{ display: "inline" }}>
         <ButtonLayout
