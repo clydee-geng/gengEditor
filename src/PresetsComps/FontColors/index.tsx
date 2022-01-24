@@ -1,7 +1,7 @@
 import React from "react";
 import { FontColorsOutlined } from "@ant-design/icons";
 import styles from "./index.less";
-import { RichUtils, EditorState, DraftStyleMap } from "draft-js";
+import { RichUtils, EditorState, DraftStyleMap, Modifier } from "draft-js";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import { Popover } from "antd";
 import { useStateWithCallback } from "@alias/hooks";
@@ -74,8 +74,28 @@ const FontColors: React.FC<IProps> = (props) => {
     const SelectionState = editorState.getSelection();
     if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
       //有选中
+      // 先去除所以Color_的style
+      const currentStyle = editorState.getCurrentInlineStyle();
+      let ContentState = editorState.getCurrentContent();
+
+      currentStyle.forEach((item) => {
+        if (item?.includes("COLOR_")) {
+          ContentState = Modifier.removeInlineStyle(
+            ContentState,
+            SelectionState,
+            item
+          );
+        }
+      });
+
+      const EditorStateRemoveAllCOLOR_ = EditorState.push(
+        editorState,
+        ContentState,
+        "change-inline-style"
+      );
+
       setEditorState(
-        RichUtils.toggleInlineStyle(editorState, itemData.key),
+        RichUtils.toggleInlineStyle(EditorStateRemoveAllCOLOR_, itemData.key),
         () => {
           keepEditorFocusPropsFn();
         }
