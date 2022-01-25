@@ -3,7 +3,8 @@ import { FontColorsOutlined } from "@ant-design/icons";
 import styles from "./index.less";
 import { RichUtils, EditorState, DraftStyleMap, Modifier } from "draft-js";
 import ButtonLayout from "@alias/components/ButtonLayout";
-import { Popover } from "antd";
+import ReactPickr from "@alias/components/reactPickr";
+import { Button, Popover } from "antd";
 import { useStateWithCallback } from "@alias/hooks";
 
 const fontColorsCustomStyleMap: DraftStyleMap = {
@@ -53,6 +54,7 @@ const FontColors: React.FC<IProps> = (props) => {
     setEditorState,
     keepEditorFocusPropsFn,
     setCustomStyleMap,
+    customStyleMap,
   } = props;
 
   /**
@@ -60,20 +62,18 @@ const FontColors: React.FC<IProps> = (props) => {
    */
 
   const [visible, setVisible] = useStateWithCallback(false);
-
-  React.useEffect(() => {
-    setCustomStyleMap(fontColorsCustomStyleMap);
-  }, []);
+  const [count, setCount] = useStateWithCallback(0);
 
   /**
    * methods
    */
 
-  const setColorBindFn = (itemData: any) => {
+  const setColorBindFn = (colorStr: string) => {
     setVisible(false);
     const SelectionState = editorState.getSelection();
     if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
-      //有选中
+      console.log("//有选中");
+
       // 先去除所以Color_的style
       const currentStyle = editorState.getCurrentInlineStyle();
       let ContentState = editorState.getCurrentContent();
@@ -94,10 +94,23 @@ const FontColors: React.FC<IProps> = (props) => {
         "change-inline-style"
       );
 
-      setEditorState(
-        RichUtils.toggleInlineStyle(EditorStateRemoveAllCOLOR_, itemData.key),
+      setCustomStyleMap(
+        (preState: any) => {
+          return {
+            ...preState,
+            ["COLOR_" + colorStr]: { color: colorStr },
+          };
+        },
         () => {
-          keepEditorFocusPropsFn();
+          setEditorState(
+            RichUtils.toggleInlineStyle(
+              EditorStateRemoveAllCOLOR_,
+              "COLOR_" + colorStr
+            ),
+            (modifiedState: any) => {
+              keepEditorFocusPropsFn();
+            }
+          );
         }
       );
     }
@@ -112,28 +125,18 @@ const FontColors: React.FC<IProps> = (props) => {
     if (itemData.last()) {
       activeColor = itemData.last().replace("COLOR_", "");
     }
+    console.log("renderActiveColor: ", activeColor);
     return activeColor;
-  };
-
-  const convertFontColorsCustomStyleMap = () => {
-    let arr = [];
-    for (let k in fontColorsCustomStyleMap) {
-      arr.push({
-        key: k,
-        val: fontColorsCustomStyleMap[k],
-      });
-    }
-    return arr;
   };
 
   /** jsx */
   return (
     <Popover
       trigger="click"
-      title="颜色"
+      title="选择文本颜色"
       content={
         <div className={styles.popoverContent}>
-          {convertFontColorsCustomStyleMap().map((item, index) => {
+          {/* {convertFontColorsCustomStyleMap().map((item, index) => {
             return (
               <div
                 key={"FontColors" + index}
@@ -148,7 +151,22 @@ const FontColors: React.FC<IProps> = (props) => {
                 </div>
               </div>
             );
-          })}
+          })} */}
+          <ReactPickr changePropsFn={setColorBindFn} />
+          <Button
+            onClick={() => {
+              setCount(
+                (preState: any) => preState + 1,
+                () => {
+                  return () => {
+                    console.log("next:", count);
+                  };
+                }
+              );
+            }}
+          >
+            {count}
+          </Button>
         </div>
       }
       visible={visible}
