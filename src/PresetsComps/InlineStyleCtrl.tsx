@@ -22,6 +22,14 @@ const InlineStyleCtrl: React.FC<IProps> = (props) => {
   } = props;
 
   /**
+   * hooks
+   */
+
+  React.useEffect(() => {
+    keepEditorFocusPropsFn();
+  }, [editorState]);
+
+  /**
    * methods
    */
 
@@ -38,12 +46,7 @@ const InlineStyleCtrl: React.FC<IProps> = (props) => {
     const SelectionState = editorState.getSelection();
     if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
       //有选中
-      setEditorState(
-        RichUtils.toggleInlineStyle(editorState, inlineStyleStr),
-        () => {
-          keepEditorFocusPropsFn();
-        }
-      );
+      setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyleStr));
     }
   };
 

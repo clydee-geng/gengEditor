@@ -3,7 +3,6 @@ import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
-import { useStateWithCallback } from "@alias/hooks";
 
 interface IProps {
   style?: React.CSSProperties;
@@ -14,11 +13,11 @@ const EditorComp: React.FC<IProps> = (props) => {
   /**
    * hooks
    */
-  const [editorState, setEditorState] = useStateWithCallback(() =>
+  const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
   );
 
-  const [customStyleMap, setCustomStyleMap] = useStateWithCallback({});
+  const [customStyleMap, setCustomStyleMap] = React.useState({});
 
   const editorRef = React.useRef<any>(null);
 

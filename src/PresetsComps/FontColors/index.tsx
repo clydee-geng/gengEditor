@@ -5,7 +5,6 @@ import { RichUtils, EditorState, DraftStyleMap, Modifier } from "draft-js";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import ReactPickr from "@alias/components/reactPickr";
 import { Button, Popover } from "antd";
-import { useStateWithCallback } from "@alias/hooks";
 
 const fontColorsCustomStyleMap: DraftStyleMap = {
   "COLOR_#000000": {
@@ -61,8 +60,11 @@ const FontColors: React.FC<IProps> = (props) => {
    * hooks
    */
 
-  const [visible, setVisible] = useStateWithCallback(false);
-  const [count, setCount] = useStateWithCallback(0);
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    keepEditorFocusPropsFn();
+  }, [visible, editorState]);
 
   /**
    * methods
@@ -94,24 +96,17 @@ const FontColors: React.FC<IProps> = (props) => {
         "change-inline-style"
       );
 
-      setCustomStyleMap(
-        (preState: any) => {
-          return {
-            ...preState,
-            ["COLOR_" + colorStr]: { color: colorStr },
-          };
-        },
-        () => {
-          setEditorState(
-            RichUtils.toggleInlineStyle(
-              EditorStateRemoveAllCOLOR_,
-              "COLOR_" + colorStr
-            ),
-            (modifiedState: any) => {
-              keepEditorFocusPropsFn();
-            }
-          );
-        }
+      setCustomStyleMap((preState: any) => {
+        return {
+          ...preState,
+          ["COLOR_" + colorStr]: { color: colorStr },
+        };
+      });
+      setEditorState(
+        RichUtils.toggleInlineStyle(
+          EditorStateRemoveAllCOLOR_,
+          "COLOR_" + colorStr
+        )
       );
     }
   };
@@ -153,27 +148,11 @@ const FontColors: React.FC<IProps> = (props) => {
             );
           })} */}
           <ReactPickr changePropsFn={setColorBindFn} />
-          <Button
-            onClick={() => {
-              setCount(
-                (preState: any) => preState + 1,
-                () => {
-                  return () => {
-                    console.log("next:", count);
-                  };
-                }
-              );
-            }}
-          >
-            {count}
-          </Button>
         </div>
       }
       visible={visible}
       onVisibleChange={(e) => {
-        setVisible(e, () => {
-          keepEditorFocusPropsFn();
-        });
+        setVisible(e);
       }}
     >
       <div style={{ display: "inline" }}>
