@@ -113,7 +113,7 @@ const FontColors: React.FC<IProps> = (props) => {
   };
 
   const renderActiveColor = () => {
-    let activeColor: any = false;
+    let activeColor: any = "#000000";
     const currentStyle = editorState.getCurrentInlineStyle();
     const itemData = currentStyle.filter((item: any, index: any) => {
       return item.includes("COLOR_");
@@ -132,7 +132,10 @@ const FontColors: React.FC<IProps> = (props) => {
       destroyTooltipOnHide
       content={
         <div className={styles.popoverContent}>
-          <ReactPickr changePropsFn={setColorBindFn} />
+          <ReactPickr
+            changePropsFn={setColorBindFn}
+            defaultColor={renderActiveColor()}
+          />
         </div>
       }
       visible={visible}
