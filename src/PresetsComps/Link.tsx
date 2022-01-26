@@ -1,9 +1,8 @@
 import React from "react";
 import { LinkOutlined } from "@ant-design/icons";
-import { EditorState, Modifier } from "draft-js";
-import ReactPickr from "@alias/components/reactPickr";
+import { EditorState, Modifier, RichUtils } from "draft-js";
 import ToogleBtnByPopover from "./ToogleBtnByPopover";
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 
 interface IProps {
   editorState: EditorState;
@@ -34,6 +33,7 @@ const FontColors: React.FC<IProps> = (props) => {
   }, [visible]);
 
   const [linkText, setLinkText] = React.useState<string>();
+  const [linkUrl, setLinkUrl] = React.useState<string>();
 
   /**
    * methods
@@ -104,6 +104,34 @@ const FontColors: React.FC<IProps> = (props) => {
     return activeColor;
   };
 
+  const confirmLinkBindFn = () => {
+    if (!linkText) {
+      return message.warning("请输入链接文字");
+    }
+
+    if (!linkUrl) {
+      return message.warning("请输入链接地址");
+    }
+
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      "LINK",
+      "MUTABLE",
+      { url: linkUrl }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(editorState, {
+      currentContent: contentStateWithEntity,
+    });
+    setEditorState(
+      RichUtils.toggleLink(
+        newEditorState,
+        newEditorState.getSelection(),
+        entityKey
+      )
+    );
+  };
+
   /** jsx */
 
   const PopoverContent = () => {
@@ -121,17 +149,22 @@ const FontColors: React.FC<IProps> = (props) => {
             <Input
               value={linkText}
               onChange={(e) => setLinkText(e.target.value.trim())}
+              placeholder="请输入链接文字"
             />
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div>链接地址：</div>
           <div>
-            <Input />
+            <Input
+              value={linkUrl}
+              onChange={(e) => setLinkUrl(e.target.value.trim())}
+              placeholder="请输入链接地址"
+            />
           </div>
         </div>
         <div style={{ textAlign: "right", marginTop: "10px" }}>
-          <Button type="primary" size="small">
+          <Button type="primary" size="small" onClick={confirmLinkBindFn}>
             插入
           </Button>
         </div>
