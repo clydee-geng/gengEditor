@@ -4,41 +4,7 @@ import styles from "./index.less";
 import { EditorState, DraftStyleMap, Modifier } from "draft-js";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import ReactPickr from "@alias/components/reactPickr";
-import { Button, Popover } from "antd";
-
-const fontColorsCustomStyleMap: DraftStyleMap = {
-  "COLOR_#000000": {
-    color: "#000000",
-  },
-  "COLOR_#FFFFFF": {
-    color: "#FFFFFF",
-  },
-  "COLOR_#FF0000": {
-    color: "#FF0000",
-  },
-  "COLOR_#FFA500": {
-    color: "#FFA500",
-  },
-  "COLOR_#FFFF00": {
-    color: "#FFFF00",
-  },
-  "COLOR_#008000": {
-    color: "#008000",
-  },
-  "COLOR_#00FFFF": {
-    color: "#00FFFF",
-  },
-  "COLOR_#0000FF": {
-    color: "#0000FF",
-  },
-  "COLOR_#800080": {
-    color: "#800080",
-  },
-  "COLOR_#FFC0CB": {
-    color: "#FFC0CB",
-  },
-};
-
+import { Popover } from "antd";
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
