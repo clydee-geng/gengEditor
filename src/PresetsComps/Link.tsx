@@ -3,6 +3,7 @@ import { LinkOutlined } from "@ant-design/icons";
 import { EditorState, Modifier } from "draft-js";
 import ReactPickr from "@alias/components/reactPickr";
 import ToogleBtnByPopover from "./ToogleBtnByPopover";
+import { Button, Input } from "antd";
 
 interface IProps {
   editorState: EditorState;
@@ -27,11 +28,27 @@ const FontColors: React.FC<IProps> = (props) => {
 
   React.useEffect(() => {
     keepEditorFocusBindFn();
+    if (visible) {
+      setLinkText(getCurSelectedText());
+    }
   }, [visible]);
+
+  const [linkText, setLinkText] = React.useState<string>();
 
   /**
    * methods
    */
+
+  const getCurSelectedText = () => {
+    const selectionState = editorState.getSelection();
+    const anchorKey = selectionState.getAnchorKey();
+    const currentContent = editorState.getCurrentContent();
+    const currentContentBlock = currentContent.getBlockForKey(anchorKey);
+    const start = selectionState.getStartOffset();
+    const end = selectionState.getEndOffset();
+    const selectedText = currentContentBlock.getText().slice(start, end);
+    return selectedText;
+  };
 
   const setColorBindFn = (colorStr: string) => {
     setVisible(false);
@@ -92,10 +109,32 @@ const FontColors: React.FC<IProps> = (props) => {
   const PopoverContent = () => {
     return (
       <div>
-        <ReactPickr
-          savePropsFn={setColorBindFn}
-          defaultColor={renderActiveColor()}
-        />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "10px",
+          }}
+        >
+          <div>链接文字：</div>
+          <div>
+            <Input
+              value={linkText}
+              onChange={(e) => setLinkText(e.target.value.trim())}
+            />
+          </div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div>链接地址：</div>
+          <div>
+            <Input />
+          </div>
+        </div>
+        <div style={{ textAlign: "right", marginTop: "10px" }}>
+          <Button type="primary" size="small">
+            插入
+          </Button>
+        </div>
       </div>
     );
   };
