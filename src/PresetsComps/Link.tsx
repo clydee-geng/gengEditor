@@ -1,24 +1,21 @@
 import React from "react";
-import { BgColorsOutlined } from "@ant-design/icons";
-import styles from "./index.less";
-import { EditorState, DraftStyleMap, Modifier } from "draft-js";
-import ButtonLayout from "@alias/components/ButtonLayout";
+import { LinkOutlined } from "@ant-design/icons";
+import { EditorState, Modifier } from "draft-js";
 import ReactPickr from "@alias/components/reactPickr";
-import { Popover } from "antd";
+import ToogleBtnByPopover from "./ToogleBtnByPopover";
+
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
-  customStyleMap: DraftStyleMap;
   setCustomStyleMap: any;
   keepEditorFocusBindFn: () => void;
 }
 
-const BackGroundColors: React.FC<IProps> = (props) => {
+const FontColors: React.FC<IProps> = (props) => {
   const {
     editorState,
     setEditorState,
     setCustomStyleMap,
-    customStyleMap,
     keepEditorFocusBindFn,
   } = props;
 
@@ -47,7 +44,7 @@ const BackGroundColors: React.FC<IProps> = (props) => {
       let ContentState = editorState.getCurrentContent();
 
       currentStyle.forEach((item) => {
-        if (item?.includes("BG_COLOR_")) {
+        if (item?.includes("FONT_COLOR_")) {
           ContentState = Modifier.removeInlineStyle(
             ContentState,
             SelectionState,
@@ -59,7 +56,7 @@ const BackGroundColors: React.FC<IProps> = (props) => {
       const nextContentState = Modifier.applyInlineStyle(
         ContentState,
         SelectionState,
-        "BG_COLOR_" + colorStr
+        "FONT_COLOR_" + colorStr
       );
 
       const nextEditorState = EditorState.push(
@@ -71,7 +68,7 @@ const BackGroundColors: React.FC<IProps> = (props) => {
       setCustomStyleMap((preState: any) => {
         return {
           ...preState,
-          ["BG_COLOR_" + colorStr]: { backgroundColor: colorStr },
+          ["FONT_COLOR_" + colorStr]: { color: colorStr },
         };
       });
       setEditorState(nextEditorState);
@@ -79,45 +76,43 @@ const BackGroundColors: React.FC<IProps> = (props) => {
   };
 
   const renderActiveColor = () => {
-    let activeColor: any = "#fff";
+    let activeColor: any = "#000000";
     const currentStyle = editorState.getCurrentInlineStyle();
     const itemData = currentStyle.filter((item: any, index: any) => {
-      return item.includes("BG_COLOR_");
+      return item.includes("FONT_COLOR_");
     });
     if (itemData.last()) {
-      activeColor = itemData.last().replace("BG_COLOR_", "");
+      activeColor = itemData.last().replace("FONT_COLOR_", "");
     }
     return activeColor;
   };
 
   /** jsx */
-  return (
-    <Popover
-      trigger="click"
-      title="设置背景颜色"
-      destroyTooltipOnHide
-      content={
-        <div className={styles.popoverContent}>
-          <ReactPickr
-            savePropsFn={setColorBindFn}
-            defaultColor={renderActiveColor()}
-          />
-        </div>
-      }
-      visible={visible}
-      onVisibleChange={(e) => {
-        setVisible(e);
-      }}
-    >
-      <div style={{ display: "inline" }}>
-        <ButtonLayout
-          icon={<BgColorsOutlined />}
-          activeColor={renderActiveColor()}
-          tip="背景颜色"
+
+  const PopoverContent = () => {
+    return (
+      <div>
+        <ReactPickr
+          savePropsFn={setColorBindFn}
+          defaultColor={renderActiveColor()}
         />
       </div>
-    </Popover>
+    );
+  };
+
+  return (
+    <ToogleBtnByPopover
+      PopoverTitle="设置链接"
+      tip="链接"
+      icon={<LinkOutlined />}
+      activeColor={renderActiveColor()}
+      PopoverContent={PopoverContent}
+      visible={visible}
+      onVisibleChange={(e: boolean) => {
+        setVisible(e);
+      }}
+    />
   );
 };
 
-export default BackGroundColors;
+export default FontColors;

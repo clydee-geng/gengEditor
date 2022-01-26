@@ -1,14 +1,12 @@
 import React from "react";
 import { FontColorsOutlined } from "@ant-design/icons";
-import styles from "./index.less";
-import { EditorState, DraftStyleMap, Modifier } from "draft-js";
-import ButtonLayout from "@alias/components/ButtonLayout";
+import { EditorState, Modifier } from "draft-js";
 import ReactPickr from "@alias/components/reactPickr";
-import { Popover } from "antd";
+import ToogleBtnByPopover from "./ToogleBtnByPopover";
+
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
-  customStyleMap: DraftStyleMap;
   setCustomStyleMap: any;
   keepEditorFocusBindFn: () => void;
 }
@@ -18,7 +16,6 @@ const FontColors: React.FC<IProps> = (props) => {
     editorState,
     setEditorState,
     setCustomStyleMap,
-    customStyleMap,
     keepEditorFocusBindFn,
   } = props;
 
@@ -91,32 +88,30 @@ const FontColors: React.FC<IProps> = (props) => {
   };
 
   /** jsx */
-  return (
-    <Popover
-      trigger="click"
-      title="设置文本颜色"
-      destroyTooltipOnHide
-      content={
-        <div className={styles.popoverContent}>
-          <ReactPickr
-            savePropsFn={setColorBindFn}
-            defaultColor={renderActiveColor()}
-          />
-        </div>
-      }
-      visible={visible}
-      onVisibleChange={(e) => {
-        setVisible(e);
-      }}
-    >
-      <div style={{ display: "inline" }}>
-        <ButtonLayout
-          icon={<FontColorsOutlined />}
-          activeColor={renderActiveColor()}
-          tip="文本颜色"
+
+  const PopoverContent = () => {
+    return (
+      <div>
+        <ReactPickr
+          savePropsFn={setColorBindFn}
+          defaultColor={renderActiveColor()}
         />
       </div>
-    </Popover>
+    );
+  };
+
+  return (
+    <ToogleBtnByPopover
+      PopoverTitle="设置文本颜色"
+      tip="文本颜色"
+      icon={<FontColorsOutlined />}
+      activeColor={renderActiveColor()}
+      PopoverContent={PopoverContent}
+      visible={visible}
+      onVisibleChange={(e: boolean) => {
+        setVisible(e);
+      }}
+    />
   );
 };
 
