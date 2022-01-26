@@ -6,6 +6,7 @@ import {
 } from "@ant-design/icons";
 import InlineStyleCtrl from "./InlineStyleCtrl";
 import FontColors from "./FontColors";
+import BackGroundColors from "./BackGroundColors";
 
 const Bold = (props: any) => (
   <InlineStyleCtrl
@@ -49,4 +50,5 @@ export default {
   Underline,
   Strikethrough,
   FontColors,
+  BackGroundColors,
 };

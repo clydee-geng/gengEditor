@@ -1,5 +1,5 @@
 import React from "react";
-import { FontColorsOutlined } from "@ant-design/icons";
+import { BgColorsOutlined } from "@ant-design/icons";
 import styles from "./index.less";
 import { EditorState, DraftStyleMap, Modifier } from "draft-js";
 import ButtonLayout from "@alias/components/ButtonLayout";
@@ -13,7 +13,7 @@ interface IProps {
   keepEditorFocusBindFn: () => void;
 }
 
-const FontColors: React.FC<IProps> = (props) => {
+const BackGroundColors: React.FC<IProps> = (props) => {
   const {
     editorState,
     setEditorState,
@@ -47,7 +47,7 @@ const FontColors: React.FC<IProps> = (props) => {
       let ContentState = editorState.getCurrentContent();
 
       currentStyle.forEach((item) => {
-        if (item?.includes("COLOR_")) {
+        if (item?.includes("BG_COLOR_")) {
           ContentState = Modifier.removeInlineStyle(
             ContentState,
             SelectionState,
@@ -59,7 +59,7 @@ const FontColors: React.FC<IProps> = (props) => {
       const nextContentState = Modifier.applyInlineStyle(
         ContentState,
         SelectionState,
-        "COLOR_" + colorStr
+        "BG_COLOR_" + colorStr
       );
 
       const nextEditorState = EditorState.push(
@@ -71,7 +71,7 @@ const FontColors: React.FC<IProps> = (props) => {
       setCustomStyleMap((preState: any) => {
         return {
           ...preState,
-          ["COLOR_" + colorStr]: { color: colorStr },
+          ["BG_COLOR_" + colorStr]: { backgroundColor: colorStr },
         };
       });
       setEditorState(nextEditorState);
@@ -79,13 +79,13 @@ const FontColors: React.FC<IProps> = (props) => {
   };
 
   const renderActiveColor = () => {
-    let activeColor: any = "#000000";
+    let activeColor: any = "#fff";
     const currentStyle = editorState.getCurrentInlineStyle();
     const itemData = currentStyle.filter((item: any, index: any) => {
-      return item.includes("COLOR_");
+      return item.includes("BG_COLOR_");
     });
     if (itemData.last()) {
-      activeColor = itemData.last().replace("COLOR_", "");
+      activeColor = itemData.last().replace("BG_COLOR_", "");
     }
     return activeColor;
   };
@@ -94,7 +94,7 @@ const FontColors: React.FC<IProps> = (props) => {
   return (
     <Popover
       trigger="click"
-      title="设置文本颜色"
+      title="设置背景颜色"
       destroyTooltipOnHide
       content={
         <div className={styles.popoverContent}>
@@ -111,13 +111,13 @@ const FontColors: React.FC<IProps> = (props) => {
     >
       <div style={{ display: "inline" }}>
         <ButtonLayout
-          icon={<FontColorsOutlined />}
+          icon={<BgColorsOutlined />}
           activeColor={renderActiveColor()}
-          tip="文本颜色"
+          tip="背景颜色"
         />
       </div>
     </Popover>
   );
 };
 
-export default FontColors;
+export default BackGroundColors;

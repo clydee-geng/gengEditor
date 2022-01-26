@@ -56,6 +56,10 @@ const EditorComp: React.FC<IProps> = (props) => {
         {...commonCompsProps}
         keepEditorFocusBindFn={keepEditorFocusBindFn}
       ></PresetsComps.FontColors>
+      <PresetsComps.BackGroundColors
+        {...commonCompsProps}
+        keepEditorFocusBindFn={keepEditorFocusBindFn}
+      ></PresetsComps.BackGroundColors>
       <Editor
         editorState={editorState}
         onChange={setEditorState}
