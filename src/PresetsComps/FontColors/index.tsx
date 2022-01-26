@@ -44,17 +44,27 @@ interface IProps {
   setEditorState: any;
   customStyleMap: DraftStyleMap;
   setCustomStyleMap: any;
+  keepEditorFocusBindFn: () => void;
 }
 
 const FontColors: React.FC<IProps> = (props) => {
-  const { editorState, setEditorState, setCustomStyleMap, customStyleMap } =
-    props;
+  const {
+    editorState,
+    setEditorState,
+    setCustomStyleMap,
+    customStyleMap,
+    keepEditorFocusBindFn,
+  } = props;
 
   /**
    * hooks
    */
 
   const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    keepEditorFocusBindFn();
+  }, [visible]);
 
   /**
    * methods

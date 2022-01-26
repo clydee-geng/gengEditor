@@ -37,7 +37,7 @@ const EditorComp: React.FC<IProps> = (props) => {
    * jsx
    */
 
-  const PresetsCompsProps = {
+  const commonCompsProps = {
     editorState,
     setEditorState,
     customStyleMap,
@@ -46,13 +46,16 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   return (
     <div className={styles.EditorComp} style={style}>
-      <PresetsComps.Bold {...PresetsCompsProps}></PresetsComps.Bold>
-      <PresetsComps.Italic {...PresetsCompsProps}></PresetsComps.Italic>
-      <PresetsComps.Underline {...PresetsCompsProps}></PresetsComps.Underline>
+      <PresetsComps.Bold {...commonCompsProps}></PresetsComps.Bold>
+      <PresetsComps.Italic {...commonCompsProps}></PresetsComps.Italic>
+      <PresetsComps.Underline {...commonCompsProps}></PresetsComps.Underline>
       <PresetsComps.Strikethrough
-        {...PresetsCompsProps}
+        {...commonCompsProps}
       ></PresetsComps.Strikethrough>
-      <PresetsComps.FontColors {...PresetsCompsProps}></PresetsComps.FontColors>
+      <PresetsComps.FontColors
+        {...commonCompsProps}
+        keepEditorFocusBindFn={keepEditorFocusBindFn}
+      ></PresetsComps.FontColors>
       <Editor
         editorState={editorState}
         onChange={setEditorState}
