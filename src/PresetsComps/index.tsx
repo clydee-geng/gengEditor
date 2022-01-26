@@ -7,6 +7,7 @@ import {
 import InlineStyleCtrl from "./InlineStyleCtrl";
 import FontColors from "./FontColors";
 import BackGroundColors from "./BackGroundColors";
+import Link from "./Link";
 
 const Bold = (props: any) => (
   <InlineStyleCtrl
@@ -51,4 +52,5 @@ export default {
   Strikethrough,
   FontColors,
   BackGroundColors,
+  Link,
 };

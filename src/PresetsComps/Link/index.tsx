@@ -1,5 +1,5 @@
 import React from "react";
-import { FontColorsOutlined } from "@ant-design/icons";
+import { LinkOutlined } from "@ant-design/icons";
 import styles from "./index.less";
 import { EditorState, DraftStyleMap, Modifier } from "draft-js";
 import ButtonLayout from "@alias/components/ButtonLayout";
@@ -13,7 +13,7 @@ interface IProps {
   keepEditorFocusBindFn: () => void;
 }
 
-const FontColors: React.FC<IProps> = (props) => {
+const Link: React.FC<IProps> = (props) => {
   const {
     editorState,
     setEditorState,
@@ -47,7 +47,7 @@ const FontColors: React.FC<IProps> = (props) => {
       let ContentState = editorState.getCurrentContent();
 
       currentStyle.forEach((item) => {
-        if (item?.includes("FONT_COLOR_")) {
+        if (item?.includes("COLOR_")) {
           ContentState = Modifier.removeInlineStyle(
             ContentState,
             SelectionState,
@@ -59,7 +59,7 @@ const FontColors: React.FC<IProps> = (props) => {
       const nextContentState = Modifier.applyInlineStyle(
         ContentState,
         SelectionState,
-        "FONT_COLOR_" + colorStr
+        "COLOR_" + colorStr
       );
 
       const nextEditorState = EditorState.push(
@@ -71,7 +71,7 @@ const FontColors: React.FC<IProps> = (props) => {
       setCustomStyleMap((preState: any) => {
         return {
           ...preState,
-          ["FONT_COLOR_" + colorStr]: { color: colorStr },
+          ["COLOR_" + colorStr]: { color: colorStr },
         };
       });
       setEditorState(nextEditorState);
@@ -82,10 +82,10 @@ const FontColors: React.FC<IProps> = (props) => {
     let activeColor: any = "#000000";
     const currentStyle = editorState.getCurrentInlineStyle();
     const itemData = currentStyle.filter((item: any, index: any) => {
-      return item.includes("FONT_COLOR_");
+      return item.includes("COLOR_");
     });
     if (itemData.last()) {
-      activeColor = itemData.last().replace("FONT_COLOR_", "");
+      activeColor = itemData.last().replace("COLOR_", "");
     }
     return activeColor;
   };
@@ -111,13 +111,13 @@ const FontColors: React.FC<IProps> = (props) => {
     >
       <div style={{ display: "inline" }}>
         <ButtonLayout
-          icon={<FontColorsOutlined />}
+          icon={<LinkOutlined />}
           activeColor={renderActiveColor()}
-          tip="文本颜色"
+          tip="链接"
         />
       </div>
     </Popover>
   );
 };
 
-export default FontColors;
+export default Link;
