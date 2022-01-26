@@ -4,11 +4,11 @@ import "@simonwep/pickr/dist/themes/nano.min.css";
 
 interface IProps {
   defaultColor?: string;
-  changePropsFn?: (colorStr: string) => void;
+  savePropsFn?: (colorStr: string) => void;
 }
 
 const ReactPickr: React.FC<IProps> = (props) => {
-  const { defaultColor = "#000000", changePropsFn = () => {} } = props;
+  const { defaultColor = "#000000", savePropsFn = () => {} } = props;
 
   /**
    * hooks
@@ -60,13 +60,16 @@ const ReactPickr: React.FC<IProps> = (props) => {
             hsva: false,
             input: true,
             clear: false,
-            save: false,
+            save: true,
           },
         },
+        i18n: {
+          "btn:save": "确定",
+        },
       });
-      pickr.on("change", (color: any) => {
+      pickr.on("save", (color: any, source: any) => {
         const colorStr = color.toHEXA().toString();
-        changePropsFn(colorStr);
+        savePropsFn(colorStr);
       });
     }
   }, []);

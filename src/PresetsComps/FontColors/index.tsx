@@ -133,7 +133,7 @@ const FontColors: React.FC<IProps> = (props) => {
       content={
         <div className={styles.popoverContent}>
           <ReactPickr
-            changePropsFn={setColorBindFn}
+            savePropsFn={setColorBindFn}
             defaultColor={renderActiveColor()}
           />
         </div>
