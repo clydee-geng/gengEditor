@@ -1,7 +1,7 @@
 import React from "react";
 import { FontColorsOutlined } from "@ant-design/icons";
 import styles from "./index.less";
-import { RichUtils, EditorState, DraftStyleMap, Modifier } from "draft-js";
+import { EditorState, DraftStyleMap, Modifier } from "draft-js";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import ReactPickr from "@alias/components/reactPickr";
 import { Button, Popover } from "antd";
@@ -90,9 +90,15 @@ const FontColors: React.FC<IProps> = (props) => {
         }
       });
 
-      const EditorStateRemoveAllCOLOR_ = EditorState.push(
-        editorState,
+      const nextContentState = Modifier.applyInlineStyle(
         ContentState,
+        SelectionState,
+        "COLOR_" + colorStr
+      );
+
+      const nextEditorState = EditorState.push(
+        editorState,
+        nextContentState,
         "change-inline-style"
       );
 
@@ -102,12 +108,7 @@ const FontColors: React.FC<IProps> = (props) => {
           ["COLOR_" + colorStr]: { color: colorStr },
         };
       });
-      setEditorState(
-        RichUtils.toggleInlineStyle(
-          EditorStateRemoveAllCOLOR_,
-          "COLOR_" + colorStr
-        )
-      );
+      setEditorState(nextEditorState);
     }
   };
 
