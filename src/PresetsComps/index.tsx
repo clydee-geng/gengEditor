@@ -4,13 +4,13 @@ import {
   UnderlineOutlined,
   StrikethroughOutlined,
 } from "@ant-design/icons";
-import InlineStyleCtrl from "./InlineStyleCtrl";
+import ToogleBtn from "./ToogleBtn";
 import FontColors from "./FontColors";
 import BackGroundColors from "./BackGroundColors";
 import Link from "./Link";
 
 const Bold = (props: any) => (
-  <InlineStyleCtrl
+  <ToogleBtn
     {...props}
     icon={<BoldOutlined />}
     tip="加粗"
@@ -19,7 +19,7 @@ const Bold = (props: any) => (
 );
 
 const Italic = (props: any) => (
-  <InlineStyleCtrl
+  <ToogleBtn
     {...props}
     icon={<ItalicOutlined />}
     tip="斜体"
@@ -28,7 +28,7 @@ const Italic = (props: any) => (
 );
 
 const Underline = (props: any) => (
-  <InlineStyleCtrl
+  <ToogleBtn
     {...props}
     icon={<UnderlineOutlined />}
     tip="下划线"
@@ -37,7 +37,7 @@ const Underline = (props: any) => (
 );
 
 const Strikethrough = (props: any) => (
-  <InlineStyleCtrl
+  <ToogleBtn
     {...props}
     icon={<StrikethroughOutlined />}
     tip="删除线"

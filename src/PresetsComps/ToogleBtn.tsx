@@ -10,14 +10,8 @@ interface IProps {
   tip: React.ReactNode;
 }
 
-const InlineStyleCtrl: React.FC<IProps> = (props) => {
-  const {
-    editorState,
-    setEditorState,
-    inlineStyleStr,
-    icon,
-    tip,
-  } = props;
+const ToogleBtn: React.FC<IProps> = (props) => {
+  const { editorState, setEditorState, inlineStyleStr, icon, tip } = props;
 
   /**
    * hooks
@@ -56,4 +50,4 @@ const InlineStyleCtrl: React.FC<IProps> = (props) => {
     />
   );
 };
-export default InlineStyleCtrl;
+export default ToogleBtn;
