@@ -121,7 +121,6 @@ const FontColors: React.FC<IProps> = (props) => {
     if (itemData.last()) {
       activeColor = itemData.last().replace("COLOR_", "");
     }
-    console.log("renderActiveColor: ", activeColor);
     return activeColor;
   };
 
@@ -130,24 +129,9 @@ const FontColors: React.FC<IProps> = (props) => {
     <Popover
       trigger="click"
       title="选择文本颜色"
+      destroyTooltipOnHide
       content={
         <div className={styles.popoverContent}>
-          {/* {convertFontColorsCustomStyleMap().map((item, index) => {
-            return (
-              <div
-                key={"FontColors" + index}
-                className={styles.popoverContentItem}
-              >
-                <div
-                  className={styles.popoverContentItemIcon}
-                  style={item.val}
-                  onClick={() => setColorBindFn(item)}
-                >
-                  <FontColorsOutlined />
-                </div>
-              </div>
-            );
-          })} */}
           <ReactPickr changePropsFn={setColorBindFn} />
         </div>
       }
