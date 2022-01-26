@@ -42,29 +42,19 @@ const fontColorsCustomStyleMap: DraftStyleMap = {
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
-  keepEditorFocusPropsFn: () => void;
   customStyleMap: DraftStyleMap;
   setCustomStyleMap: any;
 }
 
 const FontColors: React.FC<IProps> = (props) => {
-  const {
-    editorState,
-    setEditorState,
-    keepEditorFocusPropsFn,
-    setCustomStyleMap,
-    customStyleMap,
-  } = props;
+  const { editorState, setEditorState, setCustomStyleMap, customStyleMap } =
+    props;
 
   /**
    * hooks
    */
 
   const [visible, setVisible] = React.useState(false);
-
-  React.useEffect(() => {
-    keepEditorFocusPropsFn();
-  }, [visible, editorState]);
 
   /**
    * methods

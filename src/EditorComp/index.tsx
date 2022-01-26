@@ -21,6 +21,10 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   const editorRef = React.useRef<any>(null);
 
+  React.useEffect(() => {
+    keepEditorFocusBindFn();
+  }, [editorState.getCurrentInlineStyle()]);
+
   /**
    * method
    */
@@ -36,7 +40,6 @@ const EditorComp: React.FC<IProps> = (props) => {
   const PresetsCompsProps = {
     editorState,
     setEditorState,
-    keepEditorFocusPropsFn: keepEditorFocusBindFn,
     customStyleMap,
     setCustomStyleMap,
   };

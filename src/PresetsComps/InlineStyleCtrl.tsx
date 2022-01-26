@@ -5,7 +5,6 @@ import { RichUtils, EditorState } from "draft-js";
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
-  keepEditorFocusPropsFn: () => void;
   inlineStyleStr: string;
   icon: React.ReactNode;
   tip: React.ReactNode;
@@ -15,7 +14,6 @@ const InlineStyleCtrl: React.FC<IProps> = (props) => {
   const {
     editorState,
     setEditorState,
-    keepEditorFocusPropsFn,
     inlineStyleStr,
     icon,
     tip,
@@ -24,10 +22,6 @@ const InlineStyleCtrl: React.FC<IProps> = (props) => {
   /**
    * hooks
    */
-
-  React.useEffect(() => {
-    keepEditorFocusPropsFn();
-  }, [editorState]);
 
   /**
    * methods
