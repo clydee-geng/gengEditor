@@ -7,7 +7,7 @@ interface IProps {
   PopoverContent: React.ReactNode;
   tip: string;
   icon: React.ReactNode;
-  activeColor: string;
+  activeColor?: string | boolean;
   visible: boolean;
   onVisibleChange: (visible: boolean) => void;
 }
