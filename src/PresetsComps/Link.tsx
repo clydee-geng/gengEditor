@@ -1,6 +1,6 @@
 import React from "react";
 import { LinkOutlined } from "@ant-design/icons";
-import { EditorState, Modifier, RichUtils } from "draft-js";
+import { EditorState, Modifier, RichUtils, CompositeDecorator } from "draft-js";
 import ToogleBtnByPopover from "./ToogleBtnByPopover";
 import { Button, Input, message } from "antd";
 
@@ -113,6 +113,17 @@ const FontColors: React.FC<IProps> = (props) => {
       return message.warning("请输入链接地址");
     }
 
+    const LinkDecorator = new CompositeDecorator([
+      {
+        strategy: findLinkEntities,
+        component: LinkDecoratorComp,
+      },
+    ]);
+
+    const editorStateWithLinK = EditorState.set(editorState, {
+      decorator: LinkDecorator,
+    });
+
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       "LINK",
@@ -120,7 +131,7 @@ const FontColors: React.FC<IProps> = (props) => {
       { url: linkUrl }
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set(editorState, {
+    const newEditorState = EditorState.set(editorStateWithLinK, {
       currentContent: contentStateWithEntity,
     });
     setEditorState(
@@ -132,7 +143,26 @@ const FontColors: React.FC<IProps> = (props) => {
     );
   };
 
+  const findLinkEntities = (
+    contentBlock: any,
+    callback: any,
+    contentState: any
+  ) => {
+    contentBlock.findEntityRanges((character: any) => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        contentState.getEntity(entityKey).getType() === "LINK"
+      );
+    }, callback);
+  };
+
   /** jsx */
+
+  const LinkDecoratorComp: React.FC<any> = (props) => {
+    const { url } = props.contentState.getEntity(props.entityKey).getData();
+    return <a href={url}>{props.children}</a>;
+  };
 
   const PopoverContent = () => {
     return (
