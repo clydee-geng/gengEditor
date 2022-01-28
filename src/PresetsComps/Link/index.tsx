@@ -30,6 +30,7 @@ const FontColors: React.FC<IProps> = (props) => {
     keepEditorFocusBindFn();
     if (visible) {
       setLinkText(getCurSelectedText());
+      setLinkUrl(getCurSelectedLinkUrl());
     }
   }, [visible]);
 
@@ -51,46 +52,20 @@ const FontColors: React.FC<IProps> = (props) => {
     return selectedText;
   };
 
-  const setColorBindFn = (colorStr: string) => {
-    setVisible(false);
-    const SelectionState = editorState.getSelection();
-    if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
-      console.log("//有选中");
-
-      // 先去除所以Color_的style
-      const currentStyle = editorState.getCurrentInlineStyle();
-      let ContentState = editorState.getCurrentContent();
-
-      currentStyle.forEach((item) => {
-        if (item?.includes("FONT_COLOR_")) {
-          ContentState = Modifier.removeInlineStyle(
-            ContentState,
-            SelectionState,
-            item
-          );
-        }
-      });
-
-      const nextContentState = Modifier.applyInlineStyle(
-        ContentState,
-        SelectionState,
-        "FONT_COLOR_" + colorStr
-      );
-
-      const nextEditorState = EditorState.push(
-        editorState,
-        nextContentState,
-        "change-inline-style"
-      );
-
-      setCustomStyleMap((preState: any) => {
-        return {
-          ...preState,
-          ["FONT_COLOR_" + colorStr]: { color: colorStr },
-        };
-      });
-      setEditorState(nextEditorState);
+  const getCurSelectedLinkUrl = () => {
+    let url = null;
+    const contentState = editorState.getCurrentContent();
+    const selectionState = editorState.getSelection();
+    const startKey = selectionState.getStartKey();
+    const startOffset = selectionState.getStartOffset();
+    const blockWithLinkAtBeginning = contentState.getBlockForKey(startKey);
+    const linkKey = blockWithLinkAtBeginning.getEntityAt(startOffset);
+    if (linkKey) {
+      const linkInstance = contentState.getEntity(linkKey);
+      url = linkInstance.getData().url;
     }
+
+    return url;
   };
 
   const renderActiveColor = () => {
@@ -132,6 +107,7 @@ const FontColors: React.FC<IProps> = (props) => {
       { url: linkUrl }
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    console.log("entitiy key", entityKey);
     const newEditorState = EditorState.set(editorStateWithLinK, {
       currentContent: contentStateWithEntity,
     });
@@ -143,6 +119,8 @@ const FontColors: React.FC<IProps> = (props) => {
       )
     );
   };
+
+  const cancelLinkBindFn = () => {};
 
   const findLinkEntities = (
     contentBlock: any,
@@ -162,7 +140,11 @@ const FontColors: React.FC<IProps> = (props) => {
 
   const LinkDecoratorComp: React.FC<any> = (props) => {
     const { url } = props.contentState.getEntity(props.entityKey).getData();
-    return <a href={url} className={styles.link}>{props.children}</a>;
+    return (
+      <a href={url} className={styles.link}>
+        {props.children}
+      </a>
+    );
   };
 
   const PopoverContent = () => {
@@ -195,7 +177,15 @@ const FontColors: React.FC<IProps> = (props) => {
           </div>
         </div>
         <div style={{ textAlign: "right", marginTop: "10px" }}>
-          <Button type="primary" size="small" onClick={confirmLinkBindFn}>
+          <Button size="small" onClick={cancelLinkBindFn}>
+            取消链接
+          </Button>
+          <Button
+            type="primary"
+            size="small"
+            onClick={confirmLinkBindFn}
+            style={{ marginLeft: "10px" }}
+          >
             插入
           </Button>
         </div>
