@@ -102,24 +102,43 @@ const FontColors: React.FC<IProps> = (props) => {
       },
     ]);
 
-    const editorStateWithLinK = EditorState.set(editorState, {
+    let editorStateWithLinK = EditorState.set(editorState, {
       decorator: LinkDecorator,
     });
 
-    const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(
+    const contentState = editorStateWithLinK.getCurrentContent();
+    let contentStateWithEntityForLink = contentState.createEntity(
       "LINK",
       "MUTABLE",
       { url: linkUrl }
     );
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    const newEditorState = EditorState.set(editorStateWithLinK, {
-      currentContent: contentStateWithEntity,
+    const entityKey = contentStateWithEntityForLink.getLastCreatedEntityKey();
+
+    const selectionState = editorStateWithLinK.getSelection();
+
+    if (selectionState.getEndOffset() <= selectionState.getStartOffset()) {
+      // 如果没有选中
+      contentStateWithEntityForLink = Modifier.insertText(
+        contentStateWithEntityForLink,
+        selectionState,
+        linkText,
+        undefined,
+        entityKey
+      );
+      editorStateWithLinK = EditorState.push(
+        editorStateWithLinK,
+        contentStateWithEntityForLink,
+        "insert-fragment"
+      );
+    }
+
+    const nextEditorState = EditorState.set(editorStateWithLinK, {
+      currentContent: contentStateWithEntityForLink,
     });
     setEditorState(
       RichUtils.toggleLink(
-        newEditorState,
-        newEditorState.getSelection(),
+        nextEditorState,
+        nextEditorState.getSelection(),
         entityKey
       )
     );
