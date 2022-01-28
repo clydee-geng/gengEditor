@@ -151,7 +151,7 @@ const FontColors: React.FC<IProps> = (props) => {
   const LinkDecoratorComp: React.FC<any> = (props) => {
     const { url } = props.contentState.getEntity(props.entityKey).getData();
     return (
-      <Tooltip title={url}>
+      <Tooltip title={`链接url：${url}`}>
         <a href={url} className={styles.link}>
           {props.children}
         </a>
