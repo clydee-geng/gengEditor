@@ -36,7 +36,7 @@ const FontColors: React.FC<IProps> = (props) => {
   const setColorBindFn = (colorStr: string) => {
     setVisible(false);
     const SelectionState = editorState.getSelection();
-    if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
+    if (!SelectionState.isCollapsed()) {
       console.log("//有选中");
 
       // 先去除所以Color_的style

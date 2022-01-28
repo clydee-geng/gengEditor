@@ -32,7 +32,7 @@ const ToogleBtn: React.FC<IProps> = (props) => {
 
   const clickBindFn = () => {
     const SelectionState = editorState.getSelection();
-    if (SelectionState.getEndOffset() > SelectionState.getStartOffset()) {
+    if (!SelectionState.isCollapsed()) {
       //有选中
       setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyleStr));
     }
