@@ -1,8 +1,9 @@
 import React from "react";
 import { LinkOutlined } from "@ant-design/icons";
 import { EditorState, Modifier, RichUtils, CompositeDecorator } from "draft-js";
-import ToogleBtnByPopover from "./ToogleBtnByPopover";
+import ToogleBtnByPopover from "../ToogleBtnByPopover";
 import { Button, Input, message } from "antd";
+import styles from "./index.less";
 
 interface IProps {
   editorState: EditorState;
@@ -161,7 +162,7 @@ const FontColors: React.FC<IProps> = (props) => {
 
   const LinkDecoratorComp: React.FC<any> = (props) => {
     const { url } = props.contentState.getEntity(props.entityKey).getData();
-    return <a href={url}>{props.children}</a>;
+    return <a href={url} className={styles.link}>{props.children}</a>;
   };
 
   const PopoverContent = () => {
