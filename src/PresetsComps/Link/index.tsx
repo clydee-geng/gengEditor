@@ -74,15 +74,7 @@ const Link: React.FC<IProps> = (props) => {
   };
 
   const renderActiveColor = () => {
-    let activeColor: any = "#000000";
-    const currentStyle = editorState.getCurrentInlineStyle();
-    const itemData = currentStyle.filter((item: any, index: any) => {
-      return item.includes("FONT_COLOR_");
-    });
-    if (itemData.last()) {
-      activeColor = itemData.last().replace("FONT_COLOR_", "");
-    }
-    return activeColor;
+    return Boolean(getCurSelectedLinkUrl());
   };
 
   const confirmLinkBindFn = () => {

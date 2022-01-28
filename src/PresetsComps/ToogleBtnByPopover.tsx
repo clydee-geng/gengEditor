@@ -1,5 +1,4 @@
 import React from "react";
-import { EditorState, DraftStyleMap, Modifier } from "draft-js";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import { Popover } from "antd";
 interface IProps {
