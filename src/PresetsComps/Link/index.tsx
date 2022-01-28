@@ -12,14 +12,13 @@ interface IProps {
   keepEditorFocusBindFn: () => void;
 }
 
-const FontColors: React.FC<IProps> = (props) => {
+const Link: React.FC<IProps> = (props) => {
   const {
     editorState,
     setEditorState,
     setCustomStyleMap,
     keepEditorFocusBindFn,
   } = props;
-
   /**
    * hooks
    */
@@ -116,7 +115,7 @@ const FontColors: React.FC<IProps> = (props) => {
 
     const selectionState = editorStateWithLinK.getSelection();
 
-    if (selectionState.getEndOffset() <= selectionState.getStartOffset()) {
+    if (selectionState.isCollapsed()) {
       // 如果没有选中
       contentStateWithEntityForLink = Modifier.insertText(
         contentStateWithEntityForLink,
@@ -220,7 +219,7 @@ const FontColors: React.FC<IProps> = (props) => {
             onClick={confirmLinkBindFn}
             style={{ marginLeft: "10px" }}
           >
-            插入
+            {editorState.getSelection().isCollapsed() ? "插入链接" : "修改链接"}
           </Button>
         </div>
       </div>
@@ -242,4 +241,4 @@ const FontColors: React.FC<IProps> = (props) => {
   );
 };
 
-export default FontColors;
+export default Link;
