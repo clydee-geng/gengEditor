@@ -29,8 +29,14 @@ const FontColors: React.FC<IProps> = (props) => {
   React.useEffect(() => {
     keepEditorFocusBindFn();
     if (visible) {
-      setLinkText(getCurSelectedText());
-      setLinkUrl(getCurSelectedLinkUrl());
+      const nextLinkText = getCurSelectedText();
+      setLinkText(nextLinkText);
+      if (nextLinkText) {
+        setLinkUrl(getCurSelectedLinkUrl());
+      }
+    } else {
+      setLinkText("");
+      setLinkUrl("");
     }
   }, [visible]);
 
@@ -53,7 +59,7 @@ const FontColors: React.FC<IProps> = (props) => {
   };
 
   const getCurSelectedLinkUrl = () => {
-    let url = null;
+    let url = "";
     const contentState = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
     const startKey = selectionState.getStartKey();
@@ -117,11 +123,13 @@ const FontColors: React.FC<IProps> = (props) => {
         entityKey
       )
     );
+    setVisible(false);
   };
 
   const cancelLinkBindFn = () => {
     const SelectionState = editorState.getSelection();
     setEditorState(RichUtils.toggleLink(editorState, SelectionState, null));
+    setVisible(false);
   };
 
   const findLinkEntities = (
