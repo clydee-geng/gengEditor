@@ -107,7 +107,6 @@ const FontColors: React.FC<IProps> = (props) => {
       { url: linkUrl }
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    console.log("entitiy key", entityKey);
     const newEditorState = EditorState.set(editorStateWithLinK, {
       currentContent: contentStateWithEntity,
     });
@@ -120,7 +119,10 @@ const FontColors: React.FC<IProps> = (props) => {
     );
   };
 
-  const cancelLinkBindFn = () => {};
+  const cancelLinkBindFn = () => {
+    const SelectionState = editorState.getSelection();
+    setEditorState(RichUtils.toggleLink(editorState, SelectionState, null));
+  };
 
   const findLinkEntities = (
     contentBlock: any,
@@ -177,9 +179,12 @@ const FontColors: React.FC<IProps> = (props) => {
           </div>
         </div>
         <div style={{ textAlign: "right", marginTop: "10px" }}>
-          <Button size="small" onClick={cancelLinkBindFn}>
-            取消链接
-          </Button>
+          {getCurSelectedText() && getCurSelectedLinkUrl() && (
+            <Button size="small" onClick={cancelLinkBindFn}>
+              取消链接
+            </Button>
+          )}
+
           <Button
             type="primary"
             size="small"
