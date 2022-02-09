@@ -14,7 +14,8 @@ const Bold = (props: any) => (
     {...props}
     icon={<BoldOutlined />}
     tip="加粗"
-    inlineStyleStr="BOLD"
+    styleStr="BOLD"
+    type="inline"
   />
 );
 
@@ -23,7 +24,8 @@ const Italic = (props: any) => (
     {...props}
     icon={<ItalicOutlined />}
     tip="斜体"
-    inlineStyleStr="ITALIC"
+    styleStr="ITALIC"
+    type="inline"
   />
 );
 
@@ -32,7 +34,8 @@ const Underline = (props: any) => (
     {...props}
     icon={<UnderlineOutlined />}
     tip="下划线"
-    inlineStyleStr="UNDERLINE"
+    styleStr="UNDERLINE"
+    type="inline"
   />
 );
 
@@ -41,7 +44,8 @@ const Strikethrough = (props: any) => (
     {...props}
     icon={<StrikethroughOutlined />}
     tip="删除线"
-    inlineStyleStr="STRIKETHROUGH"
+    styleStr="STRIKETHROUGH"
+    type="inline"
   />
 );
 

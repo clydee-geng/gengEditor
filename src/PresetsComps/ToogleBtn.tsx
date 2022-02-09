@@ -5,13 +5,14 @@ import { RichUtils, EditorState } from "draft-js";
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
-  inlineStyleStr: string;
+  styleStr: string;
   icon: React.ReactNode;
   tip: React.ReactNode;
+  type: "inline" | "block";
 }
 
 const ToogleBtn: React.FC<IProps> = (props) => {
-  const { editorState, setEditorState, inlineStyleStr, icon, tip } = props;
+  const { editorState, setEditorState, styleStr, icon, tip, type } = props;
 
   /**
    * hooks
@@ -23,18 +24,25 @@ const ToogleBtn: React.FC<IProps> = (props) => {
 
   const renderActiveColor = () => {
     let isActive = false;
-    const currentStyle = editorState.getCurrentInlineStyle();
-    if (currentStyle.has(inlineStyleStr)) {
-      isActive = true;
+    if (type === "inline") {
+      const currentStyle = editorState.getCurrentInlineStyle();
+      if (currentStyle.has(styleStr)) {
+        isActive = true;
+      }
+    } else if (type === "block") {
     }
+
     return isActive;
   };
 
   const clickBindFn = () => {
-    const SelectionState = editorState.getSelection();
-    if (!SelectionState.isCollapsed()) {
-      //有选中
-      setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyleStr));
+    if (type === "inline") {
+      const SelectionState = editorState.getSelection();
+      if (!SelectionState.isCollapsed()) {
+        //有选中
+        setEditorState(RichUtils.toggleInlineStyle(editorState, styleStr));
+      }
+    } else if (type === "block") {
     }
   };
 
