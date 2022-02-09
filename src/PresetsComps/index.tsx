@@ -10,6 +10,7 @@ import ToogleBtn from "./ToogleBtn";
 import FontColors from "./FontColors";
 import BackGroundColors from "./BackGroundColors";
 import Link from "./Link";
+import Header from "./Header";
 
 const Bold = (props: any) => (
   <ToogleBtn
@@ -81,4 +82,5 @@ export default {
   Link,
   UL,
   OL,
+  Header,
 };
