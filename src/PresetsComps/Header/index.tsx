@@ -1,14 +1,11 @@
 import React from "react";
-import Icon from "@ant-design/icons";
 import { EditorState, RichUtils, Modifier } from "draft-js";
 import ToogleBtnByPopover from "../ToogleBtnByPopover";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button } from "antd";
 
-const HeadeIcon = () => (
-  <Icon component={() => <i className="iconfont icon-header"></i>} />
-);
+const HeadeIcon = () => <i className="iconfont icon-header"></i>;
 
 const HeaderData = [
   { text: "H1", styleStr: "header-one", fontSize: 36 },
