@@ -1,9 +1,10 @@
 import React from "react";
 import Icon from "@ant-design/icons";
-import { EditorState, RichUtils } from "draft-js";
+import { EditorState, RichUtils, Modifier } from "draft-js";
 import ToogleBtnByPopover from "../ToogleBtnByPopover";
 import styles from "./index.less";
 import classnames from "classnames";
+import { Button } from "antd";
 
 const HeadeIcon = () => (
   <Icon component={() => <i className="iconfont icon-header"></i>} />
@@ -72,6 +73,25 @@ const Header: React.FC<IProps> = (props) => {
     return blockType;
   };
 
+  const cancelSetTitleBindFn = () => {
+    setVisible(false);
+    const selection = editorState.getSelection();
+    const contentState = editorState.getCurrentContent();
+    const nextContentState = Modifier.setBlockType(
+      contentState,
+      selection,
+      "unstyled"
+    );
+
+    const nextEditorState = EditorState.push(
+      editorState,
+      nextContentState,
+      "change-block-type"
+    );
+
+    setEditorState(nextEditorState);
+  };
+
   /** jsx */
 
   const PopoverContent = () => {
@@ -93,6 +113,9 @@ const Header: React.FC<IProps> = (props) => {
             </div>
           );
         })}
+        <Button style={{ marginTop: "10px" }} onClick={cancelSetTitleBindFn}>
+          取消设置标题
+        </Button>
       </div>
     );
   };
