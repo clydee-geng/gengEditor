@@ -30,6 +30,14 @@ const ToogleBtn: React.FC<IProps> = (props) => {
         isActive = true;
       }
     } else if (type === "block") {
+      const selection = editorState.getSelection();
+      const blockType = editorState
+        .getCurrentContent()
+        .getBlockForKey(selection.getStartKey())
+        .getType();
+      if (blockType === styleStr) {
+        isActive = true;
+      }
     }
 
     return isActive;
@@ -43,6 +51,7 @@ const ToogleBtn: React.FC<IProps> = (props) => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, styleStr));
       }
     } else if (type === "block") {
+      setEditorState(RichUtils.toggleBlockType(editorState, styleStr));
     }
   };
 

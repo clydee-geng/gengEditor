@@ -64,6 +64,7 @@ const EditorComp: React.FC<IProps> = (props) => {
         {...commonCompsProps}
         keepEditorFocusBindFn={keepEditorFocusBindFn}
       ></PresetsComps.Link>
+      <PresetsComps.UL {...commonCompsProps}></PresetsComps.UL>
       <Editor
         editorState={editorState}
         onChange={setEditorState}
