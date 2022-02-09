@@ -4,6 +4,7 @@ import {
   UnderlineOutlined,
   StrikethroughOutlined,
   UnorderedListOutlined,
+  OrderedListOutlined,
 } from "@ant-design/icons";
 import ToogleBtn from "./ToogleBtn";
 import FontColors from "./FontColors";
@@ -60,6 +61,16 @@ const UL = (props: any) => (
   />
 );
 
+const OL = (props: any) => (
+  <ToogleBtn
+    {...props}
+    icon={<OrderedListOutlined />}
+    tip="有序列表"
+    styleStr="ordered-list-item"
+    type="block"
+  />
+);
+
 export default {
   Bold,
   Italic,
@@ -69,4 +80,5 @@ export default {
   BackGroundColors,
   Link,
   UL,
+  OL,
 };
