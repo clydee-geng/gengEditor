@@ -1,5 +1,5 @@
 import React from "react";
-import { Editor, EditorState } from "draft-js";
+import { Editor, EditorState, ContentBlock } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
@@ -18,7 +18,6 @@ const EditorComp: React.FC<IProps> = (props) => {
   );
 
   const [customStyleMap, setCustomStyleMap] = React.useState({});
-
   const editorRef = React.useRef<any>(null);
 
   React.useEffect(() => {
@@ -31,6 +30,14 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   const keepEditorFocusBindFn = () => {
     editorRef.current?.focus();
+  };
+
+  const myBlockStyleFn = (contentBlock: ContentBlock) => {
+    const type = contentBlock.getType();
+    if (type === "blockquote") {
+      return styles.blockquote;
+    }
+    return "";
   };
 
   /**
@@ -70,12 +77,15 @@ const EditorComp: React.FC<IProps> = (props) => {
         {...commonCompsProps}
         keepEditorFocusBindFn={keepEditorFocusBindFn}
       ></PresetsComps.Header>
+      <PresetsComps.Blockquote {...commonCompsProps}></PresetsComps.Blockquote>
+
       <Editor
         editorState={editorState}
         onChange={setEditorState}
         placeholder="请输入..."
         ref={editorRef}
         customStyleMap={customStyleMap}
+        blockStyleFn={myBlockStyleFn}
       />
     </div>
   );

@@ -72,6 +72,16 @@ const OL = (props: any) => (
   />
 );
 
+const Blockquote = (props: any) => (
+  <ToogleBtn
+    {...props}
+    icon={<i className="iconfont icon-blockquote"></i>}
+    tip="引用"
+    styleStr="blockquote"
+    type="block"
+  />
+);
+
 export default {
   Bold,
   Italic,
@@ -83,4 +93,5 @@ export default {
   UL,
   OL,
   Header,
+  Blockquote,
 };
