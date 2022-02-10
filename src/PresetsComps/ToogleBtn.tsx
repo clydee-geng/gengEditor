@@ -1,6 +1,7 @@
 import React from "react";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import { RichUtils, EditorState } from "draft-js";
+import { getCurrentContentBlock } from "@alias/utils";
 
 interface IProps {
   editorState: EditorState;
@@ -30,12 +31,8 @@ const ToogleBtn: React.FC<IProps> = (props) => {
         isActive = true;
       }
     } else if (type === "block") {
-      const selection = editorState.getSelection();
-      const blockType = editorState
-        .getCurrentContent()
-        .getBlockForKey(selection.getStartKey())
-        .getType();
-      if (blockType === styleStr) {
+      const contentBlock = getCurrentContentBlock(editorState);
+      if (contentBlock.getType() === styleStr) {
         isActive = true;
       }
     }

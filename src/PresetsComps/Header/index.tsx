@@ -4,6 +4,7 @@ import ToogleBtnByPopover from "../ToogleBtnByPopover";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button } from "antd";
+import { getCurrentContentBlock } from "@alias/utils";
 
 const HeadeIcon = () => <i className="iconfont icon-header"></i>;
 
@@ -62,12 +63,7 @@ const Header: React.FC<IProps> = (props) => {
   };
 
   const getCurBlockType = () => {
-    const selection = editorState.getSelection();
-    const blockType = editorState
-      .getCurrentContent()
-      .getBlockForKey(selection.getStartKey())
-      .getType();
-    return blockType;
+    return getCurrentContentBlock(editorState).getType();
   };
 
   const cancelSetTitleBindFn = () => {

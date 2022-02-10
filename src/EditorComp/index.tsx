@@ -10,6 +10,7 @@ import {
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
+import { getCurrentContentBlock } from "@alias/utils";
 
 interface IProps {
   style?: React.CSSProperties;
@@ -48,10 +49,7 @@ const EditorComp: React.FC<IProps> = (props) => {
   };
 
   const returnBindFn = (e: any): DraftHandleValue => {
-    const selection = editorState.getSelection();
-    const contentBlock = editorState
-      .getCurrentContent()
-      .getBlockForKey(selection.getStartKey());
+    const contentBlock = getCurrentContentBlock(editorState);
     if (contentBlock.getType() === "blockquote") {
       if (
         e.getModifierState("Shift") ||
