@@ -1,5 +1,11 @@
 import React from "react";
-import { Editor, EditorState, ContentBlock } from "draft-js";
+import {
+  Editor,
+  EditorState,
+  ContentBlock,
+  DraftHandleValue,
+  RichUtils,
+} from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
@@ -32,12 +38,34 @@ const EditorComp: React.FC<IProps> = (props) => {
     editorRef.current?.focus();
   };
 
-  const myBlockStyleFn = (contentBlock: ContentBlock) => {
+  const blockStyleBindFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
     if (type === "blockquote") {
       return styles.blockquote;
     }
     return "";
+  };
+
+  const returnBindFn = (e: any): DraftHandleValue => {
+    const selection = editorState.getSelection();
+    const contentBlock = editorState
+      .getCurrentContent()
+      .getBlockForKey(selection.getStartKey());
+    if (contentBlock.getType() === "blockquote") {
+      if (
+        e.getModifierState("Shift") ||
+        e.getModifierState("Alt") ||
+        e.getModifierState("Control")
+      ) {
+        // 如果同时按着shift、alt、ctrl键，按下的回车键
+        console.log("同时按着shift、alt、ctrl键，按下的回车键");
+      } else {
+        // 普通回车
+        setEditorState(RichUtils.insertSoftNewline(editorState));
+        return "handled";
+      }
+    }
+    return "not-handled";
   };
 
   /**
@@ -85,7 +113,8 @@ const EditorComp: React.FC<IProps> = (props) => {
         placeholder="请输入..."
         ref={editorRef}
         customStyleMap={customStyleMap}
-        blockStyleFn={myBlockStyleFn}
+        blockStyleFn={blockStyleBindFn}
+        handleReturn={returnBindFn}
       />
     </div>
   );
