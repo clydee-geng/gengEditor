@@ -5,6 +5,7 @@ import {
   ContentBlock,
   DraftHandleValue,
   RichUtils,
+  Modifier,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
@@ -57,10 +58,31 @@ const EditorComp: React.FC<IProps> = (props) => {
         e.getModifierState("Alt") ||
         e.getModifierState("Control")
       ) {
-        // 如果同时按着shift、alt、ctrl键，按下的回车键
-        console.log("同时按着shift、alt、ctrl键，按下的回车键");
+        // 如果同时按着shift、alt、ctrl键，按下的回车键,新起一行
+        const newContentState = Modifier.splitBlock(
+          editorState.getCurrentContent(),
+          editorState.getSelection()
+        );
+
+        const newEditorState = EditorState.push(
+          editorState,
+          newContentState,
+          "split-block"
+        );
+
+        const nextContentState =
+          RichUtils.tryToRemoveBlockStyle(newEditorState);
+        if (nextContentState) {
+          const nextEditorState = EditorState.push(
+            newEditorState,
+            nextContentState,
+            "change-block-type"
+          );
+          setEditorState(nextEditorState);
+          return "handled";
+        }
       } else {
-        // 普通回车
+        // 普通回车，在当前的block换行
         setEditorState(RichUtils.insertSoftNewline(editorState));
         return "handled";
       }
