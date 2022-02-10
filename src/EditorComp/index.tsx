@@ -30,7 +30,10 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   React.useEffect(() => {
     keepEditorFocusBindFn();
-  }, [editorState.getCurrentInlineStyle()]);
+  }, [
+    editorState.getCurrentInlineStyle(),
+    getCurrentContentBlock(editorState).getType(),
+  ]);
 
   /**
    * method
