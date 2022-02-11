@@ -48,12 +48,18 @@ const EditorComp: React.FC<IProps> = (props) => {
     if (type === "blockquote") {
       return styles.blockquote;
     }
+    if (type === "code-block") {
+      return styles.codeBlock;
+    }
     return "";
   };
 
   const returnBindFn = (e: any): DraftHandleValue => {
     const contentBlock = getCurrentContentBlock(editorState);
-    if (contentBlock.getType() === "blockquote") {
+    if (
+      contentBlock.getType() === "blockquote" ||
+      contentBlock.getType() === "code-block"
+    ) {
       if (
         e.getModifierState("Shift") ||
         e.getModifierState("Alt") ||
@@ -138,7 +144,7 @@ const EditorComp: React.FC<IProps> = (props) => {
         keepEditorFocusBindFn={keepEditorFocusBindFn}
       ></PresetsComps.Header>
       <PresetsComps.Blockquote {...commonCompsProps}></PresetsComps.Blockquote>
-
+      <PresetsComps.Code {...commonCompsProps}></PresetsComps.Code>
       <Editor
         editorState={editorState}
         onChange={setEditorState}

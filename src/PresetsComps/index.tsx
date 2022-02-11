@@ -5,6 +5,7 @@ import {
   StrikethroughOutlined,
   UnorderedListOutlined,
   OrderedListOutlined,
+  CodeOutlined,
 } from "@ant-design/icons";
 import ToogleBtn from "./ToogleBtn";
 import FontColors from "./FontColors";
@@ -82,6 +83,16 @@ const Blockquote = (props: any) => (
   />
 );
 
+const Code = (props: any) => (
+  <ToogleBtn
+    {...props}
+    icon={<CodeOutlined />}
+    tip="代码"
+    styleStr="code-block"
+    type="block"
+  />
+);
+
 export default {
   Bold,
   Italic,
@@ -94,4 +105,5 @@ export default {
   OL,
   Header,
   Blockquote,
+  Code,
 };
