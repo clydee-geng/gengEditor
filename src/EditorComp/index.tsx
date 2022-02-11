@@ -91,6 +91,15 @@ const EditorComp: React.FC<IProps> = (props) => {
     return "not-handled";
   };
 
+  const keyCommandBindFn = (command: string): DraftHandleValue => {
+    const nextEditorState = RichUtils.handleKeyCommand(editorState, command);
+    if (nextEditorState) {
+      setEditorState(nextEditorState);
+      return "handled";
+    }
+    return "not-handled";
+  };
+
   /**
    * jsx
    */
@@ -138,6 +147,7 @@ const EditorComp: React.FC<IProps> = (props) => {
         customStyleMap={customStyleMap}
         blockStyleFn={blockStyleBindFn}
         handleReturn={returnBindFn}
+        handleKeyCommand={keyCommandBindFn}
       />
     </div>
   );
