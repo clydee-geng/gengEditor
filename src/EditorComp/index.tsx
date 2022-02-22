@@ -145,6 +145,10 @@ const EditorComp: React.FC<IProps> = (props) => {
       ></PresetsComps.Header>
       <PresetsComps.Blockquote {...commonCompsProps}></PresetsComps.Blockquote>
       <PresetsComps.Code {...commonCompsProps}></PresetsComps.Code>
+      <PresetsComps.LineHeight
+        {...commonCompsProps}
+        keepEditorFocusBindFn={keepEditorFocusBindFn}
+      ></PresetsComps.LineHeight>
       <Editor
         editorState={editorState}
         onChange={setEditorState}
