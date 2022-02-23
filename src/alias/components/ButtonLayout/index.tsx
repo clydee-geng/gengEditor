@@ -7,10 +7,17 @@ interface IProps {
   tip?: ReactNode;
   clickPropsFn?: () => void;
   activeColor?: string | boolean;
+  activeColorCSSProp?: "color" | "backgroundColor";
 }
 
 const ButtonLayout: React.FC<IProps> = (props) => {
-  const { icon, tip, clickPropsFn, activeColor } = props;
+  const {
+    icon,
+    tip,
+    clickPropsFn,
+    activeColor,
+    activeColorCSSProp = "color",
+  } = props;
 
   /**
    * jsx
@@ -21,10 +28,16 @@ const ButtonLayout: React.FC<IProps> = (props) => {
         type="text"
         icon={icon}
         onClick={clickPropsFn}
-        style={typeof activeColor === "string" ? { color: activeColor } : {}}
+        style={
+          typeof activeColor === "string"
+            ? { [activeColorCSSProp]: activeColor }
+            : {}
+        }
         className={
           activeColor
-            ? classnames(styles.active, styles.ButtonLayout)
+            ? activeColorCSSProp === "color"
+              ? classnames(styles.activeForColor, styles.ButtonLayout)
+              : classnames(styles.activeForBgColor, styles.ButtonLayout)
             : styles.ButtonLayout
         }
       ></Button>

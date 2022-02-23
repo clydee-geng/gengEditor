@@ -9,6 +9,7 @@ interface IProps {
   activeColor?: string | boolean;
   visible: boolean;
   onVisibleChange: (visible: boolean) => void;
+  activeColorCSSProp?: "color" | "backgroundColor";
 }
 
 const ToogleBtnByPopover: React.FC<IProps> = (props) => {
@@ -20,7 +21,7 @@ const ToogleBtnByPopover: React.FC<IProps> = (props) => {
     activeColor,
     visible,
     onVisibleChange,
-    ...rest
+    activeColorCSSProp,
   } = props;
 
   /**
@@ -42,7 +43,12 @@ const ToogleBtnByPopover: React.FC<IProps> = (props) => {
       onVisibleChange={onVisibleChange}
     >
       <div style={{ display: "inline" }}>
-        <ButtonLayout icon={icon} activeColor={activeColor} tip={tip} />
+        <ButtonLayout
+          icon={icon}
+          activeColor={activeColor}
+          tip={tip}
+          activeColorCSSProp={activeColorCSSProp}
+        />
       </div>
     </Popover>
   );

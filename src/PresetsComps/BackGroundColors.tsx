@@ -111,6 +111,7 @@ const BackGroundColors: React.FC<IProps> = (props) => {
       onVisibleChange={(e: boolean) => {
         setVisible(e);
       }}
+      activeColorCSSProp="backgroundColor"
     />
   );
 };
