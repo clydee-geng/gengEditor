@@ -6,6 +6,8 @@ import {
   DraftHandleValue,
   RichUtils,
   Modifier,
+  DefaultDraftBlockRenderMap,
+  DraftBlockRenderMap,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
@@ -26,6 +28,8 @@ const EditorComp: React.FC<IProps> = (props) => {
   );
 
   const [customStyleMap, setCustomStyleMap] = React.useState({});
+  const [customBlockRenderMap, setCustomBlockRenderMap] =
+    React.useState<DraftBlockRenderMap>(DefaultDraftBlockRenderMap);
   const editorRef = React.useRef<any>(null);
 
   React.useEffect(() => {
@@ -115,6 +119,7 @@ const EditorComp: React.FC<IProps> = (props) => {
     setEditorState,
     customStyleMap,
     setCustomStyleMap,
+    setCustomBlockRenderMap,
   };
 
   return (
@@ -158,6 +163,7 @@ const EditorComp: React.FC<IProps> = (props) => {
         blockStyleFn={blockStyleBindFn}
         handleReturn={returnBindFn}
         handleKeyCommand={keyCommandBindFn}
+        blockRenderMap={customBlockRenderMap}
       />
     </div>
   );
