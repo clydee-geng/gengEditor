@@ -55,6 +55,10 @@ const EditorComp: React.FC<IProps> = (props) => {
     if (type === "code-block") {
       return styles.codeBlock;
     }
+    if (type.includes("line-height")) {
+      const typeArr = type.split("-");
+      return styles[`lineHeight${typeArr[typeArr.length - 1]}`];
+    }
     return "";
   };
 

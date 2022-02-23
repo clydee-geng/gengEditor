@@ -11,14 +11,15 @@ import classnames from "classnames";
 import { Button } from "antd";
 import { LineHeightOutlined } from "@ant-design/icons";
 import { Map } from "immutable";
+import { getCurrentContentBlock } from "@alias/utils";
 
 const LineHeightData = [
-  { text: "1", styleStr: "line-height-1" },
-  { text: "1.15", styleStr: "line-height-1.15" },
-  { text: "1.6", styleStr: "line-height-1.6" },
-  { text: "2", styleStr: "line-height-2" },
-  { text: "2.5", styleStr: "line-height-2.5" },
-  { text: "3", styleStr: "line-height-3" },
+  { text: "1", styleStr: "line-height-100" },
+  { text: "1.15", styleStr: "line-height-115" },
+  { text: "1.6", styleStr: "line-height-160" },
+  { text: "2", styleStr: "line-height-200" },
+  { text: "2.5", styleStr: "line-height-250" },
+  { text: "3", styleStr: "line-height-300" },
 ];
 
 interface IProps {
@@ -56,13 +57,7 @@ const LineHeight: React.FC<IProps> = (props) => {
     let blockRenderMap: DraftBlockRenderMap = Map();
 
     LineHeightData.some((item, index) => {
-      setCustomStyleMap((preState: any) => {
-        return {
-          ...preState,
-          [item.styleStr]: { lineHeight: item.text },
-        };
-      });
-      blockRenderMap = blockRenderMap.set(item.styleStr, { element: "p" });
+      blockRenderMap = blockRenderMap.set(item.styleStr, { element: "div" });
     });
 
     setCustomBlockRenderMap((preState: DraftBlockRenderMap) => {
@@ -76,20 +71,21 @@ const LineHeight: React.FC<IProps> = (props) => {
 
   const renderActiveColor = () => {
     let isActive = false;
-    const currentStyle = editorState.getCurrentInlineStyle();
-    LineHeightData.some((item) => {
-      if (currentStyle.has(item.styleStr)) {
-        isActive = true;
-        return true;
-      }
-    });
+    const blockType = getCurBlockType();
+    if (LineHeightData.map((item) => item.styleStr).includes(blockType)) {
+      isActive = true;
+    }
     return isActive;
+  };
+
+  const getCurBlockType = () => {
+    return getCurrentContentBlock(editorState).getType();
   };
 
   const setLineHeightBindFn = (item: any) => {
     setVisible(false);
     if (item.styleStr) {
-      setEditorState(RichUtils.toggleInlineStyle(editorState, item.styleStr));
+      setEditorState(RichUtils.toggleBlockType(editorState, item.styleStr));
     }
   };
 
@@ -121,8 +117,7 @@ const LineHeight: React.FC<IProps> = (props) => {
           return (
             <div
               className={
-                visible &&
-                editorState.getCurrentInlineStyle().has(item.styleStr)
+                visible && getCurBlockType() === item.styleStr
                   ? classnames(styles.popverContentItem, styles.active)
                   : styles.popverContentItem
               }
