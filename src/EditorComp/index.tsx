@@ -59,6 +59,14 @@ const EditorComp: React.FC<IProps> = (props) => {
       const typeArr = type.split("-");
       return styles[`lineHeight${typeArr[typeArr.length - 1]}`];
     }
+
+    // ====
+    const blockData = contentBlock.getData();
+    if (blockData.get("textIndent")) {
+      console.log('设置：', contentBlock.getCharacterList().toJS())
+      return styles.textIndent1;
+    }
+
     return "";
   };
 
@@ -158,6 +166,10 @@ const EditorComp: React.FC<IProps> = (props) => {
         {...commonCompsProps}
         keepEditorFocusBindFn={keepEditorFocusBindFn}
       ></PresetsComps.LineHeight>
+      <PresetsComps.AddIndent
+        {...commonCompsProps}
+        keepEditorFocusBindFn={keepEditorFocusBindFn}
+      ></PresetsComps.AddIndent>
       <Editor
         editorState={editorState}
         onChange={setEditorState}

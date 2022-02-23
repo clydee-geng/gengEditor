@@ -13,6 +13,7 @@ import BackGroundColors from "./BackGroundColors";
 import Link from "./Link";
 import Header from "./Header";
 import LineHeight from "./LineHeight";
+import AddIndent from "./AddIndent";
 
 const Bold = (props: any) => (
   <ToogleBtn
@@ -108,4 +109,5 @@ export default {
   Blockquote,
   Code,
   LineHeight,
+  AddIndent,
 };
