@@ -49,25 +49,25 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   const blockStyleBindFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
+    let classNames = "";
     if (type === "blockquote") {
-      return styles.blockquote;
+      classNames = styles.blockquote;
     }
     if (type === "code-block") {
-      return styles.codeBlock;
+      classNames = styles.codeBlock;
     }
     if (type.includes("line-height")) {
       const typeArr = type.split("-");
-      return styles[`lineHeight${typeArr[typeArr.length - 1]}`];
+      classNames = styles[`lineHeight${typeArr[typeArr.length - 1]}`];
     }
 
     // ====
     const blockData = contentBlock.getData();
     if (blockData.get("textIndent")) {
-      console.log('设置：', contentBlock.getCharacterList().toJS())
-      return styles.textIndent1;
+      classNames += " " + styles.textIndent1;
     }
 
-    return "";
+    return classNames;
   };
 
   const returnBindFn = (e: any): DraftHandleValue => {
