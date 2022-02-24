@@ -37,6 +37,7 @@ const EditorComp: React.FC<IProps> = (props) => {
   }, [
     editorState.getCurrentInlineStyle(),
     getCurrentContentBlock(editorState).getType(),
+    getCurrentContentBlock(editorState).getData(),
   ]);
 
   /**
@@ -171,6 +172,10 @@ const EditorComp: React.FC<IProps> = (props) => {
         {...commonCompsProps}
         keepEditorFocusBindFn={keepEditorFocusBindFn}
       ></PresetsComps.AddIndent>
+      <PresetsComps.MinusIndent
+        {...commonCompsProps}
+        keepEditorFocusBindFn={keepEditorFocusBindFn}
+      ></PresetsComps.MinusIndent>
       <Editor
         editorState={editorState}
         onChange={setEditorState}

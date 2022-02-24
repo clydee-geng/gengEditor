@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  EditorState,
-  RichUtils,
-  Modifier,
-  DraftBlockRenderMap,
-} from "draft-js";
-import classnames from "classnames";
-import { Button } from "antd";
-import { MenuUnfoldOutlined } from "@ant-design/icons";
+import { EditorState, Modifier } from "draft-js";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { getCurrentContentBlock } from "@alias/utils";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import { Map } from "immutable";
@@ -20,16 +13,11 @@ interface IProps {
   setCustomStyleMap: any;
   setCustomBlockRenderMap: any;
   keepEditorFocusBindFn: () => void;
+  type: "add" | "minus";
 }
 
-const AddIndent: React.FC<IProps> = (props) => {
-  const {
-    editorState,
-    setEditorState,
-    setCustomStyleMap,
-    setCustomBlockRenderMap,
-    keepEditorFocusBindFn,
-  } = props;
+const TextIndentLogic: React.FC<IProps> = (props) => {
+  const { editorState, setEditorState, type } = props;
 
   /**
    * hooks
@@ -46,14 +34,10 @@ const AddIndent: React.FC<IProps> = (props) => {
   const renderActiveColor = () => {
     let isActive = false;
     const textIndentVal = getCurrentContentBlockData("textIndent");
-    if (textIndentVal) {
+    if (textIndentVal) { // textIndentVal = 0 时，不高亮
       isActive = true;
     }
     return isActive;
-  };
-
-  const getCurBlockType = () => {
-    return getCurrentContentBlock(editorState).getType();
   };
 
   const getCurrentContentBlockData = (name?: string) => {
@@ -64,10 +48,17 @@ const AddIndent: React.FC<IProps> = (props) => {
   const clickBindFn = () => {
     let nextBlockData = Map();
     const curTextIndentVal = getCurrentContentBlockData("textIndent") || 0;
-    nextBlockData = nextBlockData.set(
-      "textIndent",
-      curTextIndentVal + 1 > maxIndent ? maxIndent : curTextIndentVal + 1
-    );
+
+    let nextTextIndentVal = curTextIndentVal;
+    if (type === "add") {
+      nextTextIndentVal =
+        curTextIndentVal + 1 > maxIndent ? maxIndent : curTextIndentVal + 1;
+    } else {
+      nextTextIndentVal = curTextIndentVal - 1 < 0 ? 0 : curTextIndentVal - 1;
+    }
+
+    nextBlockData = nextBlockData.set("textIndent", nextTextIndentVal);
+
     const nextContentState = Modifier.setBlockData(
       editorState.getCurrentContent(),
       editorState.getSelection(),
@@ -85,12 +76,12 @@ const AddIndent: React.FC<IProps> = (props) => {
 
   return (
     <ButtonLayout
-      tip="增加缩进"
-      icon={<MenuUnfoldOutlined />}
-      activeColor={renderActiveColor()}
+      tip={type === "add" ? "增加缩进" : "减少缩进"}
+      icon={type === "add" ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+      activeColor={type === "add" && renderActiveColor()}
       clickPropsFn={clickBindFn}
     />
   );
 };
 
-export default AddIndent;
+export default TextIndentLogic;
