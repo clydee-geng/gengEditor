@@ -1,3 +1,4 @@
+@maxIndent: 6;
 .EditorComp {
   border: 1px solid red;
   .text {
@@ -41,7 +42,12 @@
     line-height: 3;
   }
 
-  .textIndent1{
-    text-indent: 2em;
+  // textIndent
+  .textIndentLoop(@i) when (@i > 0) {
+    .textIndent@{i}{
+      text-indent: (2em * @i);
+    }
+    .textIndentLoop(@i - 1);    // 递归调用自身
   }
+  .textIndentLoop(@maxIndent)
 }

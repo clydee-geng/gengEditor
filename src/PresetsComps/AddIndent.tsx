@@ -12,6 +12,8 @@ import { getCurrentContentBlock } from "@alias/utils";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import { Map } from "immutable";
 
+const maxIndent = 6;
+
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
@@ -43,7 +45,10 @@ const AddIndent: React.FC<IProps> = (props) => {
 
   const renderActiveColor = () => {
     let isActive = false;
-    const blockType = getCurBlockType();
+    const textIndentVal = getCurrentContentBlockData("textIndent");
+    if (textIndentVal) {
+      isActive = true;
+    }
     return isActive;
   };
 
@@ -57,7 +62,12 @@ const AddIndent: React.FC<IProps> = (props) => {
   };
 
   const clickBindFn = () => {
-    const nextBlockData = Map({ textIndent: 1 });
+    let nextBlockData = Map();
+    const curTextIndentVal = getCurrentContentBlockData("textIndent") || 0;
+    nextBlockData = nextBlockData.set(
+      "textIndent",
+      curTextIndentVal + 1 > maxIndent ? maxIndent : curTextIndentVal + 1
+    );
     const nextContentState = Modifier.setBlockData(
       editorState.getCurrentContent(),
       editorState.getSelection(),
@@ -69,9 +79,6 @@ const AddIndent: React.FC<IProps> = (props) => {
       "change-block-data"
     );
     setEditorState(nextEditorState);
-    setTimeout(()=>{
-      console.log(getCurrentContentBlockData().toJS())
-    })
   };
 
   /** jsx */

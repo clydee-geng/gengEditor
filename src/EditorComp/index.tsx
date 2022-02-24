@@ -63,8 +63,9 @@ const EditorComp: React.FC<IProps> = (props) => {
 
     // ====
     const blockData = contentBlock.getData();
-    if (blockData.get("textIndent")) {
-      classNames += " " + styles.textIndent1;
+    const textIndentVal = blockData.get("textIndent");
+    if (textIndentVal) {
+      classNames += " " + styles[`textIndent${textIndentVal}`];
     }
 
     return classNames;

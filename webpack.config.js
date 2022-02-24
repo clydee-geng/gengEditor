@@ -75,15 +75,15 @@ module.exports = {
                 },
               },
               {
-                loader: "less-loader",
-              },
-              {
                 loader: "postcss-loader",
                 options: {
                   postcssOptions: {
                     plugins: [require("autoprefixer")],
                   },
                 },
+              },
+              {
+                loader: "less-loader",
               },
             ],
           },
