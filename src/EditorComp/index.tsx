@@ -75,6 +75,10 @@ const EditorComp: React.FC<IProps> = (props) => {
     if (textIndentVal) {
       classNames += " " + styles[`textIndent${textIndentVal}`];
     }
+    const textAlignVal = blockData.get("textAlign");
+    if (textAlignVal) {
+      classNames += " " + styles[`textAlign${textAlignVal}`];
+    }
 
     return classNames;
   };

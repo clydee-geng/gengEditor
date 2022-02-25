@@ -39,8 +39,8 @@ const TextAlignLogic: React.FC<IProps> = (props) => {
 
   const renderActiveColor = () => {
     let isActive = false;
-    const textIndentVal = getCurrentContentBlockData("textAlign");
-    if (textIndentVal) {
+    const textAlignVal = getCurrentContentBlockData("textAlign");
+    if (type === textAlignVal) {
       isActive = true;
     }
     return isActive;
@@ -77,11 +77,11 @@ const TextAlignLogic: React.FC<IProps> = (props) => {
         obj.icon = <AlignLeftOutlined />;
         break;
       case "center":
-        obj.tip = "靠右";
+        obj.tip = "居中";
         obj.icon = <AlignCenterOutlined />;
         break;
       case "right":
-        obj.tip = "居中";
+        obj.tip = "靠右";
         obj.icon = <AlignRightOutlined />;
         break;
       case "justify":

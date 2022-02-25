@@ -42,12 +42,26 @@
     line-height: 3;
   }
 
-  // textIndent
+  // textIndent 循环
   .textIndentLoop(@i) when (@i > 0) {
     .textIndent@{i}{
       text-indent: (2em * @i);
     }
     .textIndentLoop(@i - 1);    // 递归调用自身
   }
-  .textIndentLoop(@maxIndent)
+  .textIndentLoop(@maxIndent);
+
+  // textAlign 循环
+  @textAlignList: left, center, right, justify;
+  .textAlignLoop(@i) when (@i < length(@textAlignList) + 1) {
+    @item: extract(@textAlignList, @i);
+    .textAlign@{item}{
+      :global(.public-DraftStyleDefault-ltr){
+        text-align: @item;
+      }
+    }
+    .textAlignLoop(@i + 1);    // 递归调用自身
+  }
+  .textAlignLoop(1);
+
 }
