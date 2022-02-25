@@ -33,6 +33,9 @@ const FontSize: React.FC<IProps> = (props) => {
 
   React.useEffect(() => {
     keepEditorFocusBindFn();
+    if (visible) {
+      setCurFontSize(getCurrentStyleStrArr());
+    }
   }, [visible]);
 
   /**
@@ -41,16 +44,31 @@ const FontSize: React.FC<IProps> = (props) => {
 
   const renderActiveColor = () => {
     let isActive = false;
+    const currentStyle = editorState.getCurrentInlineStyle();
+    if (currentStyle.has("FONT_SIZE_" + getCurrentStyleStrArr())) {
+      isActive = true;
+    }
     return isActive;
+  };
+
+  const getCurrentStyleStrArr = () => {
+    let curStyleFontSize: any;
+    const currentStyle = editorState.getCurrentInlineStyle();
+    const currentStyleStr = currentStyle.first();
+    if (typeof currentStyleStr === "string") {
+      const currentStyleStrArr = currentStyleStr.split("_");
+      curStyleFontSize = Number(
+        currentStyleStrArr[currentStyleStrArr.length - 1]
+      );
+    }
+    return curStyleFontSize;
   };
 
   const saveBindFn = () => {
     setVisible(false);
     const SelectionState = editorState.getSelection();
     if (!SelectionState.isCollapsed()) {
-      console.log("//有选中");
-
-      // 先去除所以Color_的style
+      // 先去除所有的FONT_SIZE_ style
       const currentStyle = editorState.getCurrentInlineStyle();
       let ContentState = editorState.getCurrentContent();
 
@@ -67,7 +85,7 @@ const FontSize: React.FC<IProps> = (props) => {
       const nextContentState = Modifier.applyInlineStyle(
         ContentState,
         SelectionState,
-        "FONT_COLOR_" + curFontSize
+        "FONT_SIZE_" + curFontSize
       );
 
       const nextEditorState = EditorState.push(
@@ -79,15 +97,11 @@ const FontSize: React.FC<IProps> = (props) => {
       setCustomStyleMap((preState: any) => {
         return {
           ...preState,
-          ["FONT_COLOR_" + curFontSize]: { fontSize: curFontSize + "px" },
+          ["FONT_SIZE_" + curFontSize]: { fontSize: curFontSize + "px" },
         };
       });
       setEditorState(nextEditorState);
     }
-  };
-
-  const clickBindFn = (item: any) => {
-    setCurFontSize(item);
   };
 
   /** jsx */
@@ -95,16 +109,16 @@ const FontSize: React.FC<IProps> = (props) => {
   const PopoverContent = () => {
     return (
       <div className={styles.popverContent}>
-        {FontSizeData.map((item) => {
+        {FontSizeData.map((item: any) => {
           return (
             <div
               className={
-                visible
+                visible && curFontSize === item
                   ? classnames(styles.popverContentItem, styles.active)
                   : styles.popverContentItem
               }
               key={item}
-              onClick={() => clickBindFn(item)}
+              onClick={() => setCurFontSize(item)}
             >
               {item}px
             </div>
@@ -112,6 +126,8 @@ const FontSize: React.FC<IProps> = (props) => {
         })}
         <div className={styles.operateArea}>
           <InputNumber
+            min={10}
+            max={144}
             className={styles.input}
             placeholder="请输入"
             addonAfter={"px"}
