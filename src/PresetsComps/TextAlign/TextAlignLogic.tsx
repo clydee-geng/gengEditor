@@ -9,8 +9,6 @@ import { getCurrentContentBlock } from "@alias/utils";
 import ButtonLayout from "@alias/components/ButtonLayout";
 import { Map } from "immutable";
 
-const maxIndent = 6;
-
 const JustifyIcon = () => <i className="iconfont icon-align-justify"></i>;
 
 interface IProps {

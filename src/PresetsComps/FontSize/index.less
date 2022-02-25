@@ -1,0 +1,35 @@
+.popverContent {
+  text-align: center;
+  .popverContentItem {
+    &:hover {
+      background-color: #f8f8f8;
+      cursor: pointer;
+    }
+    &.active {
+      color: #2593fc;
+    }
+  }
+  .operateArea {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    .input {
+      height: 29px;
+      margin-right: 5px;
+      :global(.ant-input-number-input) {
+        width: 70px;
+      }
+    }
+    .btn {
+      background: #4285f4;
+      color: #fff;
+      padding: 0.45em 0.5em;
+      border: none;
+      font-size: 0.75em;
+      height: 29px;
+      :global(span) {
+        letter-spacing: -1px;
+      }
+    }
+  }
+}

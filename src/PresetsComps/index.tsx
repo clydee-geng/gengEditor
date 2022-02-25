@@ -15,6 +15,7 @@ import Header from "./Header";
 import LineHeight from "./LineHeight";
 import { AddIndent, MinusIndent } from "./TextIndent";
 import { LeftAlign, CenterAlign, RightAlign, JustifyAlign } from "./TextAlign";
+import FontSize from "./FontSize";
 
 const Bold = (props: any) => (
   <ToogleBtn
@@ -97,6 +98,7 @@ const Code = (props: any) => (
 );
 
 export default {
+  FontSize,
   Bold,
   Italic,
   Underline,

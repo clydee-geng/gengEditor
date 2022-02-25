@@ -20,7 +20,6 @@ const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
     key: item,
   };
 });
-console.log(PresetsCompsList);
 interface IProps {
   style?: React.CSSProperties;
 }
