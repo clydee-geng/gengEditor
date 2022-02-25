@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   Editor,
   EditorState,
@@ -14,6 +14,13 @@ import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
 import { getCurrentContentBlock } from "@alias/utils";
 
+const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
+  return {
+    Comp: PresetsComps[item],
+    key: item,
+  };
+});
+console.log(PresetsCompsList);
 interface IProps {
   style?: React.CSSProperties;
 }
@@ -134,48 +141,15 @@ const EditorComp: React.FC<IProps> = (props) => {
     customStyleMap,
     setCustomStyleMap,
     setCustomBlockRenderMap,
+    keepEditorFocusBindFn,
   };
 
   return (
     <div className={styles.EditorComp} style={style}>
-      <PresetsComps.Bold {...commonCompsProps}></PresetsComps.Bold>
-      <PresetsComps.Italic {...commonCompsProps}></PresetsComps.Italic>
-      <PresetsComps.Underline {...commonCompsProps}></PresetsComps.Underline>
-      <PresetsComps.Strikethrough
-        {...commonCompsProps}
-      ></PresetsComps.Strikethrough>
-      <PresetsComps.FontColors
-        {...commonCompsProps}
-        keepEditorFocusBindFn={keepEditorFocusBindFn}
-      ></PresetsComps.FontColors>
-      <PresetsComps.BackGroundColors
-        {...commonCompsProps}
-        keepEditorFocusBindFn={keepEditorFocusBindFn}
-      ></PresetsComps.BackGroundColors>
-      <PresetsComps.Link
-        {...commonCompsProps}
-        keepEditorFocusBindFn={keepEditorFocusBindFn}
-      ></PresetsComps.Link>
-      <PresetsComps.UL {...commonCompsProps}></PresetsComps.UL>
-      <PresetsComps.OL {...commonCompsProps}></PresetsComps.OL>
-      <PresetsComps.Header
-        {...commonCompsProps}
-        keepEditorFocusBindFn={keepEditorFocusBindFn}
-      ></PresetsComps.Header>
-      <PresetsComps.Blockquote {...commonCompsProps}></PresetsComps.Blockquote>
-      <PresetsComps.Code {...commonCompsProps}></PresetsComps.Code>
-      <PresetsComps.LineHeight
-        {...commonCompsProps}
-        keepEditorFocusBindFn={keepEditorFocusBindFn}
-      ></PresetsComps.LineHeight>
-      <PresetsComps.AddIndent
-        {...commonCompsProps}
-        keepEditorFocusBindFn={keepEditorFocusBindFn}
-      ></PresetsComps.AddIndent>
-      <PresetsComps.MinusIndent
-        {...commonCompsProps}
-        keepEditorFocusBindFn={keepEditorFocusBindFn}
-      ></PresetsComps.MinusIndent>
+      {PresetsCompsList.map((item, index) => {
+        return <item.Comp {...commonCompsProps} key={item.key} />;
+      })}
+
       <Editor
         editorState={editorState}
         onChange={setEditorState}

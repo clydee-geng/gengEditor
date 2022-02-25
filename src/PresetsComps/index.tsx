@@ -13,7 +13,8 @@ import BackGroundColors from "./BackGroundColors";
 import Link from "./Link";
 import Header from "./Header";
 import LineHeight from "./LineHeight";
-import {AddIndent, MinusIndent} from "./TextIndent";
+import { AddIndent, MinusIndent } from "./TextIndent";
+import { LeftAlign, CenterAlign, RightAlign, JustifyAlign } from "./TextAlign";
 
 const Bold = (props: any) => (
   <ToogleBtn
@@ -111,4 +112,8 @@ export default {
   LineHeight,
   AddIndent,
   MinusIndent,
+  LeftAlign,
+  CenterAlign,
+  RightAlign,
+  JustifyAlign,
 };

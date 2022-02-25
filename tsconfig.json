@@ -15,6 +15,7 @@
     "isolatedModules": false,
     "noEmit": false,
     "jsx": "react-jsx",
+    "suppressImplicitAnyIndexErrors": true,
     "paths": {
       "@alias/*": ["./src/alias/*"]
     }
