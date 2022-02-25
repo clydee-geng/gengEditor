@@ -11,7 +11,7 @@ import { Map } from "immutable";
 
 const maxIndent = 6;
 
-const JustifyIcon = () => <i className="iconfont icon-justify"></i>;
+const JustifyIcon = () => <i className="iconfont icon-align-justify"></i>;
 
 interface IProps {
   editorState: EditorState;
