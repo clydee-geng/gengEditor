@@ -13,6 +13,7 @@ import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
 import { getCurrentContentBlock } from "@alias/utils";
+import { convertToHTML } from "draft-convert";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -135,7 +136,8 @@ const EditorComp: React.FC<IProps> = (props) => {
   };
 
   const toHTMLStrBindFn = () => {
-    console.log(editorRef.current.editor.innerHTML);
+    const htmlStr = convertToHTML(editorState.getCurrentContent());
+    console.log(htmlStr);
   };
 
   /**
