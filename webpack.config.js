@@ -70,7 +70,7 @@ module.exports = {
                 loader: "css-loader",
                 options: {
                   modules: {
-                    localIdentName: "geng-[hash]-[local]",
+                    localIdentName: "geng-editor-[hash]-[local]",
                   },
                 },
               },

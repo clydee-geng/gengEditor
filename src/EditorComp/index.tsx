@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import {
   Editor,
   EditorState,
@@ -134,6 +134,10 @@ const EditorComp: React.FC<IProps> = (props) => {
     return "not-handled";
   };
 
+  const toHTMLStrBindFn = () => {
+    console.log(editorRef.current.editor.innerHTML);
+  };
+
   /**
    * jsx
    */
@@ -164,6 +168,8 @@ const EditorComp: React.FC<IProps> = (props) => {
         handleKeyCommand={keyCommandBindFn}
         blockRenderMap={customBlockRenderMap}
       />
+
+      <button onClick={toHTMLStrBindFn}>toHTMLStr</button>
     </div>
   );
 };
