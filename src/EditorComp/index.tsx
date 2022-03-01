@@ -14,6 +14,7 @@ import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
 import { getCurrentContentBlock } from "@alias/utils";
 import { convertToHTML } from "draft-convert";
+import { styleToHTML } from "./config";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -136,7 +137,9 @@ const EditorComp: React.FC<IProps> = (props) => {
   };
 
   const toHTMLStrBindFn = () => {
-    const htmlStr = convertToHTML(editorState.getCurrentContent());
+    const htmlStr = convertToHTML({
+      styleToHTML,
+    })(editorState.getCurrentContent());
     console.log(htmlStr);
   };
 
