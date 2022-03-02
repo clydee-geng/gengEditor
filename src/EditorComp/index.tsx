@@ -39,7 +39,11 @@ const EditorComp: React.FC<IProps> = (props) => {
   const [editorState, setEditorState] = React.useState(
     EditorState.createWithContent(
       convertFromHTML({
-        htmlToStyle,
+        htmlToStyle: (nodeName: string, node: HTMLElement, currentStyle: any) =>
+          htmlToStyle(nodeName, node, currentStyle, {
+            customStyleMap,
+            setCustomStyleMap,
+          }),
       })(
         '<blockquote>啊发达沙<strong>发的</strong>沙发上<br/>1<span style="color:#FF0000">212</span><br/>ss<span style="background-color:#FF69B4">ss</span></blockquote>'
       )

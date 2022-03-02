@@ -69,17 +69,41 @@ export const htmlToStyle = (
   nodeName: string,
   node: HTMLElement,
   currentStyle: any,
+  extraData?: any
 ) => {
   let nextCurrentStyle = currentStyle;
   if (nodeName === "span" && node.style.color) {
     const colorStr = rgbOrRgbaToHex(node.style.color);
     const styleStr = `FONT_COLOR_${colorStr}`;
+    if (
+      typeof extraData.setCustomStyleMap === "function" &&
+      !extraData.customStyleMap.hasOwnProperty(styleStr)
+    ) {
+      extraData.setCustomStyleMap((preState: any) => {
+        return {
+          ...preState,
+          [styleStr]: { color: colorStr },
+        };
+      });
+    }
     nextCurrentStyle = nextCurrentStyle.add(styleStr);
   }
   if (nodeName === "span" && node.style.backgroundColor) {
-    nextCurrentStyle = nextCurrentStyle.add(
-      `BG_COLOR_${rgbOrRgbaToHex(node.style.backgroundColor)}`
-    );
+    const bgColorStr = rgbOrRgbaToHex(node.style.backgroundColor);
+    const styleStr = `BG_COLOR_${bgColorStr}`;
+    if (
+      typeof extraData.setCustomStyleMap === "function" &&
+      !extraData.customStyleMap.hasOwnProperty(styleStr)
+    ) {
+      extraData.setCustomStyleMap((preState: any) => {
+        return {
+          ...preState,
+          [styleStr]: { backgroundColor: bgColorStr },
+        };
+      });
+    }
+
+    nextCurrentStyle = nextCurrentStyle.add(styleStr);
   }
   console.log(nodeName, node, nextCurrentStyle.toJS());
   return nextCurrentStyle;
