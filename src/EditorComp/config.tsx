@@ -23,16 +23,37 @@ const getStyleValDistillFn = (styleStr: string) => {
 };
 
 export const blockToHTML = (block: any) => {
+  console.log("xxxx:", block);
   const blockType = block.type;
-  console.log(block, blockType);
+  const { textIndent, textAlign } = block.data;
 
+  let blockStyle = "";
+  if (textIndent) {
+    blockStyle = `style="text-indent:${textIndent * 2}em"`;
+  }else if(textAlign){
+    blockStyle = `style="text-align:${textAlign}"`;
+  }
+
+  if (blockType === "unordered-list-item") {
+    return {
+      start: `<li ${blockStyle}>`,
+      end: "</li>",
+      nest: <ul />,
+    };
+  } else if (blockType === "ordered-list-item") {
+    return {
+      start: `<li ${blockStyle}>`,
+      end: "</li>",
+      nest: <ol />,
+    };
+  }
   return {
-    start: `<${defaultBlockType[blockType]}>`,
+    start: `<${defaultBlockType[blockType]} ${blockStyle}>`,
     end: `</${defaultBlockType[blockType]}>`,
   };
 };
 
-export const defaultBlockType = {
+const defaultBlockType = {
   "header-one": "h1",
   "header-two": "h2",
   "header-three": "h3",
