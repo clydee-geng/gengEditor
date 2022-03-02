@@ -1,3 +1,5 @@
+import { rgbOrRgbaToHex } from "@alias/utils";
+
 export const styleToHTML = (style: string) => {
   console.log(style);
   if (style === "STRIKETHROUGH") {
@@ -23,7 +25,6 @@ const getStyleValDistillFn = (styleStr: string) => {
 };
 
 export const blockToHTML = (block: any) => {
-  console.log("xxxx:", block);
   const blockType = block.type;
   const { textIndent, textAlign } = block.data;
 
@@ -62,4 +63,24 @@ const defaultBlockType = {
   "header-six": "h6",
   unstyled: "p",
   blockquote: "blockquote",
+};
+
+export const htmlToStyle = (
+  nodeName: string,
+  node: HTMLElement,
+  currentStyle: any,
+) => {
+  let nextCurrentStyle = currentStyle;
+  if (nodeName === "span" && node.style.color) {
+    const colorStr = rgbOrRgbaToHex(node.style.color);
+    const styleStr = `FONT_COLOR_${colorStr}`;
+    nextCurrentStyle = nextCurrentStyle.add(styleStr);
+  }
+  if (nodeName === "span" && node.style.backgroundColor) {
+    nextCurrentStyle = nextCurrentStyle.add(
+      `BG_COLOR_${rgbOrRgbaToHex(node.style.backgroundColor)}`
+    );
+  }
+  console.log(nodeName, node, nextCurrentStyle.toJS());
+  return nextCurrentStyle;
 };

@@ -14,7 +14,7 @@ import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
 import { getCurrentContentBlock } from "@alias/utils";
 import { convertToHTML, convertFromHTML } from "draft-convert";
-import { styleToHTML, blockToHTML } from "./config";
+import { styleToHTML, blockToHTML, htmlToStyle } from "./config";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -34,15 +34,18 @@ const EditorComp: React.FC<IProps> = (props) => {
   // const [editorState, setEditorState] = React.useState(() =>
   //   EditorState.createEmpty()
   // );
+  const [customStyleMap, setCustomStyleMap] = React.useState({});
+
   const [editorState, setEditorState] = React.useState(
     EditorState.createWithContent(
-      convertFromHTML(
+      convertFromHTML({
+        htmlToStyle,
+      })(
         '<blockquote>啊发达沙<strong>发的</strong>沙发上<br/>1<span style="color:#FF0000">212</span><br/>ss<span style="background-color:#FF69B4">ss</span></blockquote>'
       )
     )
   );
 
-  const [customStyleMap, setCustomStyleMap] = React.useState({});
   const [customBlockRenderMap, setCustomBlockRenderMap] =
     React.useState<DraftBlockRenderMap>(DefaultDraftBlockRenderMap);
   const editorRef = React.useRef<any>(null);
