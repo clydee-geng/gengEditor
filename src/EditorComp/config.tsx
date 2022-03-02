@@ -29,26 +29,26 @@ export const blockToHTML = (block: any) => {
 
   let blockStyle = "";
   if (textIndent) {
-    blockStyle = `style="text-indent:${textIndent * 2}em"`;
-  }else if(textAlign){
-    blockStyle = `style="text-align:${textAlign}"`;
+    blockStyle = ` style="text-indent:${textIndent * 2}em"`;
+  } else if (textAlign) {
+    blockStyle = ` style="text-align:${textAlign}"`;
   }
 
   if (blockType === "unordered-list-item") {
     return {
-      start: `<li ${blockStyle}>`,
-      end: "</li>",
+      start: `<li${blockStyle}>`,
+      end: "</li$>",
       nest: <ul />,
     };
   } else if (blockType === "ordered-list-item") {
     return {
-      start: `<li ${blockStyle}>`,
-      end: "</li>",
+      start: `<li${blockStyle}>`,
+      end: "</li$>",
       nest: <ol />,
     };
   }
   return {
-    start: `<${defaultBlockType[blockType]} ${blockStyle}>`,
+    start: `<${defaultBlockType[blockType]}${blockStyle}>`,
     end: `</${defaultBlockType[blockType]}>`,
   };
 };
