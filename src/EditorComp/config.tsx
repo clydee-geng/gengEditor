@@ -1,6 +1,6 @@
-import { rgbOrRgbaToHex } from "@alias/utils";
+import { getHEXAColor } from "@alias/utils";
 
-export const styleToHTML = (style: string) => {
+const styleToHTML = (style: string) => {
   console.log(style);
   if (style === "STRIKETHROUGH") {
     return <span style={{ textDecoration: "line-through" }} />;
@@ -24,7 +24,7 @@ const getStyleValDistillFn = (styleStr: string) => {
   return arr[arr.length - 1];
 };
 
-export const blockToHTML = (block: any) => {
+const blockToHTML = (block: any) => {
   const blockType = block.type;
   const { textIndent, textAlign } = block.data;
 
@@ -65,7 +65,7 @@ const defaultBlockType = {
   blockquote: "blockquote",
 };
 
-export const htmlToStyle = (
+const htmlToStyle = (
   nodeName: string,
   node: HTMLElement,
   currentStyle: any,
@@ -73,7 +73,7 @@ export const htmlToStyle = (
 ) => {
   let nextCurrentStyle = currentStyle;
   if (nodeName === "span" && node.style.color) {
-    const colorStr = rgbOrRgbaToHex(node.style.color);
+    const colorStr = getHEXAColor(node.style.color);
     const styleStr = `FONT_COLOR_${colorStr}`;
     if (
       typeof extraData.setCustomStyleMap === "function" &&
@@ -89,7 +89,7 @@ export const htmlToStyle = (
     nextCurrentStyle = nextCurrentStyle.add(styleStr);
   }
   if (nodeName === "span" && node.style.backgroundColor) {
-    const bgColorStr = rgbOrRgbaToHex(node.style.backgroundColor);
+    const bgColorStr = getHEXAColor(node.style.backgroundColor);
     const styleStr = `BG_COLOR_${bgColorStr}`;
     if (
       typeof extraData.setCustomStyleMap === "function" &&
@@ -105,6 +105,8 @@ export const htmlToStyle = (
 
     nextCurrentStyle = nextCurrentStyle.add(styleStr);
   }
-  console.log(nodeName, node, nextCurrentStyle.toJS());
+  console.log(nodeName, node, node.style, nextCurrentStyle.toJS());
   return nextCurrentStyle;
 };
+
+export { blockToHTML, styleToHTML, htmlToStyle };
