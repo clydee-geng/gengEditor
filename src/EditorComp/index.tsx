@@ -13,7 +13,7 @@ import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
 import { getCurrentContentBlock } from "@alias/utils";
-import { convertToHTML } from "draft-convert";
+import { convertToHTML, convertFromHTML } from "draft-convert";
 import { styleToHTML, blockToHTML } from "./config";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
@@ -31,8 +31,15 @@ const EditorComp: React.FC<IProps> = (props) => {
   /**
    * hooks
    */
-  const [editorState, setEditorState] = React.useState(() =>
-    EditorState.createEmpty()
+  // const [editorState, setEditorState] = React.useState(() =>
+  //   EditorState.createEmpty()
+  // );
+  const [editorState, setEditorState] = React.useState(
+    EditorState.createWithContent(
+      convertFromHTML(
+        '<blockquote>啊发达沙<strong>发的</strong>沙发上<br/>1<span style="color:#FF0000">212</span><br/>ss<span style="background-color:#FF69B4">ss</span></blockquote>'
+      )
+    )
   );
 
   const [customStyleMap, setCustomStyleMap] = React.useState({});
