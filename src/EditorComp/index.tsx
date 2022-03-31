@@ -8,6 +8,7 @@ import {
   Modifier,
   DefaultDraftBlockRenderMap,
   DraftBlockRenderMap,
+  ContentState,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
@@ -99,6 +100,20 @@ const EditorComp: React.FC<IProps> = (props) => {
     return classNames;
   };
 
+  const blockRendererFn = (contentBlock: ContentBlock) => {
+    const type = contentBlock.getType();
+    console.log("blockRendererFn ===> ", type);
+    if (type === "atomic") {
+      return {
+        component: (atomicprops: any) => {
+          const { block, contentState } = atomicprops;
+          const data = contentState.getEntity(block.getEntityAt(0)).getData();
+          return <img src={data?.src} />;
+        },
+      };
+    }
+  };
+
   const returnBindFn = (e: any): DraftHandleValue => {
     const contentBlock = getCurrentContentBlock(editorState);
     if (
@@ -188,6 +203,7 @@ const EditorComp: React.FC<IProps> = (props) => {
         handleReturn={returnBindFn}
         handleKeyCommand={keyCommandBindFn}
         blockRenderMap={customBlockRenderMap}
+        blockRendererFn={blockRendererFn}
       />
 
       <button onClick={toHTMLStrBindFn}>toHTMLStr</button>

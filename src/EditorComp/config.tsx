@@ -3,7 +3,7 @@ import { IhtmlToBlockData } from "@alias/types/interfaces";
 import { TtextAlign } from "@alias/types/type";
 
 const styleToHTML = (style: string) => {
-  console.log(style);
+  // console.log(style);
   if (style === "STRIKETHROUGH") {
     return <span style={{ textDecoration: "line-through" }} />;
   } else if (style.includes("FONT_COLOR_")) {
@@ -29,7 +29,7 @@ const getStyleValDistillFn = (styleStr: string) => {
 const blockToHTML = (block: any) => {
   const blockType = block.type;
   const { textIndent, textAlign } = block.data;
-  console.log(blockType);
+  // console.log(blockType);
 
   let blockStyle = "";
   if (textIndent) {
@@ -114,7 +114,7 @@ const htmlToStyle = (
 };
 
 const htmlToBlock = (nodeName: string, node: HTMLElement) => {
-  console.log("xxx:", nodeName, node.style);
+  // console.log("xxx:", nodeName, node.style);
   const data: IhtmlToBlockData = {};
   if (node.style.textIndent) {
     data.textIndent = Math.max(parseInt(node.style.textIndent) / 2, 0);
