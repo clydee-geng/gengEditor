@@ -1,4 +1,5 @@
 import { getHEXAColor } from "@alias/utils";
+import { IhtmlToBlockData } from "../alias/types/interfaces";
 
 const styleToHTML = (style: string) => {
   console.log(style);
@@ -105,8 +106,22 @@ const htmlToStyle = (
 
     nextCurrentStyle = nextCurrentStyle.add(styleStr);
   }
-  console.log(nodeName, node, node.style, nextCurrentStyle.toJS());
+  // console.log(nodeName, node, node.style, nextCurrentStyle.toJS());
   return nextCurrentStyle;
 };
 
-export { blockToHTML, styleToHTML, htmlToStyle };
+const htmlToBlock = (nodeName: string, node: HTMLElement) => {
+  console.log("xxx:", nodeName, node.style);
+  const data: IhtmlToBlockData = {};
+  if (node.style.textIndent) {
+    data.textIndent = Math.max(parseInt(node.style.textIndent) / 2, 0);
+  }
+  if (nodeName === "blockquote") {
+    return {
+      type: "blockquote",
+      data,
+    };
+  }
+};
+
+export { blockToHTML, styleToHTML, htmlToStyle, htmlToBlock };

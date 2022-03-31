@@ -14,7 +14,7 @@ import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
 import { getCurrentContentBlock } from "@alias/utils";
 import { convertToHTML, convertFromHTML } from "draft-convert";
-import { styleToHTML, blockToHTML, htmlToStyle } from "./config";
+import { styleToHTML, blockToHTML, htmlToStyle, htmlToBlock } from "./config";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -44,8 +44,9 @@ const EditorComp: React.FC<IProps> = (props) => {
             customStyleMap,
             setCustomStyleMap,
           }),
+        htmlToBlock,
       })(
-        '<blockquote>啊发达沙<strong>发的</strong>沙发上<br/>1<span style="color:red">212</span><br/>ss<span style="background-color:yellow">ss</span></blockquote>'
+        '<blockquote style="text-indent:4em">啊发达沙<strong>发的</strong>沙发上<br/>1<span style="color:#FF0000">212</span><br/>ss<span style="background-color:#FFFF00">ss</span></blockquote>'
       )
     )
   );
