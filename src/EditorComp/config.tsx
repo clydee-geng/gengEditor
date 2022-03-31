@@ -1,5 +1,6 @@
 import { getHEXAColor } from "@alias/utils";
-import { IhtmlToBlockData } from "../alias/types/interfaces";
+import { IhtmlToBlockData } from "@alias/types/interfaces";
+import { TtextAlign } from "@alias/types/type";
 
 const styleToHTML = (style: string) => {
   console.log(style);
@@ -28,6 +29,7 @@ const getStyleValDistillFn = (styleStr: string) => {
 const blockToHTML = (block: any) => {
   const blockType = block.type;
   const { textIndent, textAlign } = block.data;
+  console.log(blockType);
 
   let blockStyle = "";
   if (textIndent) {
@@ -64,6 +66,7 @@ const defaultBlockType = {
   "header-six": "h6",
   unstyled: "p",
   blockquote: "blockquote",
+  "code-block": "pre",
 };
 
 const htmlToStyle = (
@@ -116,9 +119,19 @@ const htmlToBlock = (nodeName: string, node: HTMLElement) => {
   if (node.style.textIndent) {
     data.textIndent = Math.max(parseInt(node.style.textIndent) / 2, 0);
   }
+
+  if (node.style.textAlign) {
+    data.textAlign = node.style.textAlign as TtextAlign;
+  }
+
   if (nodeName === "blockquote") {
     return {
       type: "blockquote",
+      data,
+    };
+  } else if (nodeName === "pre") {
+    return {
+      type: "code-block",
       data,
     };
   }

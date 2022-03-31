@@ -46,7 +46,7 @@ const EditorComp: React.FC<IProps> = (props) => {
           }),
         htmlToBlock,
       })(
-        '<blockquote style="text-indent:4em">啊发达沙<strong>发的</strong>沙发上<br/>1<span style="color:#FF0000">212</span><br/>ss<span style="background-color:#FFFF00">ss</span></blockquote>'
+        '<pre style="text-align:right">123<span style="color:#FFFF00">12</span>123<br/>w33<span style="background-color:#FFA500">2r</span><br/>2<strong>2</strong>2</pre>'
       )
     )
   );
