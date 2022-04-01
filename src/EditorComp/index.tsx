@@ -16,6 +16,7 @@ import PresetsComps from "../PresetsComps";
 import { getCurrentContentBlock } from "@alias/utils";
 import { convertToHTML, convertFromHTML } from "draft-convert";
 import { styleToHTML, blockToHTML, htmlToStyle, htmlToBlock } from "./config";
+import ResizeImg from "../PresetsComps/Image/resizeImg";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -46,9 +47,7 @@ const EditorComp: React.FC<IProps> = (props) => {
             setCustomStyleMap,
           }),
         htmlToBlock,
-      })(
-        '<pre style="text-align:right">123<span style="color:#FFFF00">12</span>123<br/>w33<span style="background-color:#FFA500">2r</span><br/>2<strong>2</strong>2</pre>'
-      )
+      })("")
     )
   );
 
@@ -105,11 +104,8 @@ const EditorComp: React.FC<IProps> = (props) => {
     console.log("blockRendererFn ===> ", type);
     if (type === "atomic") {
       return {
-        component: (atomicprops: any) => {
-          const { block, contentState } = atomicprops;
-          const data = contentState.getEntity(block.getEntityAt(0)).getData();
-          return <img src={data?.src} />;
-        },
+        component: ResizeImg,
+        editable: false,
       };
     }
   };

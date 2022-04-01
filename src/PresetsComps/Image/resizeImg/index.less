@@ -1,0 +1,26 @@
+.resizeImg {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  .ractSelect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px dashed #ccc;
+    background-color: rgba(0, 0, 0, 0.3);
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      margin-right: -8px;
+      margin-bottom: -8px;
+      background-color: #ccc;
+      cursor: nwse-resize;
+    }
+  }
+}
