@@ -23,11 +23,15 @@ const ResizeImg: React.FC<IProps> = (props) => {
   const imgWHRatio = React.useRef<number | null>(null);
   const [imgData, setImgData] = React.useState(
     data.width && data.height ? { width: data.width, height: data.height } : {}
-  );
+  ); // 触发组件重新加载，需要通过data设置
   const [ractSelectData, setRactSelectData] = React.useState(
     data.width && data.height ? { width: data.width, height: data.height } : {}
   );
-  const ractSelectDataRef = React.useRef<any>(null);
+  const ractSelectDataRef = React.useRef<any>(
+    data.width && data.height
+      ? { width: data.width, height: data.height }
+      : null
+  );
   const dotRef = React.useRef<HTMLDivElement>(null);
   const clickToLeftBorder = React.useRef<number | null>(null);
 
@@ -91,13 +95,13 @@ const ResizeImg: React.FC<IProps> = (props) => {
     console.log("鼠标台期", ractSelectDataRef.current);
     document.removeEventListener("mouseup", documentMouseUp);
     document.removeEventListener("mousemove", documentMouseMove);
-
     const nextEditorState = EditorState.push(
       editorState,
       contentState.mergeEntityData(entitykey, ractSelectDataRef.current),
       "change-block-data"
     );
     setEditorState(nextEditorState);
+    setImgData(ractSelectDataRef.current);
   };
 
   const imgLoadBindFn = (e: any) => {
