@@ -29,7 +29,7 @@ const Image: React.FC<IProps> = (props) => {
   const [visible, setVisible] = React.useState(false);
   const [curFontSize, setCurFontSize] = React.useState();
   const [curUrl, setCurUrl] = React.useState(
-    "https://s2.ax1x.com/2020/02/29/3yh2xe.jpg"
+    "https://s2.ax1x.com/2020/02/29/3yhm8S.jpg"
   );
 
   React.useEffect(() => {

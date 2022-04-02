@@ -104,7 +104,14 @@ const EditorComp: React.FC<IProps> = (props) => {
     console.log("blockRendererFn ===> ", type);
     if (type === "atomic") {
       return {
-        component: ResizeImg,
+        component: (atomicprops: any) => (
+          <ResizeImg
+            {...atomicprops}
+            editorState={editorState}
+            setEditorState={setEditorState}
+            editorContentDom={editorRef.current.editor}
+          />
+        ),
         editable: false,
       };
     }

@@ -1,41 +1,114 @@
 import React, { MouseEvent } from "react";
 import styles from "./index.less";
+import { EditorState, ContentBlock, ContentState } from "draft-js";
 
-interface IProps {}
-interface ImoveData {
-  startPageX?: number;
-  startPageY?: number;
-  endPageX?: number;
-  endPageY?: number;
+interface IProps {
+  editorState: EditorState;
+  setEditorState: any;
+  block: ContentBlock;
+  contentState: ContentState;
+  editorContentDom: HTMLElement;
 }
 
-const ResizeImg: React.FC<IProps> = (atomicprops: any) => {
-  const { block, contentState } = atomicprops;
-  const data = contentState.getEntity(block.getEntityAt(0)).getData();
+const ResizeImg: React.FC<IProps> = (props) => {
+  const { block, contentState, editorContentDom, setEditorState, editorState } =
+    props;
+  const entitykey = block.getEntityAt(0);
+  const data = contentState.getEntity(entitykey).getData();
 
+  /**
+   * hooks
+   */
   const [isShow, setIsShow] = React.useState(false);
-  const moveData = React.useRef<ImoveData>({});
+  const imgWHRatio = React.useRef<number | null>(null);
+  const [imgData, setImgData] = React.useState(
+    data.width && data.height ? { width: data.width, height: data.height } : {}
+  );
+  const [ractSelectData, setRactSelectData] = React.useState(
+    data.width && data.height ? { width: data.width, height: data.height } : {}
+  );
+  const ractSelectDataRef = React.useRef<any>(null);
+  const dotRef = React.useRef<HTMLDivElement>(null);
+  const clickToLeftBorder = React.useRef<number | null>(null);
 
+  /**
+   * life
+   */
   React.useEffect(() => {
-    const cancelMask = () => setIsShow(false);
+    const cancelMask = () => {
+      console.log("document click");
+      setIsShow(false);
+    };
     document.addEventListener("click", cancelMask);
-    document.addEventListener("mousemove", documentMouseMove);
     return () => {
       document.removeEventListener("click", cancelMask);
-      document.removeEventListener("mousemove", documentMouseMove);
     };
-  }, [isShow]);
+  }, []);
 
   const ractSelectMouseDown = (e: MouseEvent<HTMLDivElement>) => {
-    moveData.current.startPageX = e.pageX;
-    moveData.current.startPageY = e.pageY;
-  };
-  const documentMouseMove = (e: any) => {
-    if (isShow) {
-      moveData.current.endPageX = e.pageX;
-      moveData.current.endPageY = e.pageY;
-      console.log(moveData.current);
+    if (dotRef.current) {
+      clickToLeftBorder.current =
+        e.pageX - dotRef.current.getBoundingClientRect().left;
+
+      document.addEventListener("mousemove", documentMouseMove);
+      document.addEventListener("mouseup", documentMouseUp);
     }
+  };
+
+  const documentMouseMove = (e: any) => {
+    if (clickToLeftBorder.current) {
+      let newLeft =
+        e.pageX -
+        clickToLeftBorder.current -
+        editorContentDom.getBoundingClientRect().left;
+
+      if (newLeft < 0) {
+        newLeft = 0;
+      }
+
+      let rightEdge = editorContentDom.offsetWidth;
+      if (dotRef.current) {
+        rightEdge = rightEdge - dotRef.current?.offsetWidth;
+      }
+
+      if (newLeft > rightEdge) {
+        newLeft = rightEdge;
+      }
+
+      if (imgWHRatio.current) {
+        console.log(newLeft);
+        const nextRactSelectData = {
+          width: newLeft,
+          height: newLeft / imgWHRatio.current,
+        };
+        setRactSelectData(nextRactSelectData);
+        ractSelectDataRef.current = nextRactSelectData;
+      }
+    }
+  };
+
+  const documentMouseUp = () => {
+    console.log("鼠标台期", ractSelectDataRef.current);
+    document.removeEventListener("mouseup", documentMouseUp);
+    document.removeEventListener("mousemove", documentMouseMove);
+
+    const nextEditorState = EditorState.push(
+      editorState,
+      contentState.mergeEntityData(entitykey, ractSelectDataRef.current),
+      "change-block-data"
+    );
+    setEditorState(nextEditorState);
+  };
+
+  const imgLoadBindFn = (e: any) => {
+    const nextRactSelectData = {
+      width: e.target.width,
+      height: e.target.height,
+    };
+    setRactSelectData(nextRactSelectData);
+    setImgData(nextRactSelectData);
+    ractSelectDataRef.current = nextRactSelectData;
+    imgWHRatio.current = e.target.width / e.target.height;
   };
 
   return (
@@ -47,13 +120,23 @@ const ResizeImg: React.FC<IProps> = (atomicprops: any) => {
       }}
     >
       {isShow && (
-        <div className={styles.ractSelect}>
-          <div className={styles.dot} onMouseDown={ractSelectMouseDown}></div>
+        <div className={styles.ractSelect} style={{ ...ractSelectData }}>
+          <div
+            className={styles.dot}
+            onMouseDown={ractSelectMouseDown}
+            onDragStart={() => false}
+            ref={dotRef}
+          ></div>
         </div>
       )}
-      <img src={data?.src} />
+      <img
+        src={data?.src}
+        onLoad={imgLoadBindFn}
+        draggable="false"
+        style={{ ...imgData }}
+      />
     </div>
   );
 };
 
-export default ResizeImg;
+export default React.memo(ResizeImg);
