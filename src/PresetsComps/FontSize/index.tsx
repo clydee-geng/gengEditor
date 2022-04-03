@@ -4,7 +4,7 @@ import ToogleBtnByPopover from "../ToogleBtnByPopover";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button, InputNumber } from "antd";
-import { getCurrentContentBlock } from "@alias/utils";
+import { removeAllInlineStyle } from "@alias/utils";
 import { FontSizeOutlined } from "@ant-design/icons";
 
 const FontSizeData = [10, 13, 14, 18, 24, 32, 48];
@@ -68,22 +68,8 @@ const FontSize: React.FC<IProps> = (props) => {
     setVisible(false);
     const SelectionState = editorState.getSelection();
     if (!SelectionState.isCollapsed()) {
-      // 先去除所有的FONT_SIZE_ style
-      const currentStyle = editorState.getCurrentInlineStyle();
-      let ContentState = editorState.getCurrentContent();
-
-      currentStyle.forEach((item) => {
-        if (item?.includes("FONT_SIZE_")) {
-          ContentState = Modifier.removeInlineStyle(
-            ContentState,
-            SelectionState,
-            item
-          );
-        }
-      });
-
       const nextContentState = Modifier.applyInlineStyle(
-        ContentState,
+        removeAllInlineStyle(editorState, "FONT_SIZE_"),
         SelectionState,
         "FONT_SIZE_" + curFontSize
       );
@@ -100,6 +86,19 @@ const FontSize: React.FC<IProps> = (props) => {
           ["FONT_SIZE_" + curFontSize]: { fontSize: curFontSize + "px" },
         };
       });
+      setEditorState(nextEditorState);
+    }
+  };
+
+  const cancelBindFn = () => {
+    setVisible(false);
+    const SelectionState = editorState.getSelection();
+    if (!SelectionState.isCollapsed()) {
+      const nextEditorState = EditorState.push(
+        editorState,
+        removeAllInlineStyle(editorState, "FONT_SIZE_"),
+        "change-inline-style"
+      );
       setEditorState(nextEditorState);
     }
   };
@@ -136,6 +135,13 @@ const FontSize: React.FC<IProps> = (props) => {
           />
           <Button className={styles.btn} onClick={saveBindFn}>
             确定
+          </Button>
+          <Button
+            className={styles.btn}
+            style={{ backgroundColor: "#E15156", marginLeft: "5px" }}
+            onClick={cancelBindFn}
+          >
+            取消
           </Button>
         </div>
       </div>

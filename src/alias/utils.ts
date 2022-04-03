@@ -1,4 +1,4 @@
-import { EditorState, ContentBlock } from "draft-js";
+import { EditorState, ContentBlock, Modifier } from "draft-js";
 const getCurrentContentBlock = (editorState: EditorState): ContentBlock => {
   const selection = editorState.getSelection();
   const contentBlock = editorState
@@ -202,4 +202,21 @@ const getHEXAColor = (colorStr: string) => {
   }
 };
 
-export { getCurrentContentBlock, getHEXAColor };
+const removeAllInlineStyle = (editorState: EditorState, styleStr: string) => {
+  const currentStyle = editorState.getCurrentInlineStyle();
+  let ContentState = editorState.getCurrentContent();
+
+  currentStyle.forEach((item) => {
+    if (item?.includes(styleStr)) {
+      ContentState = Modifier.removeInlineStyle(
+        ContentState,
+        editorState.getSelection(),
+        item
+      );
+    }
+  });
+
+  return ContentState;
+};
+
+export { getCurrentContentBlock, getHEXAColor, removeAllInlineStyle };
