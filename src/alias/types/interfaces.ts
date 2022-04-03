@@ -4,4 +4,5 @@ interface IhtmlToBlockData {
   textAlign?: TtextAlign;
 }
 
-export { IhtmlToBlockData };
+
+export { IhtmlToBlockData, };

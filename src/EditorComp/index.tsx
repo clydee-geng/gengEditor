@@ -18,6 +18,7 @@ import { convertToHTML, convertFromHTML } from "draft-convert";
 import { styleToHTML, blockToHTML, htmlToStyle, htmlToBlock } from "./config";
 import ResizeImg from "../PresetsComps/Image/resizeImg";
 
+
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
     Comp: PresetsComps[item],
@@ -172,7 +173,7 @@ const EditorComp: React.FC<IProps> = (props) => {
   const toHTMLStrBindFn = () => {
     const htmlStr = convertToHTML({
       styleToHTML,
-      blockToHTML,
+      blockToHTML: (block: any) => blockToHTML(block, editorState),
     })(editorState.getCurrentContent());
     console.log(htmlStr);
   };

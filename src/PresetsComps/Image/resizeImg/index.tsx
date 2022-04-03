@@ -125,6 +125,9 @@ const ResizeImg: React.FC<IProps> = (props) => {
     >
       {isShow && (
         <div className={styles.ractSelect} style={{ ...ractSelectData }}>
+          <div className={styles.info}>{`${parseInt(
+            ractSelectData.width
+          )}px * ${parseInt(ractSelectData.height)}px`}</div>
           <div
             className={styles.dot}
             onMouseDown={ractSelectMouseDown}

@@ -1,6 +1,7 @@
 import { getHEXAColor } from "@alias/utils";
-import { IhtmlToBlockData } from "@alias/types/interfaces";
+import { IhtmlToBlockData, } from "@alias/types/interfaces";
 import { TtextAlign } from "@alias/types/type";
+import { ContentBlock, EditorState } from "draft-js";
 
 const styleToHTML = (style: string) => {
   // console.log(style);
@@ -26,10 +27,10 @@ const getStyleValDistillFn = (styleStr: string) => {
   return arr[arr.length - 1];
 };
 
-const blockToHTML = (block: any) => {
+const blockToHTML = (block: any, editorState: EditorState) => {
   const blockType = block.type;
   const { textIndent, textAlign } = block.data;
-  // console.log(blockType);
+  console.log(blockType);
 
   let blockStyle = "";
   if (textIndent) {
@@ -50,11 +51,23 @@ const blockToHTML = (block: any) => {
       end: "</li$>",
       nest: <ol />,
     };
+  } else if (blockType === "atomic") {
+    atomicBlockToHtml(block, editorState);
   }
   return {
     start: `<${defaultBlockType[blockType]}${blockStyle}>`,
     end: `</${defaultBlockType[blockType]}>`,
   };
+};
+
+const atomicBlockToHtml = (block: any, editorState: EditorState) => {
+  const contentState = editorState.getCurrentContent();
+  const contentBlock = contentState.getBlockForKey(block.key)
+  const entitykey = contentBlock.getEntityAt(0);
+  const entity = contentState.getEntity(entitykey);
+  const entityData = entity.getData();
+  const entityType = entity.getType();
+  console.log('data', entityData, entityType);
 };
 
 const defaultBlockType = {

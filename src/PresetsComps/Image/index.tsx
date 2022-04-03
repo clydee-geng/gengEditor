@@ -3,8 +3,7 @@ import { EditorState, RichUtils, Modifier, AtomicBlockUtils } from "draft-js";
 import ToogleBtnByPopover from "../ToogleBtnByPopover";
 import styles from "./index.less";
 import classnames from "classnames";
-import { Button, InputNumber, Tabs, Upload, Input, message } from "antd";
-import { getCurrentContentBlock } from "@alias/utils";
+import { Button, Tabs, Upload, Input, message } from "antd";
 import { FileImageOutlined, PlusOutlined } from "@ant-design/icons";
 
 interface IProps {
