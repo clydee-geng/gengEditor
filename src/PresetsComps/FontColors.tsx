@@ -3,6 +3,7 @@ import { FontColorsOutlined } from "@ant-design/icons";
 import { EditorState, Modifier } from "draft-js";
 import ReactPickr from "@alias/components/reactPickr";
 import ToogleBtnByPopover from "./ToogleBtnByPopover";
+import { removeAllInlineStyle } from "@alias/utils";
 
 interface IProps {
   editorState: EditorState;
@@ -37,24 +38,8 @@ const FontColors: React.FC<IProps> = (props) => {
     setVisible(false);
     const SelectionState = editorState.getSelection();
     if (!SelectionState.isCollapsed()) {
-      console.log("//有选中");
-
-      // 先去除所以Color_的style
-      const currentStyle = editorState.getCurrentInlineStyle();
-      let ContentState = editorState.getCurrentContent();
-
-      currentStyle.forEach((item) => {
-        if (item?.includes("FONT_COLOR_")) {
-          ContentState = Modifier.removeInlineStyle(
-            ContentState,
-            SelectionState,
-            item
-          );
-        }
-      });
-
       const nextContentState = Modifier.applyInlineStyle(
-        ContentState,
+        removeAllInlineStyle(editorState, "FONT_COLOR_"),
         SelectionState,
         "FONT_COLOR_" + colorStr
       );
@@ -71,6 +56,19 @@ const FontColors: React.FC<IProps> = (props) => {
           ["FONT_COLOR_" + colorStr]: { color: colorStr },
         };
       });
+      setEditorState(nextEditorState);
+    }
+  };
+
+  const cancelColorBindFn = () => {
+    setVisible(false);
+    const SelectionState = editorState.getSelection();
+    if (!SelectionState.isCollapsed()) {
+      const nextEditorState = EditorState.push(
+        editorState,
+        removeAllInlineStyle(editorState, "FONT_COLOR_"),
+        "change-inline-style"
+      );
       setEditorState(nextEditorState);
     }
   };
@@ -95,6 +93,7 @@ const FontColors: React.FC<IProps> = (props) => {
         <ReactPickr
           savePropsFn={setColorBindFn}
           defaultColor={renderActiveColor()}
+          cancelPropsFn={cancelColorBindFn}
         />
       </div>
     );
