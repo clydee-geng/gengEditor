@@ -1,14 +1,19 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import Pickr from "@simonwep/pickr";
 import "@simonwep/pickr/dist/themes/nano.min.css";
 
 interface IProps {
   defaultColor?: string;
   savePropsFn?: (colorStr: string) => void;
+  cancelPropsFn?: () => void;
 }
 
 const ReactPickr: React.FC<IProps> = (props) => {
-  const { defaultColor = "#000000", savePropsFn = () => {} } = props;
+  const {
+    defaultColor = "#000000",
+    savePropsFn = () => {},
+    cancelPropsFn = () => {},
+  } = props;
 
   /**
    * hooks
@@ -59,17 +64,22 @@ const ReactPickr: React.FC<IProps> = (props) => {
             rgba: false,
             hsva: false,
             input: true,
-            clear: false,
+            clear: true,
             save: true,
           },
         },
         i18n: {
           "btn:save": "确定",
+          "btn:clear": "取消",
         },
       });
-      pickr.on("save", (color: any, source: any) => {
-        const colorStr = color.toHEXA().toString();
-        savePropsFn(colorStr);
+      pickr.on("save", (color: any) => {
+        if (color) {
+          const colorStr = color.toHEXA().toString();
+          savePropsFn(colorStr);
+        } else {
+          cancelPropsFn();
+        }
       });
     }
   }, []);
