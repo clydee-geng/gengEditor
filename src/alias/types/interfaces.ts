@@ -4,5 +4,10 @@ interface IhtmlToBlockData {
   textAlign?: TtextAlign;
 }
 
+interface IhtmlToEntityData {
+  width?: number;
+  height?: number;
+  src?: string;
+}
 
-export { IhtmlToBlockData, };
+export { IhtmlToBlockData, IhtmlToEntityData };

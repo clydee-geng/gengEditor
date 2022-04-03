@@ -15,9 +15,15 @@ import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
 import { getCurrentContentBlock } from "@alias/utils";
 import { convertToHTML, convertFromHTML } from "draft-convert";
-import { styleToHTML, blockToHTML, htmlToStyle, htmlToBlock } from "./config";
+import {
+  styleToHTML,
+  blockToHTML,
+  entityToHTML,
+  htmlToStyle,
+  htmlToBlock,
+  htmlToEntity,
+} from "./config";
 import ResizeImg from "../PresetsComps/Image/resizeImg";
-
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -48,7 +54,10 @@ const EditorComp: React.FC<IProps> = (props) => {
             setCustomStyleMap,
           }),
         htmlToBlock,
-      })("")
+        htmlToEntity,
+      })(
+        '<p>qwer<strong>qrq</strong>rqr</p><p>ds<span style="color:#FFA500">fff</span>s</p><p>ds<span style="background-color:#FF0000">fsdf</span></p><p></p><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:244px;height:348.92px;" /><p></p><p></p>'
+      )
     )
   );
 
@@ -102,6 +111,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   const blockRendererFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
+    console.log("106", contentBlock.getData().toJS());
     console.log("blockRendererFn ===> ", type);
     if (type === "atomic") {
       return {
@@ -110,7 +120,7 @@ const EditorComp: React.FC<IProps> = (props) => {
             {...atomicprops}
             editorState={editorState}
             setEditorState={setEditorState}
-            editorContentDom={editorRef.current.editor}
+            editorContentDom={editorRef.current?.editor}
           />
         ),
         editable: false,
@@ -173,7 +183,8 @@ const EditorComp: React.FC<IProps> = (props) => {
   const toHTMLStrBindFn = () => {
     const htmlStr = convertToHTML({
       styleToHTML,
-      blockToHTML: (block: any) => blockToHTML(block, editorState),
+      blockToHTML,
+      entityToHTML,
     })(editorState.getCurrentContent());
     console.log(htmlStr);
   };

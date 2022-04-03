@@ -16,6 +16,8 @@ const ResizeImg: React.FC<IProps> = (props) => {
   const entitykey = block.getEntityAt(0);
   const data = contentState.getEntity(entitykey).getData();
 
+  console.log("ResizeImg:::::", data);
+
   /**
    * hooks
    */

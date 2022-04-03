@@ -1,7 +1,20 @@
 import { getHEXAColor } from "@alias/utils";
-import { IhtmlToBlockData } from "@alias/types/interfaces";
+import { IhtmlToBlockData, IhtmlToEntityData } from "@alias/types/interfaces";
 import { TtextAlign } from "@alias/types/type";
 import { EditorState } from "draft-js";
+
+const defaultBlockType = {
+  "header-one": "h1",
+  "header-two": "h2",
+  "header-three": "h3",
+  "header-four": "h4",
+  "header-five": "h5",
+  "header-six": "h6",
+  unstyled: "p",
+  blockquote: "blockquote",
+  "code-block": "pre",
+  atomic: "div",
+};
 
 const styleToHTML = (style: string) => {
   // console.log(style);
@@ -27,7 +40,7 @@ const getStyleValDistillFn = (styleStr: string) => {
   return arr[arr.length - 1];
 };
 
-const blockToHTML = (block: any, editorState: EditorState) => {
+const blockToHTML = (block: any) => {
   const blockType = block.type;
   const { textIndent, textAlign } = block.data;
   console.log(blockType);
@@ -47,8 +60,6 @@ const blockToHTML = (block: any, editorState: EditorState) => {
       end: "</li>",
       nest: <ol />,
     };
-  } else if (blockType === "atomic") {
-    return atomicBlockToHtml(block, editorState, blockStyle);
   }
   return {
     start: `<${defaultBlockType[blockType]}${inlineStyleStr}>`,
@@ -56,23 +67,15 @@ const blockToHTML = (block: any, editorState: EditorState) => {
   };
 };
 
-const atomicBlockToHtml = (
-  block: any,
-  editorState: EditorState,
-  blockStyle: string
-) => {
-  const contentState = editorState.getCurrentContent();
-  const contentBlock = contentState.getBlockForKey(block.key);
-  const entitykey = contentBlock.getEntityAt(0);
-  const entity = contentState.getEntity(entitykey);
-  const { width, height, src } = entity.getData();
-  const entityType = entity.getType();
-  console.log("data", entity.getData(), entityType);
-  const nextBlockStyle = blockStyle + styleObjToStr({ width, height });
+const entityToHTML = (entity: any) => {
+  const { type, data } = entity;
+  const { src, width, height } = data;
+  const nextBlockStyle = styleObjToStr({ width, height });
   let inlineStyleStr = nextBlockStyle ? ` style="${nextBlockStyle}"` : "";
-  if (entityType === "IMAGE") {
+  if (type === "IMAGE") {
     return `<img src="${src}"${inlineStyleStr} />`;
   }
+  return "";
 };
 
 const styleObjToStr = (obj: any) => {
@@ -91,18 +94,6 @@ const styleObjToStr = (obj: any) => {
     styleStr += `height:${height}px;`;
   }
   return styleStr;
-};
-
-const defaultBlockType = {
-  "header-one": "h1",
-  "header-two": "h2",
-  "header-three": "h3",
-  "header-four": "h4",
-  "header-five": "h5",
-  "header-six": "h6",
-  unstyled: "p",
-  blockquote: "blockquote",
-  "code-block": "pre",
 };
 
 const htmlToStyle = (
@@ -150,7 +141,12 @@ const htmlToStyle = (
 };
 
 const htmlToBlock = (nodeName: string, node: HTMLElement) => {
-  // console.log("xxx:", nodeName, node.style);
+  // console.log(
+  //   "xxx:",
+  //   nodeName,
+  //   node.attributes.getNamedItem("src")?.value,
+  //   typeof node.attributes.getNamedItem("src")
+  // );
   const data: IhtmlToBlockData = {};
   if (node.style.textIndent) {
     data.textIndent = Math.max(parseInt(node.style.textIndent) / 2, 0);
@@ -170,7 +166,42 @@ const htmlToBlock = (nodeName: string, node: HTMLElement) => {
       type: "code-block",
       data,
     };
+  } else if (nodeName === "img") {
+    return {
+      type: "atomic",
+      data,
+    };
   }
 };
 
-export { blockToHTML, styleToHTML, htmlToStyle, htmlToBlock };
+const htmlToEntity = (
+  nodeName: string,
+  node: HTMLElement,
+  createEntity: any
+) => {
+  console.log("node::::", node.style);
+  let data: IhtmlToEntityData = {};
+  if (node.style?.width) {
+    data.width = parseFloat(node.style.width);
+  }
+
+  if (node.style?.height) {
+    data.height = parseFloat(node.style.height);
+  }
+
+  if (node.attributes?.getNamedItem("src")) {
+    data.src = node.attributes.getNamedItem("src")?.value;
+  }
+  if (nodeName === "img") {
+    return createEntity("IMAGE", "IMMUTABLE", data);
+  }
+};
+
+export {
+  blockToHTML,
+  styleToHTML,
+  entityToHTML,
+  htmlToStyle,
+  htmlToBlock,
+  htmlToEntity,
+};
