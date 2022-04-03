@@ -26,8 +26,9 @@ const ReactPickr: React.FC<IProps> = (props) => {
    */
 
   React.useEffect(() => {
+    let pickr: any;
     if (pickrRef.current) {
-      const pickr = Pickr.create({
+      pickr = Pickr.create({
         el: pickrRef.current,
         container: pickrRef.current,
         useAsButton: true,
@@ -82,6 +83,9 @@ const ReactPickr: React.FC<IProps> = (props) => {
         }
       });
     }
+    return () => {
+      pickr.destroy();
+    };
   }, []);
 
   /**
