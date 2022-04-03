@@ -51,7 +51,10 @@ const TextAlignLogic: React.FC<IProps> = (props) => {
 
   const clickBindFn = () => {
     let nextBlockData = Map();
-    nextBlockData = nextBlockData.set("textAlign", type);
+    const curBlockData = getCurrentContentBlock(editorState).getData();
+    if (curBlockData.get("textAlign") !== type) {
+      nextBlockData = nextBlockData.set("textAlign", type);
+    }
     const nextContentState = Modifier.setBlockData(
       editorState.getCurrentContent(),
       editorState.getSelection(),
