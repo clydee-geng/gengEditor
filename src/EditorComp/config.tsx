@@ -1,7 +1,7 @@
 import { getHEXAColor } from "@alias/utils";
-import { IhtmlToBlockData, } from "@alias/types/interfaces";
+import { IhtmlToBlockData } from "@alias/types/interfaces";
 import { TtextAlign } from "@alias/types/type";
-import { ContentBlock, EditorState } from "draft-js";
+import { EditorState } from "draft-js";
 
 const styleToHTML = (style: string) => {
   // console.log(style);
@@ -32,42 +32,65 @@ const blockToHTML = (block: any, editorState: EditorState) => {
   const { textIndent, textAlign } = block.data;
   console.log(blockType);
 
-  let blockStyle = "";
-  if (textIndent) {
-    blockStyle = ` style="text-indent:${textIndent * 2}em"`;
-  } else if (textAlign) {
-    blockStyle = ` style="text-align:${textAlign}"`;
-  }
+  let blockStyle = styleObjToStr({ textIndent, textAlign });
+  let inlineStyleStr = blockStyle ? ` style="${blockStyle}"` : "";
 
   if (blockType === "unordered-list-item") {
     return {
-      start: `<li${blockStyle}>`,
-      end: "</li$>",
+      start: `<li${inlineStyleStr}>`,
+      end: "</li>",
       nest: <ul />,
     };
   } else if (blockType === "ordered-list-item") {
     return {
-      start: `<li${blockStyle}>`,
-      end: "</li$>",
+      start: `<li${inlineStyleStr}>`,
+      end: "</li>",
       nest: <ol />,
     };
   } else if (blockType === "atomic") {
-    atomicBlockToHtml(block, editorState);
+    return atomicBlockToHtml(block, editorState, blockStyle);
   }
   return {
-    start: `<${defaultBlockType[blockType]}${blockStyle}>`,
+    start: `<${defaultBlockType[blockType]}${inlineStyleStr}>`,
     end: `</${defaultBlockType[blockType]}>`,
   };
 };
 
-const atomicBlockToHtml = (block: any, editorState: EditorState) => {
+const atomicBlockToHtml = (
+  block: any,
+  editorState: EditorState,
+  blockStyle: string
+) => {
   const contentState = editorState.getCurrentContent();
-  const contentBlock = contentState.getBlockForKey(block.key)
+  const contentBlock = contentState.getBlockForKey(block.key);
   const entitykey = contentBlock.getEntityAt(0);
   const entity = contentState.getEntity(entitykey);
-  const entityData = entity.getData();
+  const { width, height, src } = entity.getData();
   const entityType = entity.getType();
-  console.log('data', entityData, entityType);
+  console.log("data", entity.getData(), entityType);
+  const nextBlockStyle = blockStyle + styleObjToStr({ width, height });
+  let inlineStyleStr = nextBlockStyle ? ` style="${nextBlockStyle}"` : "";
+  if (entityType === "IMAGE") {
+    return `<img src="${src}"${inlineStyleStr} />`;
+  }
+};
+
+const styleObjToStr = (obj: any) => {
+  const { textIndent, textAlign, width, height } = obj;
+  let styleStr = "";
+  if (textIndent) {
+    styleStr = `text-indent:${textIndent * 2}em;`;
+  }
+  if (textAlign) {
+    styleStr += `text-align:${textAlign};`;
+  }
+  if (width) {
+    styleStr += `width:${width}px;`;
+  }
+  if (height) {
+    styleStr += `height:${height}px;`;
+  }
+  return styleStr;
 };
 
 const defaultBlockType = {
