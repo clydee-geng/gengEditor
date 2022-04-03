@@ -111,8 +111,6 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   const blockRendererFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
-    console.log("106", contentBlock.getData().toJS());
-    console.log("blockRendererFn ===> ", type);
     if (type === "atomic") {
       return {
         component: (atomicprops: any) => (

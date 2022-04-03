@@ -16,8 +16,6 @@ const ResizeImg: React.FC<IProps> = (props) => {
   const entitykey = block.getEntityAt(0);
   const data = contentState.getEntity(entitykey).getData();
 
-  console.log("ResizeImg:::::", data);
-
   /**
    * hooks
    */
@@ -42,7 +40,6 @@ const ResizeImg: React.FC<IProps> = (props) => {
    */
   React.useEffect(() => {
     const cancelMask = () => {
-      console.log("document click");
       setIsShow(false);
     };
     document.addEventListener("click", cancelMask);
@@ -82,7 +79,6 @@ const ResizeImg: React.FC<IProps> = (props) => {
       }
 
       if (imgWHRatio.current) {
-        console.log(newLeft);
         const nextRactSelectData = {
           width: newLeft,
           height: newLeft / imgWHRatio.current,
@@ -94,7 +90,6 @@ const ResizeImg: React.FC<IProps> = (props) => {
   };
 
   const documentMouseUp = () => {
-    console.log("鼠标台期", ractSelectDataRef.current);
     document.removeEventListener("mouseup", documentMouseUp);
     document.removeEventListener("mousemove", documentMouseMove);
     const nextEditorState = EditorState.push(

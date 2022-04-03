@@ -42,7 +42,6 @@ const TextIndentLogic: React.FC<IProps> = (props) => {
 
   const getCurrentContentBlockData = (name?: string) => {
     const blockData = getCurrentContentBlock(editorState).getData();
-    console.log('blockData:', blockData.toJS())
     return name ? blockData.get(name) : blockData;
   };
 

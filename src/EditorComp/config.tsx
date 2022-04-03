@@ -43,7 +43,7 @@ const getStyleValDistillFn = (styleStr: string) => {
 const blockToHTML = (block: any) => {
   const blockType = block.type;
   const { textIndent, textAlign } = block.data;
-  console.log(blockType);
+  // console.log(blockType);
 
   let blockStyle = styleObjToStr({ textIndent, textAlign });
   let inlineStyleStr = blockStyle ? ` style="${blockStyle}"` : "";
@@ -179,7 +179,7 @@ const htmlToEntity = (
   node: HTMLElement,
   createEntity: any
 ) => {
-  console.log("node::::", node.style);
+  // console.log("node::::", node.style);
   let data: IhtmlToEntityData = {};
   if (node.style?.width) {
     data.width = parseFloat(node.style.width);
