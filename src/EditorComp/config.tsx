@@ -60,6 +60,11 @@ const blockToHTML = (block: any) => {
       end: "</li>",
       nest: <ol />,
     };
+  } else if (blockType === "atomic") {
+    return {
+      start: `<${defaultBlockType[blockType]}>`,
+      end: `</${defaultBlockType[blockType]}>`,
+    };
   }
   return {
     start: `<${defaultBlockType[blockType]}${inlineStyleStr}>`,
