@@ -3,16 +3,18 @@ import styles from "./index.less";
 import { EditorState, ContentBlock, ContentState } from "draft-js";
 
 interface IProps {
-  editorState: EditorState;
-  setEditorState: any;
   block: ContentBlock;
   contentState: ContentState;
-  editorContentDom: HTMLElement;
+  blockProps: {
+    editorContentDom: HTMLElement;
+    editorState: EditorState;
+    setEditorState: any;
+  };
 }
 
 const ResizeImg: React.FC<IProps> = (props) => {
-  const { block, contentState, editorContentDom, setEditorState, editorState } =
-    props;
+  const { block, contentState, blockProps } = props;
+  const { editorContentDom, setEditorState, editorState } = blockProps;
   const entitykey = block.getEntityAt(0);
   const data = contentState.getEntity(entitykey).getData();
 

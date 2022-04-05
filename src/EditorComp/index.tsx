@@ -66,7 +66,9 @@ const EditorComp: React.FC<IProps> = (props) => {
   const editorRef = React.useRef<any>(null);
 
   React.useEffect(() => {
-    keepEditorFocusBindFn();
+    if (getCurrentContentBlock(editorState).getType() !== "atomic") {
+      keepEditorFocusBindFn();
+    }
   }, [
     editorState.getCurrentInlineStyle(),
     getCurrentContentBlock(editorState).getType(),
@@ -113,14 +115,12 @@ const EditorComp: React.FC<IProps> = (props) => {
     const type = contentBlock.getType();
     if (type === "atomic") {
       return {
-        component: (atomicprops: any) => (
-          <ResizeImg
-            {...atomicprops}
-            editorState={editorState}
-            setEditorState={setEditorState}
-            editorContentDom={editorRef.current?.editor}
-          />
-        ),
+        component: ResizeImg,
+        props: {
+          editorState: editorState,
+          setEditorState: setEditorState,
+          editorContentDom: editorRef.current?.editor,
+        },
         editable: false,
       };
     }
