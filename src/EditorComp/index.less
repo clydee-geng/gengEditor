@@ -56,7 +56,8 @@
   .textAlignLoop(@i) when (@i < length(@textAlignList) + 1) {
     @item: extract(@textAlignList, @i);
     .textAlign@{item}{
-      :global(.public-DraftStyleDefault-ltr){
+      text-align: @item;
+      :global(.public-DraftStyleDefault-block){
         text-align: @item;
       }
     }

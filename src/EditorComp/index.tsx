@@ -56,7 +56,7 @@ const EditorComp: React.FC<IProps> = (props) => {
         htmlToBlock,
         htmlToEntity,
       })(
-        '<p>qwer<strong>qrq</strong>rqr</p><p>ds<span style="color:#FFA500">fff</span>s</p><p>ds<span style="background-color:#FF0000">fsdf</span></p><p></p><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:244px;height:348.92px;" /><p></p><p></p>'
+        '<p>qwer<strong>qrq</strong>rqr</p><p>ds<span style="color:#FFA500">fff</span>s</p><p>ds<span style="background-color:#FF0000">fsdf</span></p><p></p><p></p><figure style="text-align:center;"><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:244px;height:348.92px;" /></figure><p></p><p></p><p></p>'
       )
     )
   );

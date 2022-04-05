@@ -13,7 +13,7 @@ const defaultBlockType = {
   unstyled: "p",
   blockquote: "blockquote",
   "code-block": "pre",
-  atomic: "div",
+  atomic: "figure",
 };
 
 const styleToHTML = (style: string) => {
@@ -59,11 +59,6 @@ const blockToHTML = (block: any) => {
       start: `<li${inlineStyleStr}>`,
       end: "</li>",
       nest: <ol />,
-    };
-  } else if (blockType === "atomic") {
-    return {
-      start: `<${defaultBlockType[blockType]}>`,
-      end: `</${defaultBlockType[blockType]}>`,
     };
   }
   return {
@@ -146,12 +141,10 @@ const htmlToStyle = (
 };
 
 const htmlToBlock = (nodeName: string, node: HTMLElement) => {
-  // console.log(
-  //   "xxx:",
-  //   nodeName,
-  //   node.attributes.getNamedItem("src")?.value,
-  //   typeof node.attributes.getNamedItem("src")
-  // );
+  console.log(
+    "xxx:",
+    nodeName,
+  );
   const data: IhtmlToBlockData = {};
   if (node.style.textIndent) {
     data.textIndent = Math.max(parseInt(node.style.textIndent) / 2, 0);
@@ -171,7 +164,7 @@ const htmlToBlock = (nodeName: string, node: HTMLElement) => {
       type: "code-block",
       data,
     };
-  } else if (nodeName === "img") {
+  } else if (nodeName === "figure") {
     return {
       type: "atomic",
       data,
