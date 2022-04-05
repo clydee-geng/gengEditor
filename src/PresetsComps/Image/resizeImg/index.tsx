@@ -1,6 +1,11 @@
 import React, { MouseEvent } from "react";
 import styles from "./index.less";
-import { EditorState, ContentBlock, ContentState } from "draft-js";
+import {
+  EditorState,
+  ContentBlock,
+  ContentState,
+  SelectionState,
+} from "draft-js";
 
 interface IProps {
   block: ContentBlock;
@@ -114,14 +119,21 @@ const ResizeImg: React.FC<IProps> = (props) => {
     imgWHRatio.current = e.target.width / e.target.height;
   };
 
+  const clickBindFn = (e: any) => {
+    e.stopPropagation();
+    setIsShow(true);
+    const nextEditorState = EditorState.forceSelection(
+      editorState,
+      SelectionState.createEmpty(block.getKey())
+    );
+    setEditorState(nextEditorState);
+  };
+  /**
+   * jsx
+   */
+
   return (
-    <div
-      className={styles.resizeImg}
-      onClick={(e) => {
-        e.stopPropagation();
-        setIsShow(true);
-      }}
-    >
+    <div className={styles.resizeImg} onClick={clickBindFn}>
       {isShow && (
         <div className={styles.ractSelect} style={{ ...ractSelectData }}>
           <div className={styles.info}>{`${parseInt(
