@@ -41,6 +41,7 @@ const ResizeImg: React.FC<IProps> = (props) => {
   );
   const dotRef = React.useRef<HTMLDivElement>(null);
   const clickToLeftBorder = React.useRef<number | null>(null);
+  const ractSelectRef = React.useRef<HTMLDivElement>(null);
 
   /**
    * life
@@ -66,29 +67,33 @@ const ResizeImg: React.FC<IProps> = (props) => {
   };
 
   const documentMouseMove = (e: any) => {
-    if (clickToLeftBorder.current) {
-      let newLeft =
+    if (clickToLeftBorder.current && ractSelectRef.current) {
+      let ractSelectNextWidth =
         e.pageX -
         clickToLeftBorder.current -
-        editorContentDom.getBoundingClientRect().left;
+        editorContentDom.getBoundingClientRect().left -
+        ractSelectRef.current.getBoundingClientRect().left;
 
-      if (newLeft < 0) {
-        newLeft = 0;
+      if (ractSelectNextWidth < 0) {
+        ractSelectNextWidth = 0;
       }
 
-      let rightEdge = editorContentDom.offsetWidth;
+      let maxRactSelectNextWidth = editorContentDom.offsetWidth;
       if (dotRef.current) {
-        rightEdge = rightEdge - dotRef.current?.offsetWidth;
+        maxRactSelectNextWidth =
+          maxRactSelectNextWidth -
+          dotRef.current?.offsetWidth -
+          ractSelectRef.current.getBoundingClientRect().left;
       }
 
-      if (newLeft > rightEdge) {
-        newLeft = rightEdge;
+      if (ractSelectNextWidth > maxRactSelectNextWidth) {
+        ractSelectNextWidth = maxRactSelectNextWidth;
       }
 
       if (imgWHRatio.current) {
         const nextRactSelectData = {
-          width: newLeft,
-          height: newLeft / imgWHRatio.current,
+          width: ractSelectNextWidth,
+          height: ractSelectNextWidth / imgWHRatio.current,
         };
         setRactSelectData(nextRactSelectData);
         ractSelectDataRef.current = nextRactSelectData;
@@ -135,7 +140,11 @@ const ResizeImg: React.FC<IProps> = (props) => {
   return (
     <div className={styles.resizeImg} onClick={clickBindFn}>
       {isShow && (
-        <div className={styles.ractSelect} style={{ ...ractSelectData }}>
+        <div
+          className={styles.ractSelect}
+          style={{ ...ractSelectData }}
+          ref={ractSelectRef}
+        >
           <div className={styles.info}>{`${parseInt(
             ractSelectData.width
           )}px * ${parseInt(ractSelectData.height)}px`}</div>
