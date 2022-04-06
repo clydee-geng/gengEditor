@@ -61,7 +61,6 @@ const FontColors: React.FC<IProps> = (props) => {
   };
 
   const cancelColorBindFn = () => {
-    setVisible(false);
     const SelectionState = editorState.getSelection();
     if (!SelectionState.isCollapsed()) {
       const nextEditorState = EditorState.push(
@@ -71,6 +70,7 @@ const FontColors: React.FC<IProps> = (props) => {
       );
       setEditorState(nextEditorState);
     }
+    setVisible(false);
   };
 
   const renderActiveColor = () => {
