@@ -76,6 +76,8 @@ const entityToHTML = (entity: any) => {
     return `<img src="${src}"${inlineStyleStr} />`;
   } else if (type === "VIDEO") {
     return `<video src="${src}"${inlineStyleStr} controls />`;
+  } else if (type === "AUDIO") {
+    return `<audio src="${src}"${inlineStyleStr} controls />`;
   }
   return "";
 };
@@ -213,6 +215,8 @@ const htmlToEntity = (
     return createEntity("IMAGE", "IMMUTABLE", data);
   } else if (nodeName === "video") {
     return createEntity("VIDEO", "IMMUTABLE", data);
+  } else if (nodeName === "audio") {
+    return createEntity("AUDIO", "IMMUTABLE", data);
   }
 };
 

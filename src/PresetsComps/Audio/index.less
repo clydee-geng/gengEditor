@@ -1,0 +1,55 @@
+.popverContent {
+  text-align: center;
+  .vidoeBox {
+    width: 100%;
+    position: relative;
+    .videoMask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    video {
+      width: 100%;
+      vertical-align: top;
+    }
+  }
+  .popverContentItem {
+    &:hover {
+      background-color: #f8f8f8;
+      cursor: pointer;
+    }
+    &.active {
+      color: #2593fc;
+    }
+  }
+  .operateArea {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    .input {
+      height: 29px;
+      margin-right: 5px;
+      :global(.ant-input-number-input) {
+        width: 70px;
+      }
+    }
+    .btn {
+      background: #4285f4;
+      color: #fff;
+      padding: 0.45em 0.5em;
+      border: none;
+      font-size: 0.75em;
+      height: 29px;
+      :global(span) {
+        letter-spacing: -1px;
+      }
+    }
+  }
+}

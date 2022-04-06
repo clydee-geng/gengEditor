@@ -18,6 +18,7 @@ import { LeftAlign, CenterAlign, RightAlign, JustifyAlign } from "./TextAlign";
 import FontSize from "./FontSize";
 import Image from "./Image";
 import Video from "./Video";
+import Audio from "./Audio";
 
 const Bold = (props: any) => (
   <ToogleBtn
@@ -122,4 +123,5 @@ export default {
   JustifyAlign,
   Image,
   Video,
+  Audio,
 };
