@@ -79,13 +79,6 @@ const ResizeImg: React.FC<IProps> = (props) => {
       }
 
       let maxRactSelectNextWidth = editorContentDom.offsetWidth;
-      if (dotRef.current) {
-        maxRactSelectNextWidth =
-          maxRactSelectNextWidth -
-          dotRef.current?.offsetWidth -
-          ractSelectRef.current.getBoundingClientRect().left;
-      }
-
       if (ractSelectNextWidth > maxRactSelectNextWidth) {
         ractSelectNextWidth = maxRactSelectNextWidth;
       }
