@@ -4,7 +4,11 @@ import ToogleBtnByPopover from "../ToogleBtnByPopover";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button, Tabs, Upload, Input, message } from "antd";
-import { PictureOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  PlaySquareOutlined,
+  PlusOutlined,
+  CaretRightOutlined,
+} from "@ant-design/icons";
 
 interface IProps {
   editorState: EditorState;
@@ -13,7 +17,7 @@ interface IProps {
   keepEditorFocusBindFn: () => void;
 }
 
-const Image: React.FC<IProps> = (props) => {
+const Video: React.FC<IProps> = (props) => {
   const {
     editorState,
     setEditorState,
@@ -27,7 +31,7 @@ const Image: React.FC<IProps> = (props) => {
 
   const [visible, setVisible] = React.useState(false);
   const [curUrl, setCurUrl] = React.useState(
-    "https://s2.ax1x.com/2020/02/29/3yhm8S.jpg"
+    "https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4"
   );
 
   React.useEffect(() => {
@@ -40,12 +44,12 @@ const Image: React.FC<IProps> = (props) => {
 
   const saveBindFn = () => {
     if (!curUrl) {
-      return message.warning("请上传图片或者输入图片url");
+      return message.warning("请上传视频或者输入视频url");
     }
     setVisible(false);
 
     const contentState = editorState.getCurrentContent();
-    const entity = contentState.createEntity("IMAGE", "IMMUTABLE", {
+    const entity = contentState.createEntity("VIDEO", "IMMUTABLE", {
       src: curUrl,
     });
     const entityKey = entity.getLastCreatedEntityKey();
@@ -66,7 +70,7 @@ const Image: React.FC<IProps> = (props) => {
     return (
       <div className={styles.popverContent}>
         <Tabs>
-          <Tabs.TabPane tab="上传图片" key="1">
+          <Tabs.TabPane tab="上传视频" key="1">
             <Upload
               name="avatar"
               listType="picture-card"
@@ -75,24 +79,21 @@ const Image: React.FC<IProps> = (props) => {
               onChange={() => {}}
             >
               {curUrl ? (
-                <img
-                  src={curUrl}
-                  alt="avatar"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
+                <div className={styles.vidoeBox}>
+                  <div className={styles.videoMask}>
+                    <CaretRightOutlined />
+                  </div>
+                  <video src={curUrl} autoPlay={false} />
+                </div>
               ) : (
                 <div>
                   <PlusOutlined />
-                  <div>选择图片</div>
+                  <div>选择视频</div>
                 </div>
               )}
             </Upload>
           </Tabs.TabPane>
-          <Tabs.TabPane tab="网络图片" key="2">
+          <Tabs.TabPane tab="网络视频" key="2">
             <div
               style={{
                 display: "flex",
@@ -100,12 +101,12 @@ const Image: React.FC<IProps> = (props) => {
                 marginBottom: "10px",
               }}
             >
-              <div>图片Url：</div>
+              <div>视频Url：</div>
               <div>
                 <Input
                   value={curUrl}
                   onChange={(e) => setCurUrl(e.target.value.trim())}
-                  placeholder="请输入图片Url"
+                  placeholder="请输入视频Url"
                 />
               </div>
             </div>
@@ -113,7 +114,7 @@ const Image: React.FC<IProps> = (props) => {
         </Tabs>
         <div style={{ textAlign: "right", marginTop: "10px" }}>
           <Button className={styles.btn} onClick={saveBindFn} type="primary">
-            插入图片
+            插入视频
           </Button>
         </div>
       </div>
@@ -122,9 +123,9 @@ const Image: React.FC<IProps> = (props) => {
 
   return (
     <ToogleBtnByPopover
-      PopoverTitle="插入图片"
-      tip="插入图片"
-      icon={<PictureOutlined />}
+      PopoverTitle="插入视频"
+      tip="插入视频"
+      icon={<PlaySquareOutlined />}
       activeColor={false}
       PopoverContent={PopoverContent}
       visible={visible}
@@ -135,4 +136,4 @@ const Image: React.FC<IProps> = (props) => {
   );
 };
 
-export default Image;
+export default Video;
