@@ -26,43 +26,17 @@ const Image: React.FC<IProps> = (props) => {
    */
 
   const [visible, setVisible] = React.useState(false);
-  const [curFontSize, setCurFontSize] = React.useState();
   const [curUrl, setCurUrl] = React.useState(
     "https://s2.ax1x.com/2020/02/29/3yhm8S.jpg"
   );
 
   React.useEffect(() => {
     keepEditorFocusBindFn();
-    if (visible) {
-      setCurFontSize(getCurrentStyleStrArr());
-    }
   }, [visible]);
 
   /**
    * methods
    */
-
-  const renderActiveColor = () => {
-    let isActive = false;
-    const currentStyle = editorState.getCurrentInlineStyle();
-    if (currentStyle.has("FONT_SIZE_" + getCurrentStyleStrArr())) {
-      isActive = true;
-    }
-    return isActive;
-  };
-
-  const getCurrentStyleStrArr = () => {
-    let curStyleFontSize: any;
-    const currentStyle = editorState.getCurrentInlineStyle();
-    const currentStyleStr = currentStyle.first();
-    if (typeof currentStyleStr === "string") {
-      const currentStyleStrArr = currentStyleStr.split("_");
-      curStyleFontSize = Number(
-        currentStyleStrArr[currentStyleStrArr.length - 1]
-      );
-    }
-    return curStyleFontSize;
-  };
 
   const saveBindFn = () => {
     if (!curUrl) {
@@ -151,7 +125,7 @@ const Image: React.FC<IProps> = (props) => {
       PopoverTitle="插入图片"
       tip="插入图片"
       icon={<FileImageOutlined />}
-      activeColor={renderActiveColor()}
+      activeColor={false}
       PopoverContent={PopoverContent}
       visible={visible}
       onVisibleChange={(e: boolean) => {
