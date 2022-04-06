@@ -136,6 +136,23 @@ const htmlToStyle = (
 
     nextCurrentStyle = nextCurrentStyle.add(styleStr);
   }
+  if (nodeName === "span" && node.style.fontSize) {
+    const fontSize = parseFloat(node.style.fontSize);
+    const styleStr = `FONT_SIZE_${fontSize}`;
+    if (
+      typeof extraData.setCustomStyleMap === "function" &&
+      !extraData.customStyleMap.hasOwnProperty(styleStr)
+    ) {
+      extraData.setCustomStyleMap((preState: any) => {
+        return {
+          ...preState,
+          [styleStr]: { fontSize: fontSize + "px" },
+        };
+      });
+    }
+
+    nextCurrentStyle = nextCurrentStyle.add(styleStr);
+  }
   // console.log(nodeName, node, node.style, nextCurrentStyle.toJS());
   return nextCurrentStyle;
 };
