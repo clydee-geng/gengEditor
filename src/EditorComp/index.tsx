@@ -23,7 +23,7 @@ import {
   htmlToBlock,
   htmlToEntity,
 } from "./config";
-import ResizeImg from "../PresetsComps/Image/resizeImg";
+import Media from "../PresetsComps/Media";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -56,7 +56,7 @@ const EditorComp: React.FC<IProps> = (props) => {
         htmlToBlock,
         htmlToEntity,
       })(
-        '<p>qwer<strong>qrq</strong>r<span style="font-size:48px">qr</span></p><p>ds<span style="color:#FFA500">fff</span>s</p><p>ds<span style="background-color:#FF0000">fsdf</span></p><p></p><p></p><figure style="text-align:center;"><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:244px;height:348.92px;" /></figure><p></p><p></p><p></p>'
+        '<p>qwer<strong>qrq</strong>r<span style="font-size:48px">qr</span></p><p></p><figure><video src="https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4" controls /></figure><p></p><p>ds<span style="color:#FFA500">fff</span>s</p><p>ds<span style="background-color:#FF0000">fsdf</span></p><p></p><p></p><figure style="text-align:center;"><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:244px;height:348.92px;" /></figure><p></p><p></p><p></p>'
       )
     )
   );
@@ -115,7 +115,7 @@ const EditorComp: React.FC<IProps> = (props) => {
     const type = contentBlock.getType();
     if (type === "atomic") {
       return {
-        component: ResizeImg,
+        component: Media,
         props: {
           editorState: editorState,
           setEditorState: setEditorState,

@@ -74,6 +74,8 @@ const entityToHTML = (entity: any) => {
   let inlineStyleStr = nextBlockStyle ? ` style="${nextBlockStyle}"` : "";
   if (type === "IMAGE") {
     return `<img src="${src}"${inlineStyleStr} />`;
+  } else if (type === "VIDEO") {
+    return `<video src="${src}"${inlineStyleStr} controls />`;
   }
   return "";
 };
@@ -209,6 +211,8 @@ const htmlToEntity = (
   }
   if (nodeName === "img") {
     return createEntity("IMAGE", "IMMUTABLE", data);
+  } else if (nodeName === "video") {
+    return createEntity("VIDEO", "IMMUTABLE", data);
   }
 };
 
