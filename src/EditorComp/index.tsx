@@ -62,14 +62,19 @@ const EditorComp: React.FC<IProps> = (props) => {
   const editorRef = React.useRef<any>(null);
   const isNeedHidePlaceholder = React.useRef<boolean>(false);
 
+  // 变量
+  const contentState = editorState.getCurrentContent();
+  const contentBlock = getCurrentContentBlock(editorState);
+  const selectionState = editorState.getSelection();
+
   React.useEffect(() => {
-    if (getCurrentContentBlock(editorState).getType() !== "atomic") {
+    if (contentBlock.getType() !== "atomic") {
       keepEditorFocusBindFn();
     }
   }, [
     editorState.getCurrentInlineStyle(),
-    getCurrentContentBlock(editorState).getType(),
-    getCurrentContentBlock(editorState).getData(),
+    contentBlock.getType(),
+    contentBlock.getData(),
   ]);
 
   /**
@@ -124,7 +129,6 @@ const EditorComp: React.FC<IProps> = (props) => {
   };
 
   const returnBindFn = (e: any): DraftHandleValue => {
-    const contentBlock = getCurrentContentBlock(editorState);
     if (
       contentBlock.getType() === "blockquote" ||
       contentBlock.getType() === "code-block"
@@ -187,7 +191,6 @@ const EditorComp: React.FC<IProps> = (props) => {
   // 设置placeholder是否显示
   const changeIsNeedHidePlaceholder = () => {
     isNeedHidePlaceholder.current = false;
-    const contentState = editorState.getCurrentContent();
     const firstType = contentState.getBlockMap().first().getType();
     if (!contentState.hasText()) {
       if (
