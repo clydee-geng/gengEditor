@@ -8,12 +8,17 @@
     :global(.public-DraftEditor-content){
       min-height: 200px;
     }
+    &.hidePlaceholder{
+      :global(.public-DraftEditorPlaceholder-root) {
+        display: none;
+      }
+    }
     .text {
       font-size: 23px;
       color: aqua;
     }
     .blockquote {
-      border-left: 8px solid #d0e5f2;
+      border-left: 8px solid #ccc;
       padding: 5px 10px;
       margin: 10px 0;
       line-height: 1.4;

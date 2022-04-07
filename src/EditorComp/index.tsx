@@ -24,6 +24,7 @@ import {
   htmlToEntity,
 } from "./config";
 import Media from "../PresetsComps/Media";
+import classnames from "classnames";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -59,6 +60,7 @@ const EditorComp: React.FC<IProps> = (props) => {
   const [customBlockRenderMap, setCustomBlockRenderMap] =
     React.useState<DraftBlockRenderMap>(DefaultDraftBlockRenderMap);
   const editorRef = React.useRef<any>(null);
+  const isNeedHidePlaceholder = React.useRef<boolean>(false);
 
   React.useEffect(() => {
     if (getCurrentContentBlock(editorState).getType() !== "atomic") {
@@ -195,6 +197,17 @@ const EditorComp: React.FC<IProps> = (props) => {
     keepEditorFocusBindFn,
   };
 
+  // 设置placeholder是否显示
+  isNeedHidePlaceholder.current = false;
+  if (!editorState.getCurrentContent().hasText()) {
+    if (
+      editorState.getCurrentContent().getBlockMap().first().getType() !==
+      "unstyled"
+    ) {
+      isNeedHidePlaceholder.current = true;
+    }
+  }
+
   return (
     <div className={styles.EditorComp} style={style}>
       <div className={styles.Toolbar}>
@@ -202,7 +215,13 @@ const EditorComp: React.FC<IProps> = (props) => {
           return <item.Comp {...commonCompsProps} key={item.key} />;
         })}
       </div>
-      <div className={styles.Content}>
+      <div
+        className={
+          isNeedHidePlaceholder.current
+            ? classnames(styles.hidePlaceholder, styles.Content)
+            : styles.Content
+        }
+      >
         <Editor
           editorState={editorState}
           onChange={setEditorState}
