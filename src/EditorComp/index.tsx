@@ -184,6 +184,25 @@ const EditorComp: React.FC<IProps> = (props) => {
     console.log(htmlStr);
   };
 
+  // 设置placeholder是否显示
+  const changeIsNeedHidePlaceholder = () => {
+    isNeedHidePlaceholder.current = false;
+    const contentState = editorState.getCurrentContent();
+    const firstType = contentState.getBlockMap().first().getType();
+    if (!contentState.hasText()) {
+      if (
+        firstType === "ordered-list-item" ||
+        firstType === "unordered-list-item" ||
+        firstType === "blockquote" ||
+        firstType === "code-block"
+      ) {
+        isNeedHidePlaceholder.current = true;
+      }
+    }
+  };
+
+  changeIsNeedHidePlaceholder();
+
   /**
    * jsx
    */
@@ -196,17 +215,6 @@ const EditorComp: React.FC<IProps> = (props) => {
     setCustomBlockRenderMap,
     keepEditorFocusBindFn,
   };
-
-  // 设置placeholder是否显示
-  isNeedHidePlaceholder.current = false;
-  if (!editorState.getCurrentContent().hasText()) {
-    if (
-      editorState.getCurrentContent().getBlockMap().first().getType() !==
-      "unstyled"
-    ) {
-      isNeedHidePlaceholder.current = true;
-    }
-  }
 
   return (
     <div className={styles.EditorComp} style={style}>
