@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorState, ContentBlock, ContentState } from "draft-js";
-import ResizeImg from "./Image/resizeImg";
+import ImageContent from "./Image/Content";
 import VideoContent from "./Video/Content";
 import AudioContent from "./Audio/Content";
 
@@ -19,7 +19,7 @@ const Media: React.FC<IProps> = (props) => {
   const type = contentState.getEntity(entitykey).getType();
   return (
     <>
-      {type === "IMAGE" && <ResizeImg {...props} />}
+      {type === "IMAGE" && <ImageContent {...props} />}
       {type === "VIDEO" && <VideoContent {...props} />}
       {type === "AUDIO" && <AudioContent {...props} />}
     </>

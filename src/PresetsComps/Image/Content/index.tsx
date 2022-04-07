@@ -17,7 +17,7 @@ interface IProps {
   };
 }
 
-const ResizeImg: React.FC<IProps> = (props) => {
+const Content: React.FC<IProps> = (props) => {
   const { block, contentState, blockProps } = props;
   const { editorContentDom, setEditorState, editorState } = blockProps;
   const entitykey = block.getEntityAt(0);
@@ -131,7 +131,7 @@ const ResizeImg: React.FC<IProps> = (props) => {
    */
 
   return (
-    <div className={styles.resizeImg} onClick={clickBindFn}>
+    <div className={styles.content} onClick={clickBindFn}>
       {isShow && (
         <div
           className={styles.ractSelect}
@@ -159,4 +159,4 @@ const ResizeImg: React.FC<IProps> = (props) => {
   );
 };
 
-export default React.memo(ResizeImg);
+export default Content;
