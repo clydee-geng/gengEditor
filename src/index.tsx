@@ -4,6 +4,6 @@ import EditorComp from "./EditorComp";
 import "./icontfont.css";
 
 ReactDOM.render(
-  <EditorComp style={{ width: 800 }} />,
+  <EditorComp />,
   document.getElementById("container")
 );

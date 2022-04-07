@@ -40,9 +40,6 @@ const EditorComp: React.FC<IProps> = (props) => {
   /**
    * hooks
    */
-  // const [editorState, setEditorState] = React.useState(() =>
-  //   EditorState.createEmpty()
-  // );
   const [customStyleMap, setCustomStyleMap] = React.useState({});
 
   const [editorState, setEditorState] = React.useState(
@@ -55,9 +52,7 @@ const EditorComp: React.FC<IProps> = (props) => {
           }),
         htmlToBlock,
         htmlToEntity,
-      })(
-        '<p>qwer<strong>qrq</strong>r<span style="font-size:48px">qr</span></p><p></p><figure><audio src="https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4" controls /></figure><p></p><figure><video src="https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4" controls /></figure><p></p><p>ds<span style="color:#FFA500">fff</span>s</p><p>ds<span style="background-color:#FF0000">fsdf</span></p><p></p><p></p><figure style="text-align:center;"><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:244px;height:348.92px;" /></figure><p></p><p></p><p></p>'
-      )
+      })("")
     )
   );
 
@@ -202,24 +197,25 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   return (
     <div className={styles.EditorComp} style={style}>
-      {PresetsCompsList.map((item, index) => {
-        return <item.Comp {...commonCompsProps} key={item.key} />;
-      })}
-
-      <Editor
-        editorState={editorState}
-        onChange={setEditorState}
-        placeholder="请输入..."
-        ref={editorRef}
-        customStyleMap={customStyleMap}
-        blockStyleFn={blockStyleBindFn}
-        handleReturn={returnBindFn}
-        handleKeyCommand={keyCommandBindFn}
-        blockRenderMap={customBlockRenderMap}
-        blockRendererFn={blockRendererFn}
-      />
-
-      <button onClick={toHTMLStrBindFn}>toHTMLStr</button>
+      <div className={styles.Toolbar}>
+        {PresetsCompsList.map((item, index) => {
+          return <item.Comp {...commonCompsProps} key={item.key} />;
+        })}
+      </div>
+      <div className={styles.Content}>
+        <Editor
+          editorState={editorState}
+          onChange={setEditorState}
+          placeholder="请输入..."
+          ref={editorRef}
+          customStyleMap={customStyleMap}
+          blockStyleFn={blockStyleBindFn}
+          handleReturn={returnBindFn}
+          handleKeyCommand={keyCommandBindFn}
+          blockRenderMap={customBlockRenderMap}
+          blockRendererFn={blockRendererFn}
+        />
+      </div>
     </div>
   );
 };
