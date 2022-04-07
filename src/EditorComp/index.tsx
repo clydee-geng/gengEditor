@@ -122,6 +122,7 @@ const EditorComp: React.FC<IProps> = (props) => {
           editorState: editorState,
           setEditorState: setEditorState,
           editorContentDom: editorRef.current?.editor,
+          curSelectBlock: contentBlock,
         },
         editable: false,
       };
