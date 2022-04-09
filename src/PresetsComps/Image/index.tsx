@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorState, RichUtils, Modifier, AtomicBlockUtils } from "draft-js";
-import ToogleBtnByPopover from "../ToogleBtnByPopover";
+import PopoverBtn from "../PopoverBtn";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button, Tabs, Upload, Input, message } from "antd";
@@ -121,7 +121,7 @@ const Image: React.FC<IProps> = (props) => {
   };
 
   return (
-    <ToogleBtnByPopover
+    <PopoverBtn
       PopoverTitle="插入图片"
       tip="插入图片"
       icon={<PictureOutlined />}

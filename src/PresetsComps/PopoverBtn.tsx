@@ -12,7 +12,7 @@ interface IProps {
   activeColorCSSProp?: "color" | "backgroundColor";
 }
 
-const ToogleBtnByPopover: React.FC<IProps> = (props) => {
+const PopoverBtn: React.FC<IProps> = (props) => {
   const {
     PopoverTitle,
     PopoverContent,
@@ -54,4 +54,4 @@ const ToogleBtnByPopover: React.FC<IProps> = (props) => {
   );
 };
 
-export default ToogleBtnByPopover;
+export default PopoverBtn;

@@ -2,7 +2,7 @@ import React from "react";
 import { BgColorsOutlined } from "@ant-design/icons";
 import { EditorState, Modifier } from "draft-js";
 import ReactPickr from "@alias/components/reactPickr";
-import ToogleBtnByPopover from "./ToogleBtnByPopover";
+import PopoverBtn from "./PopoverBtn";
 import { removeAllInlineStyle } from "@alias/utils";
 
 interface IProps {
@@ -100,7 +100,7 @@ const BackGroundColors: React.FC<IProps> = (props) => {
   };
 
   return (
-    <ToogleBtnByPopover
+    <PopoverBtn
       PopoverTitle="设置背景颜色"
       tip="背景颜色"
       icon={<BgColorsOutlined />}

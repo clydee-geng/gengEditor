@@ -7,7 +7,7 @@ import {
   OrderedListOutlined,
   CodeOutlined,
 } from "@ant-design/icons";
-import ToogleBtn from "./ToogleBtn";
+import RichUtilsToogleBtn from "./RichUtilsToogleBtn";
 import FontColors from "./FontColors";
 import BackGroundColors from "./BackGroundColors";
 import Link from "./Link";
@@ -21,7 +21,7 @@ import Video from "./Video";
 import Audio from "./Audio";
 
 const Bold = (props: any) => (
-  <ToogleBtn
+  <RichUtilsToogleBtn
     {...props}
     icon={<BoldOutlined />}
     tip="加粗"
@@ -31,7 +31,7 @@ const Bold = (props: any) => (
 );
 
 const Italic = (props: any) => (
-  <ToogleBtn
+  <RichUtilsToogleBtn
     {...props}
     icon={<ItalicOutlined />}
     tip="斜体"
@@ -41,7 +41,7 @@ const Italic = (props: any) => (
 );
 
 const Underline = (props: any) => (
-  <ToogleBtn
+  <RichUtilsToogleBtn
     {...props}
     icon={<UnderlineOutlined />}
     tip="下划线"
@@ -51,7 +51,7 @@ const Underline = (props: any) => (
 );
 
 const Strikethrough = (props: any) => (
-  <ToogleBtn
+  <RichUtilsToogleBtn
     {...props}
     icon={<StrikethroughOutlined />}
     tip="删除线"
@@ -61,7 +61,7 @@ const Strikethrough = (props: any) => (
 );
 
 const UL = (props: any) => (
-  <ToogleBtn
+  <RichUtilsToogleBtn
     {...props}
     icon={<UnorderedListOutlined />}
     tip="无序列表"
@@ -71,7 +71,7 @@ const UL = (props: any) => (
 );
 
 const OL = (props: any) => (
-  <ToogleBtn
+  <RichUtilsToogleBtn
     {...props}
     icon={<OrderedListOutlined />}
     tip="有序列表"
@@ -81,7 +81,7 @@ const OL = (props: any) => (
 );
 
 const Blockquote = (props: any) => (
-  <ToogleBtn
+  <RichUtilsToogleBtn
     {...props}
     icon={<i className="iconfont icon-blockquote"></i>}
     tip="引用"
@@ -91,7 +91,7 @@ const Blockquote = (props: any) => (
 );
 
 const Code = (props: any) => (
-  <ToogleBtn
+  <RichUtilsToogleBtn
     {...props}
     icon={<CodeOutlined />}
     tip="代码"

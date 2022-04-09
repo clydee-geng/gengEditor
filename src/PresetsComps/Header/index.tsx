@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorState, RichUtils, Modifier } from "draft-js";
-import ToogleBtnByPopover from "../ToogleBtnByPopover";
+import PopoverBtn from "../PopoverBtn";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button } from "antd";
@@ -114,7 +114,7 @@ const Header: React.FC<IProps> = (props) => {
   };
 
   return (
-    <ToogleBtnByPopover
+    <PopoverBtn
       PopoverTitle="设置标题"
       tip="标题"
       icon={<HeadeIcon />}

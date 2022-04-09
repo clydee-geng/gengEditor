@@ -12,7 +12,7 @@ interface IProps {
   type: "inline" | "block";
 }
 
-const ToogleBtn: React.FC<IProps> = (props) => {
+const RichUtilsToogleBtn: React.FC<IProps> = (props) => {
   const { editorState, setEditorState, styleStr, icon, tip, type } = props;
 
   /**
@@ -64,4 +64,4 @@ const ToogleBtn: React.FC<IProps> = (props) => {
     />
   );
 };
-export default ToogleBtn;
+export default RichUtilsToogleBtn;

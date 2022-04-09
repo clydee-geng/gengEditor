@@ -1,7 +1,7 @@
 import React from "react";
 import { LinkOutlined } from "@ant-design/icons";
 import { EditorState, Modifier, RichUtils, CompositeDecorator } from "draft-js";
-import ToogleBtnByPopover from "../ToogleBtnByPopover";
+import PopoverBtn from "../PopoverBtn";
 import { Button, Input, message, Tooltip } from "antd";
 import styles from "./index.less";
 
@@ -219,7 +219,7 @@ const Link: React.FC<IProps> = (props) => {
   };
 
   return (
-    <ToogleBtnByPopover
+    <PopoverBtn
       PopoverTitle="设置链接"
       tip="链接"
       icon={<LinkOutlined />}

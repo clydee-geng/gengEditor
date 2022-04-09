@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorState, RichUtils, Modifier, AtomicBlockUtils } from "draft-js";
-import ToogleBtnByPopover from "../ToogleBtnByPopover";
+import PopoverBtn from "../PopoverBtn";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button, Tabs, Upload, Input, message } from "antd";
@@ -122,7 +122,7 @@ const Audio: React.FC<IProps> = (props) => {
   };
 
   return (
-    <ToogleBtnByPopover
+    <PopoverBtn
       PopoverTitle="插入音频"
       tip="插入音频"
       icon={<CustomerServiceOutlined />}

@@ -1,6 +1,6 @@
 import React from "react";
 import { EditorState, RichUtils, Modifier } from "draft-js";
-import ToogleBtnByPopover from "../ToogleBtnByPopover";
+import PopoverBtn from "../PopoverBtn";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button, InputNumber } from "antd";
@@ -149,7 +149,7 @@ const FontSize: React.FC<IProps> = (props) => {
   };
 
   return (
-    <ToogleBtnByPopover
+    <PopoverBtn
       PopoverTitle="设置文字大小"
       tip="文字大小"
       icon={<FontSizeOutlined />}

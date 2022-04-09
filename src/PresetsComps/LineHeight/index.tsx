@@ -5,7 +5,7 @@ import {
   Modifier,
   DraftBlockRenderMap,
 } from "draft-js";
-import ToogleBtnByPopover from "../ToogleBtnByPopover";
+import PopoverBtn from "../PopoverBtn";
 import styles from "./index.less";
 import classnames from "classnames";
 import { Button } from "antd";
@@ -136,7 +136,7 @@ const LineHeight: React.FC<IProps> = (props) => {
   };
 
   return (
-    <ToogleBtnByPopover
+    <PopoverBtn
       PopoverTitle="设置行高"
       tip="行高"
       icon={<LineHeightOutlined />}

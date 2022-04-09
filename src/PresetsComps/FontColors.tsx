@@ -2,7 +2,7 @@ import React from "react";
 import { FontColorsOutlined } from "@ant-design/icons";
 import { EditorState, Modifier } from "draft-js";
 import ReactPickr from "@alias/components/reactPickr";
-import ToogleBtnByPopover from "./ToogleBtnByPopover";
+import PopoverBtn from "./PopoverBtn";
 import { removeAllInlineStyle } from "@alias/utils";
 
 interface IProps {
@@ -100,7 +100,7 @@ const FontColors: React.FC<IProps> = (props) => {
   };
 
   return (
-    <ToogleBtnByPopover
+    <PopoverBtn
       PopoverTitle="设置文本颜色"
       tip="文本颜色"
       icon={<FontColorsOutlined />}
