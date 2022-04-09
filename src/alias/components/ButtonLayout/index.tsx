@@ -8,6 +8,7 @@ interface IProps {
   clickPropsFn?: () => void;
   activeColor?: string | boolean;
   activeColorCSSProp?: "color" | "backgroundColor";
+  disabled?: boolean;
 }
 
 const ButtonLayout: React.FC<IProps> = (props) => {
@@ -17,6 +18,7 @@ const ButtonLayout: React.FC<IProps> = (props) => {
     clickPropsFn,
     activeColor,
     activeColorCSSProp = "color",
+    disabled = false,
   } = props;
 
   /**
@@ -25,6 +27,7 @@ const ButtonLayout: React.FC<IProps> = (props) => {
   return (
     <Tooltip title={tip}>
       <Button
+        disabled={disabled}
         type="text"
         icon={icon}
         onClick={clickPropsFn}

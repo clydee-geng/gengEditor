@@ -19,6 +19,7 @@ import FontSize from "./FontSize";
 import Image from "./Image";
 import Video from "./Video";
 import Audio from "./Audio";
+import { Undo, Redo } from "./UndoAndRedo";
 
 const Bold = (props: any) => (
   <RichUtilsToogleBtn
@@ -101,6 +102,8 @@ const Code = (props: any) => (
 );
 
 export default {
+  Undo,
+  Redo,
   FontSize,
   Bold,
   Italic,
