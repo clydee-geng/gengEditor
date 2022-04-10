@@ -4,7 +4,7 @@ import { EditorState, Modifier, RichUtils, CompositeDecorator } from "draft-js";
 import PopoverBtn from "../PopoverBtn";
 import { Button, Input, message, Tooltip } from "antd";
 import styles from "./index.less";
-import { LinkDecorator } from "../../EditorComp/decorators";
+import { decorators } from "../../EditorComp/decorators";
 
 interface IProps {
   editorState: EditorState;
@@ -88,7 +88,7 @@ const Link: React.FC<IProps> = (props) => {
     }
 
     let editorStateWithLinK = EditorState.set(editorState, {
-      decorator: LinkDecorator,
+      decorator: decorators,
     });
 
     const contentState = editorStateWithLinK.getCurrentContent();

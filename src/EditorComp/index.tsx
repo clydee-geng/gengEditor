@@ -25,7 +25,7 @@ import {
 } from "./config";
 import Media from "../PresetsComps/Media";
 import classnames from "classnames";
-import { LinkDecorator } from "./decorators";
+import { decorators } from "./decorators";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -57,7 +57,7 @@ const EditorComp: React.FC<IProps> = (props) => {
       })(
         '<p><a href="123">undefined</a><a href="123">111</a></p><p></p><figure><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" /></figure><p></p>'
       ),
-      LinkDecorator
+      decorators
     )
   );
 
