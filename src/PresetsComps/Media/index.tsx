@@ -13,18 +13,18 @@ interface IProps {
     editorState: EditorState;
     setEditorState: any;
     curSelectBlock?: ContentBlock;
+    entityType: string;
   };
 }
 const Media: React.FC<IProps> = (props) => {
-  const { block, contentState, blockProps } = props;
-  const entitykey = block.getEntityAt(0);
-  const type = contentState.getEntity(entitykey).getType();
+  const { blockProps } = props;
+  const { entityType } = blockProps;
 
   return (
     <div className={styles.Media}>
-      {type === "IMAGE" && <ImageContent {...props} />}
-      {type === "VIDEO" && <VideoContent {...props} />}
-      {type === "AUDIO" && <AudioContent {...props} />}
+      {entityType === "IMAGE" && <ImageContent {...props} />}
+      {entityType === "VIDEO" && <VideoContent {...props} />}
+      {entityType === "AUDIO" && <AudioContent {...props} />}
     </div>
   );
 };

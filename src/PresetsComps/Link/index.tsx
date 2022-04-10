@@ -1,10 +1,13 @@
 import React from "react";
 import { LinkOutlined } from "@ant-design/icons";
-import { EditorState, Modifier, RichUtils, CompositeDecorator } from "draft-js";
+import { EditorState, Modifier, RichUtils } from "draft-js";
 import PopoverBtn from "../PopoverBtn";
-import { Button, Input, message, Tooltip } from "antd";
-import styles from "./index.less";
+import { Button, Input, message } from "antd";
 
+export interface IentityData {
+  url: string;
+  text: string;
+}
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
@@ -26,7 +29,6 @@ const Link: React.FC<IProps> = (props) => {
   const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
-    keepEditorFocusBindFn();
     if (visible) {
       const nextLinkText = getCurSelectedText();
       setLinkText(nextLinkText);
@@ -37,10 +39,15 @@ const Link: React.FC<IProps> = (props) => {
       setLinkText("");
       setLinkUrl("");
     }
+    keepEditorFocusBindFn();
   }, [visible]);
 
   const [linkText, setLinkText] = React.useState<string>();
   const [linkUrl, setLinkUrl] = React.useState<string>();
+
+  /**
+   * life
+   */
 
   /**
    * methods
@@ -86,45 +93,35 @@ const Link: React.FC<IProps> = (props) => {
       return message.warning("请输入链接地址");
     }
 
-    const LinkDecorator = new CompositeDecorator([
-      {
-        strategy: findLinkEntities,
-        component: LinkDecoratorComp,
-      },
-    ]);
-
-    let editorStateWithLinK = EditorState.set(editorState, {
-      decorator: LinkDecorator,
-    });
-
-    const contentState = editorStateWithLinK.getCurrentContent();
-    let contentStateWithEntityForLink = contentState.createEntity(
+    let newEditorState = editorState;
+    const contentState = newEditorState.getCurrentContent();
+    const linkEntityData: IentityData = { url: linkUrl, text: linkText };
+    let entityContentState = contentState.createEntity(
       "LINK",
       "MUTABLE",
-      { url: linkUrl }
+      linkEntityData
     );
-    const entityKey = contentStateWithEntityForLink.getLastCreatedEntityKey();
-
-    const selectionState = editorStateWithLinK.getSelection();
+    const entityKey = entityContentState.getLastCreatedEntityKey();
+    const selectionState = newEditorState.getSelection();
 
     if (selectionState.isCollapsed()) {
       // 如果没有选中
-      contentStateWithEntityForLink = Modifier.insertText(
-        contentStateWithEntityForLink,
+      entityContentState = Modifier.insertText(
+        entityContentState,
         selectionState,
         linkText,
         undefined,
         entityKey
       );
-      editorStateWithLinK = EditorState.push(
-        editorStateWithLinK,
-        contentStateWithEntityForLink,
+      newEditorState = EditorState.push(
+        editorState,
+        entityContentState,
         "insert-fragment"
       );
     }
 
-    const nextEditorState = EditorState.set(editorStateWithLinK, {
-      currentContent: contentStateWithEntityForLink,
+    const nextEditorState = EditorState.set(newEditorState, {
+      currentContent: entityContentState,
     });
     setEditorState(
       RichUtils.toggleLink(
@@ -142,32 +139,7 @@ const Link: React.FC<IProps> = (props) => {
     setVisible(false);
   };
 
-  const findLinkEntities = (
-    contentBlock: any,
-    callback: any,
-    contentState: any
-  ) => {
-    contentBlock.findEntityRanges((character: any) => {
-      const entityKey = character.getEntity();
-      return (
-        entityKey !== null &&
-        contentState.getEntity(entityKey).getType() === "LINK"
-      );
-    }, callback);
-  };
-
   /** jsx */
-
-  const LinkDecoratorComp: React.FC<any> = (props) => {
-    const { url } = props.contentState.getEntity(props.entityKey).getData();
-    return (
-      <Tooltip title={`链接url：${url}`}>
-        <a href={url} className={styles.link}>
-          {props.children}
-        </a>
-      </Tooltip>
-    );
-  };
 
   const PopoverContent = () => {
     return (

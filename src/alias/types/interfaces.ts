@@ -8,6 +8,7 @@ interface IhtmlToEntityData {
   width?: number;
   height?: number;
   src?: string;
+  href?: string;
 }
 
 export { IhtmlToBlockData, IhtmlToEntityData };

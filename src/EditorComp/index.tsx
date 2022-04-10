@@ -24,6 +24,7 @@ import {
   htmlToEntity,
 } from "./config";
 import Media from "../PresetsComps/Media";
+import LinkContent from "../PresetsComps/Link/Content";
 import classnames from "classnames";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
@@ -115,17 +116,32 @@ const EditorComp: React.FC<IProps> = (props) => {
 
   const blockRendererFn = (contentBlock: ContentBlock) => {
     const type = contentBlock.getType();
-    if (type === "atomic") {
-      return {
-        component: Media,
-        props: {
-          editorState: editorState,
-          setEditorState: setEditorState,
-          editorContentDom: editorRef.current?.editor,
-          curSelectBlock: contentBlock,
-        },
-        editable: false,
-      };
+    const entitykey = contentBlock.getEntityAt(0);
+    if (entitykey) {
+      const entityType = contentState.getEntity(entitykey).getType();
+      const entityData = contentState.getEntity(entitykey).getData();
+      if (type === "atomic") {
+        return {
+          component: Media,
+          props: {
+            editorState: editorState,
+            setEditorState: setEditorState,
+            editorContentDom: editorRef.current?.editor,
+            curSelectBlock: contentBlock,
+            entityType,
+          },
+          editable: false,
+        };
+      } else if (type === "unstyled") {
+        if (entityType === "LINK") {
+          return {
+            component: LinkContent,
+            props: {
+              entityData,
+            },
+          };
+        }
+      }
     }
   };
 
@@ -247,6 +263,7 @@ const EditorComp: React.FC<IProps> = (props) => {
           blockRendererFn={blockRendererFn}
         />
       </div>
+      <button onClick={toHTMLStrBindFn}>toHTML</button>
     </div>
   );
 };

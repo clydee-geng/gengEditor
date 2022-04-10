@@ -70,6 +70,7 @@ const blockToHTML = (block: any) => {
 const entityToHTML = (entity: any) => {
   const { type, data } = entity;
   const { src, width, height } = data;
+  // console.log(type, data);
   const nextBlockStyle = styleObjToStr({ width, height });
   let inlineStyleStr = nextBlockStyle ? ` style="${nextBlockStyle}"` : "";
   if (type === "IMAGE") {
@@ -78,6 +79,8 @@ const entityToHTML = (entity: any) => {
     return `<video src="${src}"${inlineStyleStr} controls />`;
   } else if (type === "AUDIO") {
     return `<audio src="${src}"${inlineStyleStr} controls />`;
+  } else if (type === "LINK") {
+    return `<a href="${data.url}">${data.text}</a>`;
   }
   return "";
 };
@@ -163,7 +166,7 @@ const htmlToStyle = (
 
 const htmlToBlock = (nodeName: string, node: HTMLElement) => {
   // console.log(
-  //   "xxx:",
+  //   "htmlToBlock:",
   //   nodeName,
   // );
   const data: IhtmlToBlockData = {};
@@ -190,6 +193,11 @@ const htmlToBlock = (nodeName: string, node: HTMLElement) => {
       type: "atomic",
       data,
     };
+  } else if (nodeName === "p") {
+    return {
+      type: "unstyled",
+      data,
+    };
   }
 };
 
@@ -198,7 +206,7 @@ const htmlToEntity = (
   node: HTMLElement,
   createEntity: any
 ) => {
-  // console.log("node::::", node.style);
+  // console.log("node::::", nodeName, node.style);
   let data: IhtmlToEntityData = {};
   if (node.style?.width) {
     data.width = parseFloat(node.style.width);
@@ -211,12 +219,19 @@ const htmlToEntity = (
   if (node.attributes?.getNamedItem("src")) {
     data.src = node.attributes.getNamedItem("src")?.value;
   }
+
+  if (node.attributes?.getNamedItem("href")) {
+    data.href = node.attributes.getNamedItem("href")?.value;
+  }
+
   if (nodeName === "img") {
     return createEntity("IMAGE", "IMMUTABLE", data);
   } else if (nodeName === "video") {
     return createEntity("VIDEO", "IMMUTABLE", data);
   } else if (nodeName === "audio") {
     return createEntity("AUDIO", "IMMUTABLE", data);
+  } else if (nodeName === "a") {
+    return createEntity("LINK", "IMMUTABLE", { ...data, text: node.innerText });
   }
 };
 
