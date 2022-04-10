@@ -4,6 +4,7 @@ import { EditorState, Modifier, RichUtils, CompositeDecorator } from "draft-js";
 import PopoverBtn from "../PopoverBtn";
 import { Button, Input, message, Tooltip } from "antd";
 import styles from "./index.less";
+import { LinkDecorator } from "../../EditorComp/decorators";
 
 interface IProps {
   editorState: EditorState;
@@ -86,13 +87,6 @@ const Link: React.FC<IProps> = (props) => {
       return message.warning("请输入链接地址");
     }
 
-    const LinkDecorator = new CompositeDecorator([
-      {
-        strategy: findLinkEntities,
-        component: LinkDecoratorComp,
-      },
-    ]);
-
     let editorStateWithLinK = EditorState.set(editorState, {
       decorator: LinkDecorator,
     });
@@ -101,7 +95,7 @@ const Link: React.FC<IProps> = (props) => {
     let contentStateWithEntityForLink = contentState.createEntity(
       "LINK",
       "MUTABLE",
-      { url: linkUrl }
+      { url: linkUrl, text: linkText }
     );
     const entityKey = contentStateWithEntityForLink.getLastCreatedEntityKey();
 
@@ -142,32 +136,7 @@ const Link: React.FC<IProps> = (props) => {
     setVisible(false);
   };
 
-  const findLinkEntities = (
-    contentBlock: any,
-    callback: any,
-    contentState: any
-  ) => {
-    contentBlock.findEntityRanges((character: any) => {
-      const entityKey = character.getEntity();
-      return (
-        entityKey !== null &&
-        contentState.getEntity(entityKey).getType() === "LINK"
-      );
-    }, callback);
-  };
-
   /** jsx */
-
-  const LinkDecoratorComp: React.FC<any> = (props) => {
-    const { url } = props.contentState.getEntity(props.entityKey).getData();
-    return (
-      <Tooltip title={`链接url：${url}`}>
-        <a href={url} className={styles.link}>
-          {props.children}
-        </a>
-      </Tooltip>
-    );
-  };
 
   const PopoverContent = () => {
     return (

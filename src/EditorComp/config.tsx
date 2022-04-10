@@ -78,6 +78,8 @@ const entityToHTML = (entity: any) => {
     return `<video src="${src}"${inlineStyleStr} controls />`;
   } else if (type === "AUDIO") {
     return `<audio src="${src}"${inlineStyleStr} controls />`;
+  } else if (type === "LINK") {
+    return `<a href="${data.url}">${data.text}</a>`;
   }
   return "";
 };
@@ -198,7 +200,7 @@ const htmlToEntity = (
   node: HTMLElement,
   createEntity: any
 ) => {
-  // console.log("node::::", node.style);
+  // console.log("node::::", nodeName, node.style);
   let data: IhtmlToEntityData = {};
   if (node.style?.width) {
     data.width = parseFloat(node.style.width);
@@ -217,6 +219,11 @@ const htmlToEntity = (
     return createEntity("VIDEO", "IMMUTABLE", data);
   } else if (nodeName === "audio") {
     return createEntity("AUDIO", "IMMUTABLE", data);
+  } else if (nodeName === "a") {
+    return createEntity("LINK", "MUTABLE", {
+      url: node.attributes.getNamedItem("href")?.value,
+      text: node.innerText,
+    });
   }
 };
 
