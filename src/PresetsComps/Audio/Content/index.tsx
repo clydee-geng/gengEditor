@@ -1,6 +1,12 @@
 import React from "react";
 import styles from "./index.less";
-import { ContentBlock, ContentState, EditorState, SelectionState } from "draft-js";
+import {
+  ContentBlock,
+  ContentState,
+  EditorState,
+  SelectionState,
+} from "draft-js";
+import classnames from "classnames";
 
 interface IProps {
   block: ContentBlock;
@@ -8,12 +14,13 @@ interface IProps {
   blockProps: {
     editorState: EditorState;
     setEditorState: any;
+    disabled: boolean;
   };
 }
 
 const Content: React.FC<IProps> = (props) => {
   const { block, contentState, blockProps } = props;
-  const { editorState, setEditorState } = blockProps;
+  const { editorState, setEditorState, disabled } = blockProps;
   const entitykey = block.getEntityAt(0);
   const data = contentState.getEntity(entitykey).getData();
 
@@ -28,7 +35,7 @@ const Content: React.FC<IProps> = (props) => {
    * methods
    */
 
-   const clickBindFn = (e: any) => {
+  const clickBindFn = (e: any) => {
     const nextEditorState = EditorState.forceSelection(
       editorState,
       SelectionState.createEmpty(block.getKey())
@@ -41,7 +48,14 @@ const Content: React.FC<IProps> = (props) => {
    */
 
   return (
-    <div className={styles.content} onClick={clickBindFn}>
+    <div
+      className={
+        disabled
+          ? classnames(styles.content, styles.contentDisabled)
+          : styles.content
+      }
+      onClick={clickBindFn}
+    >
       <audio
         src={data?.src}
         style={{ width: "100%" }}
