@@ -3,20 +3,6 @@
   border: 1px solid #ccc;
   .Toolbar {
     border-bottom: 1px solid #ccc;
-    position: relative;
-    &.disabledToolbar {
-      &::after{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background-color: #fff;
-        opacity: 0.7;
-        cursor: not-allowed;
-      }
-    }
   }
   .Content{
     :global(.public-DraftEditor-content){
@@ -90,6 +76,23 @@
       .textAlignLoop(@i + 1);    // 递归调用自身
     }
     .textAlignLoop(1);
+  }
+
+  &.EditorCompDisabled{
+    .Toolbar{
+      position: relative;
+      &::after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: #fff;
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
   }
 }
 :global(.ant-message){

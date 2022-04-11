@@ -226,14 +226,15 @@ const EditorComp: React.FC<IProps> = (props) => {
   };
 
   return (
-    <div className={styles.EditorComp} style={style}>
-      <div
-        className={
-          disabled
-            ? classnames(styles.disabledToolbar, styles.Toolbar)
-            : styles.Toolbar
-        }
-      >
+    <div
+      className={
+        disabled
+          ? classnames(styles.EditorComp, styles.EditorCompDisabled)
+          : styles.EditorComp
+      }
+      style={style}
+    >
+      <div className={styles.Toolbar}>
         {PresetsCompsList.map((item, index) => {
           return <item.Comp {...commonCompsProps} key={item.key} />;
         })}
