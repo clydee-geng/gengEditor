@@ -1,7 +1,7 @@
 import { getHEXAColor } from "@alias/utils";
 import { IhtmlToBlockData, IhtmlToEntityData } from "@alias/types/interfaces";
 import { TtextAlign } from "@alias/types/type";
-import { EditorState } from "draft-js";
+import { DraftBlockRenderMap } from "draft-js";
 
 const defaultBlockType = {
   "header-one": "h1",
@@ -40,10 +40,10 @@ const getStyleValDistillFn = (styleStr: string) => {
   return arr[arr.length - 1];
 };
 
-const blockToHTML = (block: any) => {
+const blockToHTML = (block: any, extraData?: any) => {
   const blockType = block.type;
   const { textIndent, textAlign } = block.data;
-  // console.log(blockType);
+  // console.log("block-type:::", blockType, block.data);
 
   let blockStyle = styleObjToStr({ textIndent, textAlign });
   let inlineStyleStr = blockStyle ? ` style="${blockStyle}"` : "";
@@ -59,6 +59,12 @@ const blockToHTML = (block: any) => {
       start: `<li${inlineStyleStr}>`,
       end: "</li>",
       nest: <ol />,
+    };
+  } else if (blockType.includes("line-height-")) {
+    const lineHeight = blockType.replace("line-height-", "");
+    return {
+      start: `<span style="line-height: ${lineHeight / 100}";>`,
+      end: `</span>`,
     };
   }
   return {
@@ -164,10 +170,7 @@ const htmlToStyle = (
 };
 
 const htmlToBlock = (nodeName: string, node: HTMLElement) => {
-  // console.log(
-  //   "xxx:",
-  //   nodeName,
-  // );
+  // console.log("xxx:", nodeName, node.style.lineHeight);
   const data: IhtmlToBlockData = {};
   if (node.style.textIndent) {
     data.textIndent = Math.max(parseInt(node.style.textIndent) / 2, 0);
@@ -190,6 +193,11 @@ const htmlToBlock = (nodeName: string, node: HTMLElement) => {
   } else if (nodeName === "figure") {
     return {
       type: "atomic",
+      data,
+    };
+  } else if (node.style.lineHeight) {
+    return {
+      type: `line-height-${parseFloat(node.style.lineHeight) * 100}`,
       data,
     };
   }

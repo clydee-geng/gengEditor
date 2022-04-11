@@ -54,9 +54,7 @@ const EditorComp: React.FC<IProps> = (props) => {
           }),
         htmlToBlock,
         htmlToEntity,
-      })(
-        '<p><a href="123">undefined</a><a href="123">111</a></p><p></p><figure><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" /></figure><p></p>'
-      ),
+      })('<span style="line-height: 2.5";>12341241212</span>'),
       decorators
     )
   );
@@ -187,7 +185,7 @@ const EditorComp: React.FC<IProps> = (props) => {
   const toHTMLStrBindFn = () => {
     const htmlStr = convertToHTML({
       styleToHTML,
-      blockToHTML,
+      blockToHTML: (block: any) => blockToHTML(block),
       entityToHTML,
     })(editorState.getCurrentContent());
     console.log(htmlStr);
