@@ -6,6 +6,7 @@ import {
   ContentState,
   SelectionState,
 } from "draft-js";
+import classnames from "classnames";
 
 interface IProps {
   block: ContentBlock;
@@ -14,12 +15,14 @@ interface IProps {
     editorContentDom: HTMLElement;
     editorState: EditorState;
     setEditorState: any;
+    disabled: boolean;
   };
 }
 
 const Content: React.FC<IProps> = (props) => {
   const { block, contentState, blockProps } = props;
-  const { editorContentDom, setEditorState, editorState } = blockProps;
+  const { editorContentDom, setEditorState, editorState, disabled } =
+    blockProps;
   const entitykey = block.getEntityAt(0);
   const data = contentState.getEntity(entitykey).getData();
 
@@ -57,7 +60,7 @@ const Content: React.FC<IProps> = (props) => {
   }, []);
 
   const ractSelectMouseDown = (e: MouseEvent<HTMLDivElement>) => {
-    if (dotRef.current) {
+    if (dotRef.current && !disabled) {
       clickToLeftBorder.current =
         e.pageX - dotRef.current.getBoundingClientRect().left;
 
@@ -131,7 +134,14 @@ const Content: React.FC<IProps> = (props) => {
    */
 
   return (
-    <div className={styles.content} onClick={clickBindFn}>
+    <div
+      className={
+        disabled
+          ? classnames(styles.contentDisabled, styles.content)
+          : styles.content
+      }
+      onClick={clickBindFn}
+    >
       {isShow && (
         <div
           className={styles.ractSelect}
