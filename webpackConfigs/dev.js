@@ -1,6 +1,4 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 module.exports = {
   mode: "development",
   devtool: "cheap-module-eval-source-map",
@@ -8,5 +6,10 @@ module.exports = {
     contentBase: "./dist",
     open: true,
     overlay: true,
+  },
+  entry: "./src/index.tsx",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "../build"),
   },
 };

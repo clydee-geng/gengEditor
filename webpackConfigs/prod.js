@@ -1,7 +1,24 @@
+const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 module.exports = {
-  mode: "production",
-  devtool: "cheap-module-source-map",
+  mode: "none",
+  entry: {
+    gengEditor: "./src/index.tsx",
+    "gengEditor.min": "./src/index.tsx",
+  },
+  output: {
+    filename: "[name].js",
+    path: path.resolve(__dirname, "../build"),
+    library: "gengEditor",
+    libraryExport: "default",
+    libraryTarget: "umd",
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        test: /\.min.js$/,
+      }),
+    ],
+  },
 };
