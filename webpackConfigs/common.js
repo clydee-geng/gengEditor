@@ -1,5 +1,9 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
 module.exports = {
   module: {
     rules: [
@@ -38,7 +42,7 @@ module.exports = {
           {
             test: /\.css$/,
             use: [
-              "style-loader",
+              MiniCssExtractPlugin.loader,
               "css-loader",
               {
                 loader: "postcss-loader",
@@ -53,7 +57,7 @@ module.exports = {
           {
             test: /\.less$/,
             use: [
-              "style-loader",
+              MiniCssExtractPlugin.loader,
               {
                 loader: "css-loader",
                 options: {
@@ -86,6 +90,16 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+    }),
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+    }),
+    new OptimizeCssAssetsPlugin({
+      cssProcessorPluginOptions: {
+        preset: ["default", { discardComments: { removeAll: true } }],
+      },
+      canPrint: true,
     }),
   ],
   resolve: {
