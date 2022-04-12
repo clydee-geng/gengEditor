@@ -7,7 +7,7 @@ module.exports = {
     open: true,
     overlay: true,
   },
-  entry: "./src/index.tsx",
+  entry: "./src/index.ts",
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "../build"),
