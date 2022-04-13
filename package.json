@@ -17,7 +17,7 @@
   ],
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "rm -rf dist && webpack --env.prod",
+    "build": "rm -rf dist && webpack --env.prod"
   },
   "dependencies": {
     "@simonwep/pickr": "^1.8.2",
