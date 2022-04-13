@@ -3,13 +3,15 @@ module.exports = {
   mode: "development",
   devtool: "cheap-module-eval-source-map",
   devServer: {
-    contentBase: "./dist",
+    contentBase: path.resolve(__dirname, "../example/"),
     open: true,
     overlay: true,
   },
-  entry: "./src/index.ts",
+  entry: {
+    bundle: path.resolve(__dirname, "../example/index.js"),
+  },
   output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "../dist"),
+    filename: "[name].js",
+    path: path.resolve(__dirname, "../example/"),
   },
 };
