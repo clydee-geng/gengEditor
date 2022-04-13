@@ -1,11 +1,9 @@
-const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
 
 module.exports = {
-  mode: "none",
+  mode: "production",
   entry: {
     gengEditor: "./src/index.ts",
-    "gengEditor.min": "./src/index.ts",
   },
   output: {
     filename: "[name].js",
@@ -13,14 +11,6 @@ module.exports = {
     library: "gengEditor",
     libraryExport: "default",
     libraryTarget: "umd",
-  },
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        test: /\.min.js$/,
-      }),
-    ],
   },
   // 这些模块通过注册在运行环境中的全局变量访问，不用被重复打包进输出的代码里
   // externals: {
