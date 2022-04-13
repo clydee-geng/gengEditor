@@ -18,7 +18,6 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "build": "rm -rf dist && webpack --env.prod",
-    "pub": "npm run build && npm publish"
   },
   "dependencies": {
     "@simonwep/pickr": "^1.8.2",
