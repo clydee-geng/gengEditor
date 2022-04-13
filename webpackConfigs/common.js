@@ -102,5 +102,6 @@ module.exports = {
     alias: {
       "@alias": path.resolve(__dirname, "../src/alias"),
     },
+    symlinks: false,
   },
 };
