@@ -17,6 +17,7 @@ config/env
 debug
 logs
 build
+dist
 mocks_data
 mocks_data/proxy/**/__*
 node_modules
