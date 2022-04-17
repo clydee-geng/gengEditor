@@ -1,11 +1,11 @@
 import React from "react";
 import { render } from "react-dom";
-// 非link import时下面这个，并注释掉link import
+// 开发时用 src的index
 // import GengEditor from "../src";
 
-// link import 时用下面这两个，并注释掉非link import
-import GengEditor from "geng-editor";
-import "geng-editor/dist/gengEditor.css";
+// 测试包时用 先 yarn add geng-editor@file:./dist -D， 然后用下面的语句
+import GengEditor from "geng-editor/gengEditor";
+import "../dist/gengEditor.css";
 
 const App = () => (
   <div style={{ width: 800 }}>
