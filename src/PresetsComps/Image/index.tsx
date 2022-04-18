@@ -11,6 +11,13 @@ interface IProps {
   setEditorState: any;
   setCustomStyleMap: any;
   keepEditorFocusBindFn: () => void;
+  uploadPropsFn?:
+    | ((info: any) => Promise<() => string>)
+    | {
+        image: (info: any) => Promise<() => string>;
+        audio: (info: any) => Promise<() => string>;
+        video: (info: any) => Promise<() => string>;
+      };
 }
 
 const Image: React.FC<IProps> = (props) => {
@@ -19,6 +26,7 @@ const Image: React.FC<IProps> = (props) => {
     setEditorState,
     setCustomStyleMap,
     keepEditorFocusBindFn,
+    uploadPropsFn,
   } = props;
 
   /**
@@ -26,9 +34,7 @@ const Image: React.FC<IProps> = (props) => {
    */
 
   const [visible, setVisible] = React.useState(false);
-  const [curUrl, setCurUrl] = React.useState(
-    "https://s2.ax1x.com/2020/02/29/3yhm8S.jpg"
-  );
+  const [curUrl, setCurUrl] = React.useState<string>();
 
   React.useEffect(() => {
     keepEditorFocusBindFn();
@@ -72,7 +78,20 @@ const Image: React.FC<IProps> = (props) => {
               listType="picture-card"
               showUploadList={false}
               beforeUpload={() => {}}
-              onChange={() => {}}
+              customRequest={(info) => {
+                if (typeof uploadPropsFn === "function") {
+                  uploadPropsFn(info).then((res) => {
+                    setCurUrl(res);
+                  });
+                } else if (
+                  typeof uploadPropsFn === "object" &&
+                  typeof uploadPropsFn.image === "function"
+                ) {
+                  uploadPropsFn.image(info).then((res) => {
+                    setCurUrl(res);
+                  });
+                }
+              }}
             >
               {curUrl ? (
                 <img

@@ -15,6 +15,13 @@ interface IProps {
   setEditorState: any;
   setCustomStyleMap: any;
   keepEditorFocusBindFn: () => void;
+  uploadPropsFn?:
+    | ((info: any) => Promise<() => string>)
+    | {
+        image: (info: any) => Promise<() => string>;
+        audio: (info: any) => Promise<() => string>;
+        video: (info: any) => Promise<() => string>;
+      };
 }
 
 const Video: React.FC<IProps> = (props) => {
@@ -23,6 +30,7 @@ const Video: React.FC<IProps> = (props) => {
     setEditorState,
     setCustomStyleMap,
     keepEditorFocusBindFn,
+    uploadPropsFn,
   } = props;
 
   /**
@@ -30,9 +38,7 @@ const Video: React.FC<IProps> = (props) => {
    */
 
   const [visible, setVisible] = React.useState(false);
-  const [curUrl, setCurUrl] = React.useState(
-    "https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4"
-  );
+  const [curUrl, setCurUrl] = React.useState<string>();
 
   React.useEffect(() => {
     keepEditorFocusBindFn();
@@ -76,7 +82,20 @@ const Video: React.FC<IProps> = (props) => {
               listType="picture-card"
               showUploadList={false}
               beforeUpload={() => {}}
-              onChange={() => {}}
+              customRequest={(info) => {
+                if (typeof uploadPropsFn === "function") {
+                  uploadPropsFn(info).then((res) => {
+                    setCurUrl(res);
+                  });
+                } else if (
+                  typeof uploadPropsFn === "object" &&
+                  typeof uploadPropsFn.video === "function"
+                ) {
+                  uploadPropsFn.video(info).then((res) => {
+                    setCurUrl(res);
+                  });
+                }
+              }}
             >
               {curUrl ? (
                 <div className={styles.vidoeBox}>
