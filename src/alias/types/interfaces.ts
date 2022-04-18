@@ -10,4 +10,20 @@ interface IhtmlToEntityData {
   src?: string;
 }
 
-export { IhtmlToBlockData, IhtmlToEntityData };
+interface IMediaUploadItemConfig {
+  uploadFn: (info: any) => Promise<() => string>;
+  acceptArr: string[];
+  limitMB: number;
+}
+interface IMediaUploadConfig {
+  Image?: IMediaUploadItemConfig;
+  Video?: IMediaUploadItemConfig;
+  Audio?: IMediaUploadItemConfig;
+}
+
+export {
+  IhtmlToBlockData,
+  IhtmlToEntityData,
+  IMediaUploadConfig,
+  IMediaUploadItemConfig,
+};

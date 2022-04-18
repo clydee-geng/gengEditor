@@ -7,37 +7,25 @@ import GengEditor from "../src";
 // import GengEditor from "geng-editor/gengEditor";
 // import "../dist/gengEditor.css";
 
-const App = () => (
-  <div style={{ width: 800 }}>
-    <GengEditor
-      uploadPropsFn={{
-        image: (info) =>
-          new Promise((resolve, reject) => {
-            console.log(info);
-            setTimeout(() => {
-              resolve("https://s2.ax1x.com/2020/02/29/3yhm8S.jpg");
-            }, 3000);
-          }),
-        audio: (info) =>
-          new Promise((resolve, reject) => {
-            console.log(info);
-            setTimeout(() => {
-              resolve(
-                "https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4"
-              );
-            }, 3000);
-          }),
-        video: (info) =>
-          new Promise((resolve, reject) => {
-            console.log(info);
-            setTimeout(() => {
-              resolve(
-                "https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4"
-              );
-            }, 3000);
-          }),
-      }}
-    />
-  </div>
-);
+const App = () => {
+  const mediaUploadConfig = {
+    Image: {
+      uploadFn: (info) =>
+        new Promise((resolve, reject) => {
+          console.log(info);
+          setTimeout(() => {
+            resolve("https://s2.ax1x.com/2020/02/29/3yhm8S.jpg");
+          }, 3000);
+        }),
+      acceptArr: [".jpg"],
+      limitMB: 5,
+    },
+  };
+
+  return (
+    <div style={{ width: 800 }}>
+      <GengEditor mediaUploadConfig={mediaUploadConfig} />
+    </div>
+  );
+};
 render(<App />, document.getElementById("root"));

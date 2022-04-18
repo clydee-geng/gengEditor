@@ -219,4 +219,24 @@ const removeAllInlineStyle = (editorState: EditorState, styleStr: string) => {
   return ContentState;
 };
 
-export { getCurrentContentBlock, getHEXAColor, removeAllInlineStyle };
+const checkFileType = (file: File, fileTypeList: string[]) => {
+  // 获取后缀
+  // const d = /\.[^\.]+$/.exec(file.name);
+  // 校验/**/
+  let info = "";
+  // eslint-disable-next-line prefer-destructuring
+  const name = file.name;
+  const suffixA = name.lastIndexOf(".");
+  const suffixB = name.length;
+  const Osuffix = name.substring(suffixA, suffixB);
+  const Msuffix = Osuffix.toLowerCase();
+
+  if (!fileTypeList.includes(Msuffix)) {
+    info = `不支持上传${Msuffix}格式的文件`;
+    return info;
+  }
+
+  return info;
+};
+
+export { getCurrentContentBlock, getHEXAColor, removeAllInlineStyle, checkFileType };

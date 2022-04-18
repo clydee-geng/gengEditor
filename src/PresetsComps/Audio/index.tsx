@@ -15,13 +15,6 @@ interface IProps {
   setEditorState: any;
   setCustomStyleMap: any;
   keepEditorFocusBindFn: () => void;
-  uploadPropsFn?:
-    | ((info: any) => Promise<() => string>)
-    | {
-        image: (info: any) => Promise<() => string>;
-        audio: (info: any) => Promise<() => string>;
-        video: (info: any) => Promise<() => string>;
-      };
 }
 
 const Audio: React.FC<IProps> = (props) => {
@@ -30,7 +23,6 @@ const Audio: React.FC<IProps> = (props) => {
     setEditorState,
     setCustomStyleMap,
     keepEditorFocusBindFn,
-    uploadPropsFn,
   } = props;
 
   /**
@@ -82,20 +74,6 @@ const Audio: React.FC<IProps> = (props) => {
               listType="picture-card"
               showUploadList={false}
               beforeUpload={() => {}}
-              customRequest={(info) => {
-                if (typeof uploadPropsFn === "function") {
-                  uploadPropsFn(info).then((res) => {
-                    setCurUrl(res);
-                  });
-                } else if (
-                  typeof uploadPropsFn === "object" &&
-                  typeof uploadPropsFn.audio === "function"
-                ) {
-                  uploadPropsFn.audio(info).then((res) => {
-                    setCurUrl(res);
-                  });
-                }
-              }}
             >
               {curUrl ? (
                 <div className={styles.vidoeBox}>

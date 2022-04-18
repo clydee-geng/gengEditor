@@ -26,6 +26,7 @@ import {
 import Media from "../PresetsComps/Media";
 import classnames from "classnames";
 import { decorators } from "./decorators";
+import { IMediaUploadConfig } from "@alias/types/interfaces";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
   return {
@@ -33,20 +34,15 @@ const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
     key: item,
   };
 });
+
 interface IProps {
   style?: React.CSSProperties;
   disabled?: boolean;
-  uploadPropsFn?:
-    | ((info: any) => Promise<() => string>)
-    | {
-        image: (info: any) => Promise<() => string>;
-        audio: (info: any) => Promise<() => string>;
-        video: (info: any) => Promise<() => string>;
-      };
+  mediaUploadConfig?: IMediaUploadConfig;
 }
 
 const EditorComp: React.FC<IProps> = (props) => {
-  const { style, disabled, uploadPropsFn } = props;
+  const { style, disabled, mediaUploadConfig } = props;
   /**
    * hooks
    */
@@ -245,18 +241,20 @@ const EditorComp: React.FC<IProps> = (props) => {
       <div className={styles.Toolbar}>
         {PresetsCompsList.map((item, index) => {
           if (
-            item.key === "Image" ||
-            item.key === "Video" ||
-            item.key === "Audio"
+            (item.key === "Image" ||
+              item.key === "Video" ||
+              item.key === "Audio") &&
+            mediaUploadConfig
           ) {
             return (
               <item.Comp
                 {...commonCompsProps}
                 key={item.key}
-                uploadPropsFn={uploadPropsFn}
+                mediaUploadConfig={mediaUploadConfig[item.key]}
               />
             );
           }
+
           return <item.Comp {...commonCompsProps} key={item.key} />;
         })}
       </div>

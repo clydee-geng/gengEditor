@@ -2,22 +2,17 @@ import React from "react";
 import { EditorState, RichUtils, Modifier, AtomicBlockUtils } from "draft-js";
 import PopoverBtn from "../PopoverBtn";
 import styles from "./index.less";
-import classnames from "classnames";
 import { Button, Tabs, Upload, Input, message } from "antd";
 import { PictureOutlined, PlusOutlined } from "@ant-design/icons";
+import { checkFileType } from "@alias/utils";
+import { IMediaUploadItemConfig } from "@alias/types/interfaces";
 
 interface IProps {
   editorState: EditorState;
   setEditorState: any;
   setCustomStyleMap: any;
   keepEditorFocusBindFn: () => void;
-  uploadPropsFn?:
-    | ((info: any) => Promise<() => string>)
-    | {
-        image: (info: any) => Promise<() => string>;
-        audio: (info: any) => Promise<() => string>;
-        video: (info: any) => Promise<() => string>;
-      };
+  mediaUploadConfig: IMediaUploadItemConfig;
 }
 
 const Image: React.FC<IProps> = (props) => {
@@ -26,8 +21,10 @@ const Image: React.FC<IProps> = (props) => {
     setEditorState,
     setCustomStyleMap,
     keepEditorFocusBindFn,
-    uploadPropsFn,
+    mediaUploadConfig,
   } = props;
+
+  const { uploadFn, limitMB, acceptArr } = mediaUploadConfig || {};
 
   /**
    * hooks
@@ -66,6 +63,35 @@ const Image: React.FC<IProps> = (props) => {
     setEditorState(nextEditorState);
   };
 
+  const customRequest = (info: any) => {
+    if (typeof uploadFn === "function") {
+      uploadFn(info).then((res) => {
+        setCurUrl(res);
+      });
+    }
+  };
+
+  const beforeUpload = (file: File) => {
+    if (Array.isArray(acceptArr) && !acceptArr.includes("*")) {
+      // 检查文件后缀
+      const error = checkFileType(file, acceptArr);
+      if (error) {
+        message.warn(error);
+        return false;
+      }
+    }
+
+    // 检查文件大小
+
+    if (typeof limitMB === "number") {
+      const isLtSize = file.size / 1024 / 1024 < limitMB;
+      if (!isLtSize) {
+        message.warn(`上传的图片需小于${limitMB}MB!`);
+        return false;
+      }
+    }
+  };
+
   /** jsx */
 
   const PopoverContent = () => {
@@ -74,24 +100,12 @@ const Image: React.FC<IProps> = (props) => {
         <Tabs>
           <Tabs.TabPane tab="上传图片" key="1">
             <Upload
+              accept={acceptArr?.join(", ")}
               name="avatar"
               listType="picture-card"
               showUploadList={false}
-              beforeUpload={() => {}}
-              customRequest={(info) => {
-                if (typeof uploadPropsFn === "function") {
-                  uploadPropsFn(info).then((res) => {
-                    setCurUrl(res);
-                  });
-                } else if (
-                  typeof uploadPropsFn === "object" &&
-                  typeof uploadPropsFn.image === "function"
-                ) {
-                  uploadPropsFn.image(info).then((res) => {
-                    setCurUrl(res);
-                  });
-                }
-              }}
+              beforeUpload={beforeUpload}
+              customRequest={customRequest}
             >
               {curUrl ? (
                 <img
