@@ -16,9 +16,7 @@ import LineHeight from "./LineHeight";
 import { AddIndent, MinusIndent } from "./TextIndent";
 import { LeftAlign, CenterAlign, RightAlign, JustifyAlign } from "./TextAlign";
 import FontSize from "./FontSize";
-import Image from "./Image";
-import Video from "./Video";
-import Audio from "./Audio";
+import { Image, Video, Audio } from "./Media";
 import { Undo, Redo } from "./UndoAndRedo";
 
 const Bold = (props: any) => (

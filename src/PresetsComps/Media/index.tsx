@@ -1,39 +1,57 @@
-import React from "react";
-import { EditorState, ContentBlock, ContentState } from "draft-js";
-import ImageContent from "../Image/Content";
-import VideoContent from "../Video/Content";
-import AudioContent from "../Audio/Content";
+import Comp from "./Comp";
 import styles from "./index.less";
-import classnames from "classnames";
+import {
+  CaretRightOutlined,
+  PictureOutlined,
+  PlaySquareOutlined,
+  CustomerServiceOutlined,
+} from "@ant-design/icons";
 
-interface IProps {
-  block: ContentBlock;
-  contentState: ContentState;
-  blockProps: {
-    editorContentDom: HTMLElement;
-    editorState: EditorState;
-    setEditorState: any;
-    curSelectBlock?: ContentBlock;
-    disabled: boolean;
-  };
-}
-const Media: React.FC<IProps> = (props) => {
-  const { block, contentState, blockProps } = props;
-  const { disabled } = blockProps;
-  const entitykey = block.getEntityAt(0);
-  const type = contentState.getEntity(entitykey).getType();
+const Image = (props: any) => (
+  <Comp
+    {...props}
+    type="Image"
+    icon={<PictureOutlined />}
+    renderUploadedComp={(curUrl: string) => (
+      <img
+        src={curUrl}
+        alt="avatar"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+        }}
+      />
+    )}
+  />
+);
 
-  return (
-    <div
-      className={
-        disabled ? classnames(styles.Media, styles.MediaDisable) : styles.Media
-      }
-    >
-      {type === "IMAGE" && <ImageContent {...props} />}
-      {type === "VIDEO" && <VideoContent {...props} />}
-      {type === "AUDIO" && <AudioContent {...props} />}
-    </div>
-  );
-};
+const Video = (props: any) => (
+  <Comp
+    {...props}
+    type="Video"
+    icon={<PlaySquareOutlined />}
+    renderUploadedComp={(curUrl: string) => (
+      <div className={styles.vidoeBox}>
+        {console.log("curUrl", curUrl)}
+        <div className={styles.videoMask}>
+          <CaretRightOutlined />
+        </div>
+        <video src={curUrl} autoPlay={false} />
+      </div>
+    )}
+  />
+);
 
-export default Media;
+const Audio = (props: any) => (
+  <Comp
+    {...props}
+    type="Audio"
+    icon={<CustomerServiceOutlined />}
+    renderUploadedComp={(curUrl: string) => (
+      <CustomerServiceOutlined style={{ fontSize: "30px" }} />
+    )}
+  />
+);
+
+export { Image, Audio, Video };

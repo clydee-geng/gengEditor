@@ -20,6 +20,32 @@ const App = () => {
       acceptArr: [".jpg"],
       limitMB: 5,
     },
+    Video: {
+      uploadFn: (info) =>
+        new Promise((resolve, reject) => {
+          console.log(info);
+          setTimeout(() => {
+            resolve(
+              "https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4"
+            );
+          }, 3000);
+        }),
+      acceptArr: [".mp4"],
+      limitMB: 6,
+    },
+    Audio: {
+      uploadFn: (info) =>
+        new Promise((resolve, reject) => {
+          console.log(info);
+          setTimeout(() => {
+            resolve(
+              "https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4"
+            );
+          }, 3000);
+        }),
+      acceptArr: [".mp3"],
+      limitMB: 7,
+    },
   };
 
   return (

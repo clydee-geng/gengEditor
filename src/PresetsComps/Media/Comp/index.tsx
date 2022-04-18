@@ -1,6 +1,6 @@
 import React from "react";
-import { EditorState, RichUtils, Modifier, AtomicBlockUtils } from "draft-js";
-import PopoverBtn from "../PopoverBtn";
+import { EditorState, AtomicBlockUtils } from "draft-js";
+import PopoverBtn from "../../PopoverBtn";
 import styles from "./index.less";
 import { Button, Tabs, Upload, Input, message } from "antd";
 import { PictureOutlined, PlusOutlined } from "@ant-design/icons";
@@ -13,19 +13,24 @@ interface IProps {
   setCustomStyleMap: any;
   keepEditorFocusBindFn: () => void;
   mediaUploadConfig: IMediaUploadItemConfig;
+  type: "Image" | "Audio" | "Video";
+  renderUploadedComp: (curUrl: string) => React.ReactElement;
+  icon: React.ReactElement;
 }
 
-const Image: React.FC<IProps> = (props) => {
+const Comp: React.FC<IProps> = (props) => {
   const {
     editorState,
     setEditorState,
     setCustomStyleMap,
     keepEditorFocusBindFn,
     mediaUploadConfig,
+    type,
+    renderUploadedComp,
+    icon,
   } = props;
 
   const { uploadFn, limitMB, acceptArr } = mediaUploadConfig || {};
-
   /**
    * hooks
    */
@@ -41,14 +46,32 @@ const Image: React.FC<IProps> = (props) => {
    * methods
    */
 
+  const typeFormatFn = () => {
+    let jsx;
+    switch (type) {
+      case "Image":
+        jsx = "图片";
+        break;
+      case "Video":
+        jsx = "视频";
+        break;
+      case "Audio":
+        jsx = "音频";
+        break;
+    }
+    return jsx;
+  };
+
   const saveBindFn = () => {
     if (!curUrl) {
-      return message.warning("请上传图片或者输入图片url");
+      return message.warning(
+        `请上传${typeFormatFn()}或者输入${typeFormatFn()}url`
+      );
     }
     setVisible(false);
 
     const contentState = editorState.getCurrentContent();
-    const entity = contentState.createEntity("IMAGE", "IMMUTABLE", {
+    const entity = contentState.createEntity(type.toUpperCase(), "IMMUTABLE", {
       src: curUrl,
     });
     const entityKey = entity.getLastCreatedEntityKey();
@@ -65,9 +88,11 @@ const Image: React.FC<IProps> = (props) => {
 
   const customRequest = (info: any) => {
     if (typeof uploadFn === "function") {
-      uploadFn(info).then((res) => {
-        setCurUrl(res);
-      });
+      uploadFn(info)
+        .then((res) => {
+          setCurUrl(res);
+        })
+        .catch((err) => {});
     }
   };
 
@@ -86,7 +111,7 @@ const Image: React.FC<IProps> = (props) => {
     if (typeof limitMB === "number") {
       const isLtSize = file.size / 1024 / 1024 < limitMB;
       if (!isLtSize) {
-        message.warn(`上传的图片需小于${limitMB}MB!`);
+        message.warn(`上传的${typeFormatFn()}需小于${limitMB}MB!`);
         return false;
       }
     }
@@ -98,7 +123,7 @@ const Image: React.FC<IProps> = (props) => {
     return (
       <div className={styles.popverContent}>
         <Tabs>
-          <Tabs.TabPane tab="上传图片" key="1">
+          <Tabs.TabPane tab={`上传${typeFormatFn()}`} key="1">
             <Upload
               accept={acceptArr?.join(", ")}
               name="avatar"
@@ -108,24 +133,17 @@ const Image: React.FC<IProps> = (props) => {
               customRequest={customRequest}
             >
               {curUrl ? (
-                <img
-                  src={curUrl}
-                  alt="avatar"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
+                typeof renderUploadedComp === "function" &&
+                renderUploadedComp(curUrl)
               ) : (
                 <div>
                   <PlusOutlined />
-                  <div>选择图片</div>
+                  <div>{`选择${typeFormatFn()}`}</div>
                 </div>
               )}
             </Upload>
           </Tabs.TabPane>
-          <Tabs.TabPane tab="网络图片" key="2">
+          <Tabs.TabPane tab={`网络${typeFormatFn()}`} key="2">
             <div
               style={{
                 display: "flex",
@@ -133,12 +151,12 @@ const Image: React.FC<IProps> = (props) => {
                 marginBottom: "10px",
               }}
             >
-              <div>图片Url：</div>
+              <div>{`${typeFormatFn()}Url：`}</div>
               <div>
                 <Input
                   value={curUrl}
                   onChange={(e) => setCurUrl(e.target.value.trim())}
-                  placeholder="请输入图片Url"
+                  placeholder={`请输入${typeFormatFn()}Url`}
                 />
               </div>
             </div>
@@ -146,7 +164,7 @@ const Image: React.FC<IProps> = (props) => {
         </Tabs>
         <div style={{ textAlign: "right", marginTop: "10px" }}>
           <Button className={styles.btn} onClick={saveBindFn} type="primary">
-            插入图片
+            {`插入${typeFormatFn()}`}
           </Button>
         </div>
       </div>
@@ -155,9 +173,9 @@ const Image: React.FC<IProps> = (props) => {
 
   return (
     <PopoverBtn
-      PopoverTitle="插入图片"
-      tip="插入图片"
-      icon={<PictureOutlined />}
+      PopoverTitle={`插入${typeFormatFn()}`}
+      tip={`插入${typeFormatFn()}`}
+      icon={icon}
       activeColor={false}
       PopoverContent={PopoverContent}
       visible={visible}
@@ -168,4 +186,4 @@ const Image: React.FC<IProps> = (props) => {
   );
 };
 
-export default Image;
+export default Comp;

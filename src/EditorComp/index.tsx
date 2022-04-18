@@ -23,7 +23,7 @@ import {
   htmlToBlock,
   htmlToEntity,
 } from "./config";
-import Media from "../PresetsComps/Media";
+import MediaContent from "../PresetsComps/Media/Content";
 import classnames from "classnames";
 import { decorators } from "./decorators";
 import { IMediaUploadConfig } from "@alias/types/interfaces";
@@ -125,7 +125,7 @@ const EditorComp: React.FC<IProps> = (props) => {
     const type = contentBlock.getType();
     if (type === "atomic") {
       return {
-        component: Media,
+        component: MediaContent,
         props: {
           editorState: editorState,
           setEditorState: setEditorState,
