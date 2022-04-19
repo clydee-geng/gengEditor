@@ -39,10 +39,20 @@ interface IProps {
   style?: React.CSSProperties;
   disabled?: boolean;
   mediaUploadConfig?: IMediaUploadConfig;
+  value?: string;
+  onChange?: (val: string) => void;
+  placeholder?: string;
 }
 
 const EditorComp: React.FC<IProps> = (props) => {
-  const { style, disabled, mediaUploadConfig } = props;
+  const {
+    style,
+    disabled,
+    mediaUploadConfig,
+    placeholder = "请输入...",
+    value = "",
+    onChange,
+  } = props;
   /**
    * hooks
    */
@@ -58,9 +68,7 @@ const EditorComp: React.FC<IProps> = (props) => {
           }),
         htmlToBlock,
         htmlToEntity,
-      })(
-        '<p><strong>1111111</strong></p><p><em>2222222</em></p><p><span style="font-size:24px">3333333</span></p><p><u>44444</u></p><p><span style="text-decoration:line-through">55555</span></p><p><span style="color:#FF0000">66666</span></p><p><span style="background-color:#FFA500">77777</span></p><p><a href="88888">88888</a></p><ul><li>9999</li></ul><ol><li>101010</li></ol><h1>11111111</h1><blockquote>121211212<br/>1211212<br/>12211</blockquote><pre>13131331313<br/>   13131313<br/></pre><span style="line-height: 3";>1414314414</span><p style="text-indent:2em;">15151515</p><p style="text-align:center;">16161616</p><p></p><figure><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:204.5px;height:292.435px;" /></figure><p></p><figure><video src="https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4" controls /></figure><p></p><figure><audio src="https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4" controls /></figure><p></p>'
-      ),
+      })(value),
       decorators
     )
   );
@@ -189,13 +197,13 @@ const EditorComp: React.FC<IProps> = (props) => {
     return "not-handled";
   };
 
-  const toHTMLStrBindFn = () => {
+  const toHTMLStrBindFn = (editorState: EditorState) => {
     const htmlStr = convertToHTML({
       styleToHTML,
       blockToHTML: (block: any) => blockToHTML(block),
       entityToHTML,
     })(editorState.getCurrentContent());
-    console.log(htmlStr);
+    return htmlStr;
   };
 
   // 设置placeholder是否显示
@@ -267,8 +275,11 @@ const EditorComp: React.FC<IProps> = (props) => {
       >
         <Editor
           editorState={editorState}
-          onChange={setEditorState}
-          placeholder="请输入..."
+          onChange={(e) => {
+            setEditorState(e);
+            typeof onChange === "function" && onChange(toHTMLStrBindFn(e));
+          }}
+          placeholder={placeholder}
           ref={editorRef}
           customStyleMap={customStyleMap}
           blockStyleFn={blockStyleBindFn}
@@ -279,7 +290,6 @@ const EditorComp: React.FC<IProps> = (props) => {
           readOnly={disabled}
         />
       </div>
-      <button onClick={toHTMLStrBindFn}>toHtml</button>
     </div>
   );
 };
