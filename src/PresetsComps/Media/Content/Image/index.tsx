@@ -49,15 +49,6 @@ const Content: React.FC<IProps> = (props) => {
   /**
    * life
    */
-  React.useEffect(() => {
-    const cancelMask = () => {
-      setIsShow(false);
-    };
-    document.addEventListener("click", cancelMask);
-    return () => {
-      document.removeEventListener("click", cancelMask);
-    };
-  }, []);
 
   const ractSelectMouseDown = (e: MouseEvent<HTMLDivElement>) => {
     if (dotRef.current && !disabled) {
@@ -128,6 +119,11 @@ const Content: React.FC<IProps> = (props) => {
       SelectionState.createEmpty(block.getKey())
     );
     setEditorState(nextEditorState);
+    document.addEventListener("click", cancelMask);
+  };
+  const cancelMask = () => {
+    setIsShow(false);
+    document.removeEventListener("click", cancelMask);
   };
   /**
    * jsx

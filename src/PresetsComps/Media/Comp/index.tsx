@@ -40,6 +40,7 @@ const Comp: React.FC<IProps> = (props) => {
 
   React.useEffect(() => {
     keepEditorFocusBindFn();
+    setCurUrl("");
   }, [visible]);
 
   /**
