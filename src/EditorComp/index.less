@@ -1,81 +1,94 @@
 @maxIndent: 6;
 .EditorComp {
   border: 1px solid #ccc;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   .Toolbar {
     border-bottom: 1px solid #ccc;
   }
   .Content{
-    :global(.public-DraftEditor-content){
-      min-height: 200px;
+    min-height:200px;
+    flex: 1;
+    :global(.DraftEditor-root){
+      height: 100%;
+      :global(.DraftEditor-editorContainer){
+        height: 100%;
+        :global(.public-DraftEditor-content){
+          height: 100%;
+          overflow: auto;
+          .text {
+            font-size: 23px;
+            color: aqua;
+          }
+          .blockquote {
+            border-left: 8px solid #ccc;
+            padding: 5px 10px;
+            margin: 10px 0;
+            line-height: 1.4;
+            font-size: 100%;
+            background-color: #f1f1f1;
+          }
+          .codeBlock {
+            color: #333;
+            word-break: break-all;
+            word-wrap: break-word;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin: 10px 0;
+          }
+          .lineHeight100 {
+            line-height: 1;
+          }
+          .lineHeight115 {
+            line-height: 1.15;
+          }
+          .lineHeight160 {
+            line-height: 1.6;
+          }
+          .lineHeight200 {
+            line-height: 2;
+          }
+          .lineHeight250 {
+            line-height: 2.5;
+          }
+          .lineHeight300 {
+            line-height: 3;
+          }
+      
+          // textIndent 循环
+          .textIndentLoop(@i) when (@i > 0) {
+            .textIndent@{i}{
+              text-indent: (2em * @i);
+            }
+            .textIndentLoop(@i - 1);    // 递归调用自身
+          }
+          .textIndentLoop(@maxIndent);
+      
+          // textAlign 循环
+          @textAlignList: left, center, right, justify;
+          .textAlignLoop(@i) when (@i < length(@textAlignList) + 1) {
+            @item: extract(@textAlignList, @i);
+            .textAlign@{item}{
+              text-align: @item;
+              :global(.public-DraftStyleDefault-block){
+                text-align: @item;
+              }
+            }
+            .textAlignLoop(@i + 1);    // 递归调用自身
+          }
+          .textAlignLoop(1);
+        }
+      }
     }
+    
     &.hidePlaceholder{
       :global(.public-DraftEditorPlaceholder-root) {
         display: none;
       }
     }
-    .text {
-      font-size: 23px;
-      color: aqua;
-    }
-    .blockquote {
-      border-left: 8px solid #ccc;
-      padding: 5px 10px;
-      margin: 10px 0;
-      line-height: 1.4;
-      font-size: 100%;
-      background-color: #f1f1f1;
-    }
-    .codeBlock {
-      color: #333;
-      word-break: break-all;
-      word-wrap: break-word;
-      background-color: #f5f5f5;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      padding: 5px 10px;
-      margin: 10px 0;
-    }
-    .lineHeight100 {
-      line-height: 1;
-    }
-    .lineHeight115 {
-      line-height: 1.15;
-    }
-    .lineHeight160 {
-      line-height: 1.6;
-    }
-    .lineHeight200 {
-      line-height: 2;
-    }
-    .lineHeight250 {
-      line-height: 2.5;
-    }
-    .lineHeight300 {
-      line-height: 3;
-    }
-
-    // textIndent 循环
-    .textIndentLoop(@i) when (@i > 0) {
-      .textIndent@{i}{
-        text-indent: (2em * @i);
-      }
-      .textIndentLoop(@i - 1);    // 递归调用自身
-    }
-    .textIndentLoop(@maxIndent);
-
-    // textAlign 循环
-    @textAlignList: left, center, right, justify;
-    .textAlignLoop(@i) when (@i < length(@textAlignList) + 1) {
-      @item: extract(@textAlignList, @i);
-      .textAlign@{item}{
-        text-align: @item;
-        :global(.public-DraftStyleDefault-block){
-          text-align: @item;
-        }
-      }
-      .textAlignLoop(@i + 1);    // 递归调用自身
-    }
-    .textAlignLoop(1);
   }
 
   &.EditorCompDisabled{
