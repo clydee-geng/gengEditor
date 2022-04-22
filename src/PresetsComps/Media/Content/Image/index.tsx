@@ -66,7 +66,8 @@ const Content: React.FC<IProps> = (props) => {
         e.pageX -
         clickToLeftBorder.current -
         editorContentDom.getBoundingClientRect().left -
-        ractSelectRef.current.getBoundingClientRect().left;
+        (ractSelectRef.current.getBoundingClientRect().left -
+          editorContentDom.getBoundingClientRect().left);
 
       if (ractSelectNextWidth < 0) {
         ractSelectNextWidth = 0;
