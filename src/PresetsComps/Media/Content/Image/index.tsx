@@ -51,6 +51,7 @@ const Content: React.FC<IProps> = (props) => {
    */
 
   const ractSelectMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     if (dotRef.current && !disabled) {
       clickToLeftBorder.current =
         e.pageX - dotRef.current.getBoundingClientRect().left;
@@ -113,6 +114,7 @@ const Content: React.FC<IProps> = (props) => {
   };
 
   const clickBindFn = (e: any) => {
+    console.log('clickBindFn', e.target)
     e.stopPropagation();
     setIsShow(true);
     const nextEditorState = EditorState.forceSelection(

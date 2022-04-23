@@ -44,8 +44,8 @@ render(<App />, document.getElementById('root'));
 
 ```jsx
 import React from 'react';
-import GengEditor from 'geng-editor-test';
-import 'geng-editor-test/dist/gengEditor.css';
+import GengEditor from '../../dist/gengEditor.js';
+import '../../dist/gengEditor.css';
 
 const App = () => {
   return <GengEditor />;
