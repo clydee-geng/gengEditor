@@ -29,5 +29,4 @@ track
 !.run/isomorphic
 public/.DS_Store
 mock/.DS_Store
-dumi
-docs
+.umi
