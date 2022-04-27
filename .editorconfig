@@ -7,9 +7,9 @@ root = true
 # 编码字符集
 charset = utf-8
 # 缩进风格是空格
-indent_style = space
+indent_style = tab
 # 一个缩进占用两个空格，因没有设置tab_with，一个Tab占用2列
-indent_size = 2
+indent_size = 2 # 一个tab表示2个空格
 # 换行符 lf
 end_of_line = lf
 # 文件以一个空白行结尾
