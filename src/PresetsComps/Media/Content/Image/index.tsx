@@ -116,6 +116,7 @@ const Content: React.FC<IProps> = (props) => {
   const clickBindFn = (e: any) => {
     console.log('clickBindFn', e.target)
     e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     setIsShow(true);
     const nextEditorState = EditorState.forceSelection(
       editorState,
