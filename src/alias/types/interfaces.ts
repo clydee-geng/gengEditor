@@ -1,29 +1,29 @@
 import { TtextAlign } from "./type";
 interface IhtmlToBlockData {
-  textIndent?: number;
-  textAlign?: TtextAlign;
+	textIndent?: number;
+	textAlign?: TtextAlign;
 }
 
 interface IhtmlToEntityData {
-  width?: number;
-  height?: number;
-  src?: string;
+	width?: string;
+	height?: string;
+	src?: string;
 }
 
 interface IMediaUploadItemConfig {
-  uploadFn: (info: any) => Promise<() => string>;
-  acceptArr: string[];
-  limitMB: number;
+	uploadFn: (info: any) => Promise<() => string>;
+	acceptArr: string[];
+	limitMB: number;
 }
 interface IMediaUploadConfig {
-  Image?: IMediaUploadItemConfig;
-  Video?: IMediaUploadItemConfig;
-  Audio?: IMediaUploadItemConfig;
+	Image?: IMediaUploadItemConfig;
+	Video?: IMediaUploadItemConfig;
+	Audio?: IMediaUploadItemConfig;
 }
 
 export {
-  IhtmlToBlockData,
-  IhtmlToEntityData,
-  IMediaUploadConfig,
-  IMediaUploadItemConfig,
+	IhtmlToBlockData,
+	IhtmlToEntityData,
+	IMediaUploadConfig,
+	IMediaUploadItemConfig,
 };

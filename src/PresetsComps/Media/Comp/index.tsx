@@ -75,6 +75,7 @@ const Comp: React.FC<IProps> = (props) => {
 		const contentState = editorState.getCurrentContent();
 		const entity = contentState.createEntity(type.toUpperCase(), "IMMUTABLE", {
 			src: curUrl,
+			width: "100%",
 		});
 		const entityKey = entity.getLastCreatedEntityKey();
 		const newEditorState = EditorState.set(editorState, {
