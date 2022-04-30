@@ -1,10 +1,10 @@
-import { getHEXAColor } from "@alias/utils";
+import { getHEXAColor, BidirectionalMap } from "@alias/utils";
 import { IhtmlToBlockData, IhtmlToEntityData } from "@alias/types/interfaces";
 import { TtextAlign } from "@alias/types/type";
 import { DraftBlockRenderMap } from "draft-js";
 import React from "react";
 
-const defaultBlockType = {
+const blockTypeMapTag = new BidirectionalMap({
 	"header-one": "h1",
 	"header-two": "h2",
 	"header-three": "h3",
@@ -15,7 +15,7 @@ const defaultBlockType = {
 	blockquote: "blockquote",
 	"code-block": "pre",
 	atomic: "figure",
-};
+});
 
 const styleToHTML = (style: string) => {
 	// console.log(style);
@@ -69,8 +69,8 @@ const blockToHTML = (block: any, extraData?: any) => {
 		};
 	}
 	return {
-		start: `<${defaultBlockType[blockType]}${inlineStyleStr}>`,
-		end: `</${defaultBlockType[blockType]}>`,
+		start: `<${blockTypeMapTag.getForward(blockType)}${inlineStyleStr}>`,
+		end: `</${blockTypeMapTag.getForward(blockType)}>`,
 	};
 };
 
@@ -171,7 +171,7 @@ const htmlToStyle = (
 };
 
 const htmlToBlock = (nodeName: string, node: HTMLElement) => {
-	// console.log("xxx:", nodeName, node.style.lineHeight);
+	// console.log("xxx:", nodeName, node.style);
 	const data: IhtmlToBlockData = {};
 	if (node.style.textIndent) {
 		data.textIndent = Math.max(parseInt(node.style.textIndent) / 2, 0);
@@ -181,19 +181,9 @@ const htmlToBlock = (nodeName: string, node: HTMLElement) => {
 		data.textAlign = node.style.textAlign as TtextAlign;
 	}
 
-	if (nodeName === "blockquote") {
+	if (Object.keys(blockTypeMapTag.reverseObj).includes(nodeName)) {
 		return {
-			type: "blockquote",
-			data,
-		};
-	} else if (nodeName === "pre") {
-		return {
-			type: "code-block",
-			data,
-		};
-	} else if (nodeName === "figure") {
-		return {
-			type: "atomic",
+			type: blockTypeMapTag.getReverse(nodeName) as string,
 			data,
 		};
 	} else if (node.style.lineHeight) {
