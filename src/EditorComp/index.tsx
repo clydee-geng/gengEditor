@@ -205,7 +205,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 	const toHTMLStrBindFn = (editorState: EditorState) => {
 		const htmlStr = convertToHTML({
 			styleToHTML,
-			blockToHTML: (block: any) => blockToHTML(block),
+			blockToHTML,
 			entityToHTML,
 		})(editorState.getCurrentContent());
 		return htmlStr;

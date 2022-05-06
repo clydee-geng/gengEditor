@@ -1,11 +1,9 @@
 import React from "react";
 import { blockTypeMapTag, styleObjToStr } from "./methods";
 
-const blockToHTML = (block: any, extraData?: any) => {
+const blockToHTML = (block: any) => {
 	const blockType = block.type;
 	const { textIndent, textAlign } = block.data;
-	// console.log("block-type:::", blockType, block.data);
-
 	const blockStyle = styleObjToStr({ textIndent, textAlign });
 	const inlineStyleStr = blockStyle ? ` style="${blockStyle}"` : "";
 
