@@ -1,5 +1,5 @@
 import React from "react";
-import { getHEXAColor } from "@alias/utils";
+import { getHEXAColor } from "./methods";
 
 const htmlToStyle = (
 	nodeName: string,
