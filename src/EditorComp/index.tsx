@@ -23,7 +23,7 @@ import {
 	htmlToStyle,
 	htmlToBlock,
 	htmlToEntity,
-} from "./config";
+} from "./conversion";
 import MediaContent from "../PresetsComps/Media/Content";
 import classnames from "classnames";
 import { decorators } from "./decorators";
