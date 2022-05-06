@@ -89,9 +89,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 	const selectionState = editorState.getSelection();
 
 	React.useEffect(() => {
-		if (contentBlock.getType() !== "atomic") {
-			keepEditorFocusBindFn();
-		}
+		keepEditorFocusBindFn();
 	}, [
 		editorState.getCurrentInlineStyle(),
 		contentBlock.getType(),
@@ -202,12 +200,12 @@ const EditorComp: React.FC<IProps> = (props) => {
 		return "not-handled";
 	};
 
-	const toHTMLStrBindFn = (editorState: EditorState) => {
+	const toHTMLStrBindFn = (e: EditorState) => {
 		const htmlStr = convertToHTML({
 			styleToHTML,
 			blockToHTML,
 			entityToHTML,
-		})(editorState.getCurrentContent());
+		})(e.getCurrentContent());
 		return htmlStr;
 	};
 
