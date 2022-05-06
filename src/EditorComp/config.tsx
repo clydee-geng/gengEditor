@@ -112,62 +112,69 @@ const styleObjToStr = (obj: any) => {
 const htmlToStyle = (
 	nodeName: string,
 	node: HTMLElement,
-	currentStyle: any,
+	currentStyle: Set<string>,
 	extraData?: any
 ) => {
 	let nextCurrentStyle = currentStyle;
 	if (nodeName === "span" && node.style.color) {
-		const colorStr = getHEXAColor(node.style.color);
-		const styleStr = `FONT_COLOR_${colorStr}`;
-		if (
-			typeof extraData.setCustomStyleMap === "function" &&
-			!Object.prototype.hasOwnProperty.call(extraData.customStyleMap, styleStr)
-		) {
-			extraData.setCustomStyleMap((preState: any) => {
-				return {
-					...preState,
-					[styleStr]: { color: colorStr },
-				};
-			});
-		}
-		nextCurrentStyle = nextCurrentStyle.add(styleStr);
+		nextCurrentStyle = getNextCurrentStyleDistillFn(
+			node,
+			nextCurrentStyle,
+			extraData,
+			"FONT_COLOR_",
+			"color",
+			getHEXAColor(node.style.color)
+		);
 	}
 	if (nodeName === "span" && node.style.backgroundColor) {
-		const bgColorStr = getHEXAColor(node.style.backgroundColor);
-		const styleStr = `BG_COLOR_${bgColorStr}`;
-		if (
-			typeof extraData.setCustomStyleMap === "function" &&
-			!Object.prototype.hasOwnProperty.call(extraData.customStyleMap, styleStr)
-		) {
-			extraData.setCustomStyleMap((preState: any) => {
-				return {
-					...preState,
-					[styleStr]: { backgroundColor: bgColorStr },
-				};
-			});
-		}
-
-		nextCurrentStyle = nextCurrentStyle.add(styleStr);
+		nextCurrentStyle = getNextCurrentStyleDistillFn(
+			node,
+			nextCurrentStyle,
+			extraData,
+			"BG_COLOR_",
+			"backgroundColor",
+			getHEXAColor(node.style.backgroundColor)
+		);
 	}
 	if (nodeName === "span" && node.style.fontSize) {
-		const fontSize = parseFloat(node.style.fontSize);
-		const styleStr = `FONT_SIZE_${fontSize}`;
-		if (
-			typeof extraData.setCustomStyleMap === "function" &&
-			!Object.prototype.hasOwnProperty.call(extraData.customStyleMap, styleStr)
-		) {
-			extraData.setCustomStyleMap((preState: any) => {
-				return {
-					...preState,
-					[styleStr]: { fontSize: fontSize + "px" },
-				};
-			});
-		}
-
-		nextCurrentStyle = nextCurrentStyle.add(styleStr);
+		nextCurrentStyle = getNextCurrentStyleDistillFn(
+			node,
+			nextCurrentStyle,
+			extraData,
+			"FONT_SIZE_",
+			"fontSize",
+			parseFloat(node.style.fontSize).toString(),
+			"px"
+		);
 	}
 	// console.log(nodeName, node, node.style, nextCurrentStyle.toJS());
 	return nextCurrentStyle;
+};
+
+const getNextCurrentStyleDistillFn = (
+	node: HTMLElement,
+	currentStyle: Set<string>,
+	extraData: any,
+	styleStrPrefix: string,
+	key: string,
+	val: string,
+	unit?: string
+): Set<string> => {
+	const nextCurrentStyle = currentStyle;
+	const styleStr = `${styleStrPrefix}${val}`;
+	if (
+		typeof extraData.setCustomStyleMap === "function" &&
+		!Object.prototype.hasOwnProperty.call(extraData.customStyleMap, styleStr)
+	) {
+		extraData.setCustomStyleMap((preState: any) => {
+			return {
+				...preState,
+				[styleStr]: { [key]: val + (unit || "") },
+			};
+		});
+	}
+
+	return nextCurrentStyle.add(styleStr);
 };
 
 const htmlToBlock = (nodeName: string, node: HTMLElement) => {
