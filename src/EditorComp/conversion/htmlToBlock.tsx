@@ -4,7 +4,7 @@ import { IhtmlToBlockData } from "@alias/types/interfaces";
 import { TtextAlign } from "@alias/types/type";
 
 const htmlToBlock = (nodeName: string, node: HTMLElement) => {
-	// console.log("xxx:", nodeName, node.style);
+	// console.log("xxx:", nodeName, node.style, node.parentNode?.nodeName);
 	const data: IhtmlToBlockData = {};
 	if (node.style.textIndent) {
 		data.textIndent = Math.max(parseInt(node.style.textIndent) / 2, 0);
@@ -24,6 +24,18 @@ const htmlToBlock = (nodeName: string, node: HTMLElement) => {
 			type: `line-height-${parseFloat(node.style.lineHeight) * 100}`,
 			data,
 		};
+	} else if (nodeName === "li") {
+		if (node.parentNode?.nodeName === "UL") {
+			return {
+				type: `unordered-list-item`,
+				data,
+			};
+		} else if (node.parentNode?.nodeName === "OL") {
+			return {
+				type: `ordered-list-item`,
+				data,
+			};
+		}
 	}
 };
 
