@@ -1,11 +1,17 @@
 import React from "react";
 import { getHEXAColor } from "./methods";
+import { DraftStyleMap } from "draft-js";
+
+interface IExtraData {
+	customStyleMap: DraftStyleMap;
+	setCustomStyleMap: React.Dispatch<React.SetStateAction<DraftStyleMap>>;
+}
 
 const htmlToStyle = (
 	nodeName: string,
 	node: HTMLElement,
 	currentStyle: Set<string>,
-	extraData?: any
+	extraData: IExtraData
 ) => {
 	let nextCurrentStyle = currentStyle;
 	if (nodeName === "span" && node.style.color) {
@@ -46,7 +52,7 @@ const htmlToStyle = (
 const getNextCurrentStyleDistillFn = (
 	node: HTMLElement,
 	currentStyle: Set<string>,
-	extraData: any,
+	extraData: IExtraData,
 	styleStrPrefix: string,
 	key: string,
 	val: string,
@@ -58,7 +64,7 @@ const getNextCurrentStyleDistillFn = (
 		typeof extraData.setCustomStyleMap === "function" &&
 		!Object.prototype.hasOwnProperty.call(extraData.customStyleMap, styleStr)
 	) {
-		extraData.setCustomStyleMap((preState: any) => {
+		extraData.setCustomStyleMap((preState: DraftStyleMap) => {
 			return {
 				...preState,
 				[styleStr]: { [key]: val + (unit || "") },

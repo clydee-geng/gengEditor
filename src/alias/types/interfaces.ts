@@ -1,4 +1,6 @@
 import { TtextAlign } from "./type";
+import { UploadProps } from "antd";
+import { EditorState, DraftStyleMap, DraftBlockRenderMap } from "draft-js";
 interface IhtmlToBlockData {
 	textIndent?: number;
 	textAlign?: TtextAlign;
@@ -11,7 +13,7 @@ interface IhtmlToEntityData {
 }
 
 interface IMediaUploadItemConfig {
-	uploadFn: (info: any) => Promise<() => string>;
+	uploadFn: (info: UploadProps) => Promise<() => string>;
 	acceptArr: string[];
 	limitMB: number;
 }
@@ -21,9 +23,21 @@ interface IMediaUploadConfig {
 	Audio?: IMediaUploadItemConfig;
 }
 
+interface ICommonCompsProps {
+	editorState: EditorState;
+	setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+	customStyleMap: DraftStyleMap;
+	setCustomStyleMap: React.Dispatch<React.SetStateAction<DraftStyleMap>>;
+	setCustomBlockRenderMap: React.Dispatch<
+		React.SetStateAction<DraftBlockRenderMap>
+	>;
+	keepEditorFocusBindFn: () => void;
+}
+
 export {
 	IhtmlToBlockData,
 	IhtmlToEntityData,
 	IMediaUploadConfig,
 	IMediaUploadItemConfig,
+	ICommonCompsProps,
 };

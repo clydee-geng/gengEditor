@@ -3,7 +3,14 @@ import { DEFAULT_BLOCK_TYPE, COLORS } from "./constant";
 
 const blockTypeMapTag = new BidirectionalMap(DEFAULT_BLOCK_TYPE);
 
-const styleObjToStr = (obj: any) => {
+interface IStyleObj {
+	textIndent?: number;
+	textAlign?: string;
+	width?: string;
+	height?: string;
+}
+
+const styleObjToStr = (obj: IStyleObj) => {
 	const { textIndent, textAlign, width, height } = obj;
 	let styleStr = "";
 	if (textIndent) {
@@ -29,15 +36,20 @@ const getHEXAColor = (colorStr: string) => {
 	}
 };
 
-const rgbOrRgbaToHex = (red: any, green?: any, blue?: any, alpha?: any) => {
-	const isPercent = (red + (alpha || "")).toString().includes("%");
+const rgbOrRgbaToHex = (
+	red: string | number,
+	green?: string | number,
+	blue?: string | number,
+	alpha?: string | number
+) => {
+	const isPercent = (red + ((alpha as string) || "")).toString().includes("%");
 
 	if (typeof red === "string") {
 		[red, green, blue, alpha] = (red.match(/(0?\.?\d{1,3})%?\b/g) || []).map(
 			(component) => Number(component)
 		);
 	} else if (alpha !== undefined) {
-		alpha = Number.parseFloat(alpha);
+		alpha = Number.parseFloat(alpha as string);
 	}
 
 	if (

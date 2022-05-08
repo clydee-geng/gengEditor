@@ -1,10 +1,16 @@
 import React from "react";
 import { IhtmlToEntityData } from "@alias/types/interfaces";
+import { EntityKey } from "draft-convert";
+import { DraftEntityMutability, RawDraftEntity } from "draft-js";
 
 const htmlToEntity = (
 	nodeName: string,
 	node: HTMLElement,
-	createEntity: any
+	createEntity: (
+		type: RawDraftEntity["type"],
+		mutability: DraftEntityMutability,
+		data: RawDraftEntity["data"]
+	) => EntityKey
 ) => {
 	// console.log("node::::", nodeName, node.style);
 	const data: IhtmlToEntityData = {};

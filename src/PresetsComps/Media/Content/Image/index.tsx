@@ -14,9 +14,14 @@ interface IProps {
 	blockProps: {
 		editorContentDom: HTMLElement;
 		editorState: EditorState;
-		setEditorState: any;
+		setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
 		disabled: boolean;
 	};
+}
+
+interface IInitData {
+	width: string;
+	height: string;
 }
 
 const Content: React.FC<IProps> = (props) => {
@@ -25,14 +30,13 @@ const Content: React.FC<IProps> = (props) => {
 		blockProps;
 	const entitykey = block.getEntityAt(0);
 	const data = contentState.getEntity(entitykey).getData();
-	console.log("dtata", data);
 
-	let initData: any = null;
+	let initData: IInitData = { width: "0px", height: "0px" };
 	data.width &&
 		data.height &&
 		(initData = {
-			width: parseFloat(data.width),
-			height: parseFloat(data.height),
+			width: data.width,
+			height: data.height,
 		});
 	/**
 	 * hooks
@@ -61,7 +65,7 @@ const Content: React.FC<IProps> = (props) => {
 		}
 	};
 
-	const documentMouseMove = (e: any) => {
+	const documentMouseMove = (e: { pageX: number }) => {
 		if (clickToLeftBorder.current && ractSelectRef.current) {
 			let ractSelectNextWidth =
 				e.pageX -
@@ -81,8 +85,8 @@ const Content: React.FC<IProps> = (props) => {
 
 			if (imgWHRatio.current) {
 				const nextRactSelectData = {
-					width: ractSelectNextWidth,
-					height: ractSelectNextWidth / imgWHRatio.current,
+					width: ractSelectNextWidth + "px",
+					height: ractSelectNextWidth / imgWHRatio.current + "px",
 				};
 				setRactSelectData(nextRactSelectData);
 				ractSelectDataRef.current = nextRactSelectData;
@@ -106,28 +110,25 @@ const Content: React.FC<IProps> = (props) => {
 		setImgData(ractSelectDataRef.current);
 	};
 
-	const imgLoadBindFn = (e: any) => {
+	const imgLoadBindFn = (e: React.SyntheticEvent<HTMLImageElement>) => {
+		const target = e.target as HTMLImageElement;
 		const nextRactSelectData = {
-			width: e.target.width,
-			height: e.target.height,
-		};
-		const data = {
-			width: nextRactSelectData.width + "px",
-			height: nextRactSelectData.height + "px",
+			width: target.width + "px",
+			height: target.height + "px",
 		};
 		const nextEditorState = EditorState.push(
 			editorState,
-			contentState.mergeEntityData(entitykey, data),
+			contentState.mergeEntityData(entitykey, nextRactSelectData),
 			"change-block-data"
 		);
 		setEditorState(nextEditorState);
 		setRactSelectData(nextRactSelectData);
 		setImgData(nextRactSelectData);
 		ractSelectDataRef.current = nextRactSelectData;
-		imgWHRatio.current = e.target.width / e.target.height;
+		imgWHRatio.current = target.width / target.height;
 	};
 
-	const clickBindFn = (e: any) => {
+	const clickBindFn = (e: MouseEvent) => {
 		console.log("clickBindFn", e.target);
 		e.stopPropagation();
 		e.nativeEvent.stopImmediatePropagation();
@@ -162,9 +163,9 @@ const Content: React.FC<IProps> = (props) => {
 					style={{ ...ractSelectData }}
 					ref={ractSelectRef}
 				>
-					<div className={styles.info}>{`${parseFloat(
-						ractSelectData.width
-					)}px * ${parseFloat(ractSelectData.height)}px`}</div>
+					<div
+						className={styles.info}
+					>{`${ractSelectData.width} * ${ractSelectData.height}`}</div>
 					<div
 						className={styles.dot}
 						onMouseDown={ractSelectMouseDown}

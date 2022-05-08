@@ -1,9 +1,18 @@
 import React from "react";
 import { blockTypeMapTag, styleObjToStr } from "./methods";
+import { RawDraftContentBlockWithCustomType } from "draft-convert";
+import { DraftBlockType } from "draft-js";
 
-const blockToHTML = (block: any) => {
+interface IBlockData {
+	textIndent: number;
+	textAlign: string;
+}
+
+const blockToHTML = (
+	block: RawDraftContentBlockWithCustomType<DraftBlockType>
+) => {
 	const blockType = block.type;
-	const { textIndent, textAlign } = block.data;
+	const { textIndent, textAlign } = block.data as IBlockData;
 	const blockStyle = styleObjToStr({ textIndent, textAlign });
 	const inlineStyleStr = blockStyle ? ` style="${blockStyle}"` : "";
 
@@ -20,9 +29,9 @@ const blockToHTML = (block: any) => {
 			nest: <ol />,
 		};
 	} else if (blockType.includes("line-height-")) {
-		const lineHeight = blockType.replace("line-height-", "");
+		const lineHeight: string = blockType.replace("line-height-", "");
 		return {
-			start: `<span style="line-height: ${lineHeight / 100}";>`,
+			start: `<span style="line-height: ${Number(lineHeight) / 100}";>`,
 			end: `</span>`,
 		};
 	}

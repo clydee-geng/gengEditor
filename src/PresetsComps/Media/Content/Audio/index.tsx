@@ -13,7 +13,7 @@ interface IProps {
 	contentState: ContentState;
 	blockProps: {
 		editorState: EditorState;
-		setEditorState: any;
+		setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
 		disabled: boolean;
 	};
 }
@@ -35,7 +35,7 @@ const Content: React.FC<IProps> = (props) => {
 	 * methods
 	 */
 
-	const clickBindFn = (e: any) => {
+	const clickBindFn = () => {
 		const nextEditorState = EditorState.forceSelection(
 			editorState,
 			SelectionState.createEmpty(block.getKey())

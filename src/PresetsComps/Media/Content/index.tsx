@@ -12,7 +12,7 @@ interface IProps {
 	blockProps: {
 		editorContentDom: HTMLElement;
 		editorState: EditorState;
-		setEditorState: any;
+		setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
 		curSelectBlock?: ContentBlock;
 		disabled: boolean;
 	};

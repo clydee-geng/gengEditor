@@ -1,5 +1,10 @@
 import React from "react";
-import { EditorState, Modifier } from "draft-js";
+import {
+	EditorState,
+	Modifier,
+	DraftStyleMap,
+	DraftBlockRenderMap,
+} from "draft-js";
 import {
 	AlignLeftOutlined,
 	AlignCenterOutlined,
@@ -13,9 +18,11 @@ const JustifyIcon = () => <i className="iconfont icon-align-justify"></i>;
 
 interface IProps {
 	editorState: EditorState;
-	setEditorState: any;
-	setCustomStyleMap: any;
-	setCustomBlockRenderMap: any;
+	setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+	setCustomStyleMap: React.Dispatch<React.SetStateAction<DraftStyleMap>>;
+	setCustomBlockRenderMap: React.Dispatch<
+		React.SetStateAction<DraftBlockRenderMap>
+	>;
 	keepEditorFocusBindFn: () => void;
 	type: "left" | "center" | "right" | "justify";
 }
@@ -71,7 +78,7 @@ const TextAlignLogic: React.FC<IProps> = (props) => {
 	/** jsx */
 
 	const typeFormat = () => {
-		const obj: any = {};
+		const obj: { tip: string; icon: React.ReactNode } = { tip: "", icon: "" };
 		switch (type) {
 			case "left":
 				obj.tip = "靠左";

@@ -19,8 +19,9 @@ import FontSize from "./FontSize";
 import { Image, Video, Audio } from "./Media";
 import { Undo, Redo } from "./UndoAndRedo";
 import React from "react";
+import { ICommonCompsProps } from "@alias/types/interfaces";
 
-const Bold = (props: any) => (
+const Bold = (props: ICommonCompsProps) => (
 	<RichUtilsToogleBtn
 		{...props}
 		icon={<BoldOutlined />}
@@ -30,7 +31,7 @@ const Bold = (props: any) => (
 	/>
 );
 
-const Italic = (props: any) => (
+const Italic = (props: ICommonCompsProps) => (
 	<RichUtilsToogleBtn
 		{...props}
 		icon={<ItalicOutlined />}
@@ -40,7 +41,7 @@ const Italic = (props: any) => (
 	/>
 );
 
-const Underline = (props: any) => (
+const Underline = (props: ICommonCompsProps) => (
 	<RichUtilsToogleBtn
 		{...props}
 		icon={<UnderlineOutlined />}
@@ -50,7 +51,7 @@ const Underline = (props: any) => (
 	/>
 );
 
-const Strikethrough = (props: any) => (
+const Strikethrough = (props: ICommonCompsProps) => (
 	<RichUtilsToogleBtn
 		{...props}
 		icon={<StrikethroughOutlined />}
@@ -60,7 +61,7 @@ const Strikethrough = (props: any) => (
 	/>
 );
 
-const UL = (props: any) => (
+const UL = (props: ICommonCompsProps) => (
 	<RichUtilsToogleBtn
 		{...props}
 		icon={<UnorderedListOutlined />}
@@ -70,7 +71,7 @@ const UL = (props: any) => (
 	/>
 );
 
-const OL = (props: any) => (
+const OL = (props: ICommonCompsProps) => (
 	<RichUtilsToogleBtn
 		{...props}
 		icon={<OrderedListOutlined />}
@@ -80,7 +81,7 @@ const OL = (props: any) => (
 	/>
 );
 
-const Blockquote = (props: any) => (
+const Blockquote = (props: ICommonCompsProps) => (
 	<RichUtilsToogleBtn
 		{...props}
 		icon={<i className="iconfont icon-blockquote"></i>}
@@ -90,7 +91,7 @@ const Blockquote = (props: any) => (
 	/>
 );
 
-const Code = (props: any) => (
+const Code = (props: ICommonCompsProps) => (
 	<RichUtilsToogleBtn
 		{...props}
 		icon={<CodeOutlined />}

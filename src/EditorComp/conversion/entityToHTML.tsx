@@ -1,7 +1,8 @@
 import React from "react";
 import { styleObjToStr } from "./methods";
+import { RawDraftEntity } from "draft-js";
 
-const entityToHTML = (entity: any) => {
+const entityToHTML = (entity: RawDraftEntity) => {
 	const { type, data } = entity;
 	const { src, width, height } = data;
 	const nextBlockStyle = styleObjToStr({ width, height });

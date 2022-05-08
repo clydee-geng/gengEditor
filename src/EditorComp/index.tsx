@@ -1,4 +1,4 @@
-import React from "react";
+import React, { KeyboardEvent } from "react";
 import {
 	Editor,
 	EditorState,
@@ -27,7 +27,7 @@ import {
 import MediaContent from "../PresetsComps/Media/Content";
 import classnames from "classnames";
 import { decorators } from "./decorators";
-import { IMediaUploadConfig } from "@alias/types/interfaces";
+import { IMediaUploadConfig, ICommonCompsProps } from "@alias/types/interfaces";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
 	return {
@@ -57,7 +57,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 	/**
 	 * hooks
 	 */
-	const [customStyleMap, setCustomStyleMap] = React.useState({});
+	const [customStyleMap, setCustomStyleMap] = React.useState<DraftStyleMap>({});
 
 	const [editorState, setEditorState] = React.useState(
 		EditorState.createWithContent(
@@ -80,7 +80,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 
 	const [customBlockRenderMap, setCustomBlockRenderMap] =
 		React.useState<DraftBlockRenderMap>(DefaultDraftBlockRenderMap);
-	const editorRef = React.useRef<any>(null);
+	const editorRef = React.useRef<Editor>(null);
 	const isNeedHidePlaceholder = React.useRef<boolean>(false);
 
 	// 变量
@@ -149,7 +149,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 		}
 	};
 
-	const returnBindFn = (e: any): DraftHandleValue => {
+	const returnBindFn = (e: KeyboardEvent): DraftHandleValue => {
 		if (
 			contentBlock.getType() === "blockquote" ||
 			contentBlock.getType() === "code-block"
@@ -231,7 +231,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 	 * jsx
 	 */
 
-	const commonCompsProps = {
+	const commonCompsProps: ICommonCompsProps = {
 		editorState,
 		setEditorState,
 		customStyleMap,

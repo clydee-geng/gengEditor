@@ -2,17 +2,16 @@ import React from "react";
 import { EditorState, AtomicBlockUtils } from "draft-js";
 import PopoverBtn from "../../PopoverBtn";
 import styles from "./index.less";
-import { Button, Tabs, Upload, Input, message, Spin } from "antd";
-import { PictureOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Tabs, Upload, Input, message, Spin, UploadProps } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { checkFileType } from "@alias/utils";
 import { IMediaUploadItemConfig } from "@alias/types/interfaces";
 
 interface IProps {
 	editorState: EditorState;
-	setEditorState: any;
-	setCustomStyleMap: any;
+	setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
 	keepEditorFocusBindFn: () => void;
-	mediaUploadConfig: IMediaUploadItemConfig;
+	mediaUploadConfig?: IMediaUploadItemConfig;
 	type: "Image" | "Audio" | "Video";
 	renderUploadedComp: (curUrl: string) => React.ReactElement;
 	icon: React.ReactElement;
@@ -22,7 +21,6 @@ const Comp: React.FC<IProps> = (props) => {
 	const {
 		editorState,
 		setEditorState,
-		setCustomStyleMap,
 		keepEditorFocusBindFn,
 		mediaUploadConfig,
 		type,
@@ -89,7 +87,7 @@ const Comp: React.FC<IProps> = (props) => {
 		setEditorState(nextEditorState);
 	};
 
-	const customRequest = (info: any) => {
+	const customRequest = (info: UploadProps) => {
 		if (typeof uploadFn === "function") {
 			setIsUploading(true);
 			uploadFn(info)
