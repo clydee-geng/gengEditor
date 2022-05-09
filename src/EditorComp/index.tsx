@@ -14,7 +14,10 @@ import {
 import "draft-js/dist/Draft.css";
 import styles from "./index.less";
 import PresetsComps from "../PresetsComps";
-import { getCurrentContentBlock } from "@alias/utils";
+import {
+	getCurrentContentBlock,
+	getRemoveBlockEditorState,
+} from "@alias/utils";
 import { convertToHTML, convertFromHTML } from "draft-convert";
 import {
 	styleToHTML,
@@ -191,8 +194,17 @@ const EditorComp: React.FC<IProps> = (props) => {
 		return "not-handled";
 	};
 
-	const keyCommandBindFn = (command: string): DraftHandleValue => {
-		const nextEditorState = RichUtils.handleKeyCommand(editorState, command);
+	const keyCommandBindFn = (
+		command: string,
+		e: EditorState
+	): DraftHandleValue => {
+		if (command === "backspace") {
+			const nextEditorState = getRemoveBlockEditorState(e);
+			setEditorState(nextEditorState);
+			return "handled";
+		}
+
+		const nextEditorState = RichUtils.handleKeyCommand(e, command);
 		if (nextEditorState) {
 			setEditorState(nextEditorState);
 			return "handled";

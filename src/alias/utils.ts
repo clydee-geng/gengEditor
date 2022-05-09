@@ -1,4 +1,10 @@
-import { EditorState, ContentBlock, Modifier } from "draft-js";
+import {
+	EditorState,
+	ContentBlock,
+	Modifier,
+	SelectionState,
+	ContentState,
+} from "draft-js";
 const getCurrentContentBlock = (editorState: EditorState): ContentBlock => {
 	const selection = editorState.getSelection();
 	const contentBlock = editorState
@@ -69,9 +75,39 @@ class BidirectionalMap {
 	}
 }
 
+const getRemoveBlockEditorState = (editorState: EditorState) => {
+	const block = getCurrentContentBlock(editorState);
+	let nextContentState: ContentState;
+	const blockKey = block.getKey();
+
+	nextContentState = Modifier.removeRange(
+		editorState.getCurrentContent(),
+		new SelectionState({
+			anchorKey: blockKey,
+			anchorOffset: 0,
+			focusKey: blockKey,
+			focusOffset: block.getLength(),
+		}),
+		"backward"
+	);
+
+	nextContentState = Modifier.setBlockType(
+		nextContentState,
+		nextContentState.getSelectionAfter(),
+		"unstyled"
+	);
+	const nextEditorState = EditorState.push(
+		editorState,
+		nextContentState,
+		"remove-range"
+	);
+	return nextEditorState;
+};
+
 export {
 	getCurrentContentBlock,
 	removeAllInlineStyle,
 	checkFileType,
 	BidirectionalMap,
+	getRemoveBlockEditorState,
 };
