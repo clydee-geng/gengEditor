@@ -20,8 +20,8 @@ interface IProps {
 }
 
 interface IInitData {
-	width: string;
-	height: string;
+	width?: string;
+	height?: string;
 }
 
 const Content: React.FC<IProps> = (props) => {
@@ -31,7 +31,7 @@ const Content: React.FC<IProps> = (props) => {
 	const entitykey = block.getEntityAt(0);
 	const data = contentState.getEntity(entitykey).getData();
 
-	let initData: IInitData = { width: "0px", height: "0px" };
+	let initData: IInitData = {};
 	data.width &&
 		data.height &&
 		(initData = {
@@ -163,9 +163,9 @@ const Content: React.FC<IProps> = (props) => {
 					style={{ ...ractSelectData }}
 					ref={ractSelectRef}
 				>
-					<div
-						className={styles.info}
-					>{`${ractSelectData.width} * ${ractSelectData.height}`}</div>
+					<div className={styles.info}>{`${parseInt(
+						ractSelectData.width as string
+					)}px * ${parseInt(ractSelectData.height as string)}px`}</div>
 					<div
 						className={styles.dot}
 						onMouseDown={ractSelectMouseDown}
