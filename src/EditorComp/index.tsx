@@ -198,7 +198,11 @@ const EditorComp: React.FC<IProps> = (props) => {
 		command: string,
 		e: EditorState
 	): DraftHandleValue => {
-		if (command === "backspace") {
+		if (
+			command === "backspace" &&
+			contentBlock.getType() === "atomic" &&
+			selectionState.isCollapsed()
+		) {
 			const nextEditorState = getRemoveBlockEditorState(e);
 			setEditorState(nextEditorState);
 			return "handled";
