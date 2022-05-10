@@ -45,7 +45,6 @@ const htmlToStyle = (
 			"px"
 		);
 	}
-	// console.log(nodeName, node, node.style, nextCurrentStyle.toJS());
 	return nextCurrentStyle;
 };
 

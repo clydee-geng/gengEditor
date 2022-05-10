@@ -129,7 +129,6 @@ const Content: React.FC<IProps> = (props) => {
 	};
 
 	const clickBindFn = (e: MouseEvent) => {
-		console.log("clickBindFn", e.target);
 		e.stopPropagation();
 		e.nativeEvent.stopImmediatePropagation();
 		setIsShow(true);

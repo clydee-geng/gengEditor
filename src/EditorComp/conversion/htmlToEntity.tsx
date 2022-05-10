@@ -12,7 +12,6 @@ const htmlToEntity = (
 		data: RawDraftEntity["data"]
 	) => EntityKey
 ) => {
-	// console.log("node::::", nodeName, node.style);
 	const data: IhtmlToEntityData = {};
 	if (node.style?.width) {
 		data.width = node.style.width;

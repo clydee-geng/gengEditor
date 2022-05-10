@@ -35,7 +35,6 @@ const Video = (props: ICommonCompsProps) => (
 		icon={<PlaySquareOutlined />}
 		renderUploadedComp={(curUrl: string) => (
 			<div className={styles.vidoeBox}>
-				{console.log("curUrl", curUrl)}
 				<div className={styles.videoMask}>
 					<CaretRightOutlined />
 				</div>
