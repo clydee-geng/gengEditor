@@ -157,7 +157,7 @@ const Content: React.FC<IProps> = (props) => {
 			}
 			onClick={clickBindFn}
 		>
-			{isShow && (
+			{isShow && !disabled && (
 				<div
 					className={styles.ractSelect}
 					style={{ ...ractSelectData }}
