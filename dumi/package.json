@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "geng-editor": "^1.0.1",
     "react": "^16.12.0 || ^17.0.0"
   },
   "devDependencies": {

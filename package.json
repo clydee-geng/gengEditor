@@ -1,6 +1,6 @@
 {
 	"name": "geng-editor",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "dist/gengEditor.js",
 	"repository": "git@github.com:clydee-geng/gengEditor.git",
 	"author": "clydee <641365724@qq.com>",

@@ -10,3 +10,10 @@ yarn.lock
 .DS_Store
 dumi
 docs
+.husky
+.editorconfig
+.eslintrc.js
+.prettierrc.js
+CONTRIBUTING.md
+.eslintignore
+.prettierignore
