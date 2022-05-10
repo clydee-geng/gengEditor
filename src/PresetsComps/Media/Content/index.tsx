@@ -1,5 +1,10 @@
 import React from "react";
-import { EditorState, ContentBlock, ContentState } from "draft-js";
+import {
+	EditorState,
+	ContentBlock,
+	ContentState,
+	SelectionState,
+} from "draft-js";
 import ImageContent from "./Image";
 import VideoContent from "./Video";
 import AudioContent from "./Audio";
@@ -25,8 +30,12 @@ const Media: React.FC<IProps> = (props) => {
 	const type = entitykey && contentState.getEntity(entitykey).getType();
 
 	const delMedia = () => {
-		const nextEditorState = getRemoveBlockEditorState(editorState);
-		setEditorState(nextEditorState);
+		const nextEditorState = EditorState.forceSelection(
+			editorState,
+			SelectionState.createEmpty(block.getKey())
+		);
+		const nextEditorState1 = getRemoveBlockEditorState(nextEditorState);
+		setEditorState(nextEditorState1);
 	};
 
 	return (
