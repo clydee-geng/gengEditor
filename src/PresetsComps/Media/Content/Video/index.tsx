@@ -63,6 +63,7 @@ const Content: React.FC<IProps> = (props) => {
 				controls
 				draggable="false"
 				muted
+				onFocus={clickBindFn}
 			/>
 		</div>
 	);

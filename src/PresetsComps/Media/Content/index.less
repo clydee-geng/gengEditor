@@ -1,9 +1,25 @@
 .Media {
-  cursor: pointer;
-  &:hover {
-    background-color: #fafafa;
-  }
-  &.MediaDisable {
-    cursor: not-allowed;
-  }
+	cursor: pointer;
+	border: 1px solid transparent;
+	position: relative;
+	.close {
+		display: none;
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		top: 0;
+		right: 0;
+		text-align: center;
+		padding-top: 3px;
+		z-index: 999;
+	}
+	&:hover {
+		border: 1px solid #2593fc;
+		.close {
+			display: block;
+		}
+	}
+	&.MediaDisable {
+		cursor: not-allowed;
+	}
 }
