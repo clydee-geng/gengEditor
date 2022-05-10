@@ -61,6 +61,7 @@ const Content: React.FC<IProps> = (props) => {
 				style={{ width: data?.width }}
 				controls
 				draggable="false"
+				muted
 			/>
 		</div>
 	);
