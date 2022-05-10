@@ -44,9 +44,12 @@ const Media: React.FC<IProps> = (props) => {
 				disabled ? classnames(styles.Media, styles.MediaDisable) : styles.Media
 			}
 		>
-			<div className={styles.close} onClick={delMedia}>
-				<DeleteTwoTone />
-			</div>
+			{disabled || (
+				<div className={styles.close} onClick={delMedia}>
+					<DeleteTwoTone />
+				</div>
+			)}
+
 			{type === "IMAGE" && <ImageContent {...props} />}
 			{type === "VIDEO" && <VideoContent {...props} />}
 			{type === "AUDIO" && <AudioContent {...props} />}
