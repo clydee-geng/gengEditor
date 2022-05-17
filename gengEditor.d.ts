@@ -1,13 +1,5 @@
+import GengEditor from "./dist/gengEditor";
 import { UploadProps } from "antd";
-
-export interface IProps {
-	style?: React.CSSProperties;
-	disabled?: boolean;
-	mediaUploadConfig?: IMediaUploadConfig;
-	value?: string;
-	onChange?: (val: string) => void;
-	placeholder?: string;
-}
 
 export interface IMediaUploadItemConfig {
 	uploadFn: (info: UploadProps) => Promise<() => string>;
@@ -20,3 +12,13 @@ export interface IMediaUploadConfig {
 	Video?: IMediaUploadItemConfig;
 	Audio?: IMediaUploadItemConfig;
 }
+export interface IProps {
+	style?: React.CSSProperties;
+	disabled?: boolean;
+	mediaUploadConfig?: IMediaUploadConfig;
+	value?: string;
+	onChange?: (val: string) => void;
+	placeholder?: string;
+}
+
+export default GengEditor;
