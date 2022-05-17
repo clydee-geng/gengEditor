@@ -1,7 +1,8 @@
 {
 	"name": "geng-editor",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"main": "dist/gengEditor.js",
+	"typings": "gengEditor.d.ts",
 	"repository": "git@github.com:clydee-geng/gengEditor.git",
 	"author": "clydee <641365724@qq.com>",
 	"description": "基于antd和draft-js的React富文本编辑器",
