@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 // 开发时用 src的index
 import GengEditor from "../src";
 
@@ -69,4 +69,5 @@ const App = () => {
 		</div>
 	);
 };
-render(<App />, document.getElementById("root"));
+const root = createRoot(document.getElementById("root"));
+root.render(<App />);
