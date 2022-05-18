@@ -1,4 +1,4 @@
-import GengEditor from "./dist/gengEditor";
+import React from "react";
 import { UploadProps } from "antd";
 
 export interface IMediaUploadItemConfig {
@@ -21,4 +21,5 @@ export interface IProps {
 	placeholder?: string;
 }
 
+declare const GengEditor: React.FC<IProps>;
 export default GengEditor;
