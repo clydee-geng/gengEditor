@@ -19,6 +19,7 @@
 	"scripts": {
 		"dev": "webpack-dev-server",
 		"build": "rm -rf dist && webpack --env.prod",
+		"login": "npm login --registry https://registry.npmjs.org",
 		"pub": "npm run build && npm publish --registry https://registry.npmjs.org",
 		"prepare": "husky install"
 	},
