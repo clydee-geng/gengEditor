@@ -53,7 +53,12 @@ const App = () => {
 	const defaultValue2 =
 		'<figure style="text-align:center;"><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:166px;height:237px;" /></figure><figure style="text-align:center;"><img src="https://s2.ax1x.com/2020/02/29/3yhm8S.jpg" style="width:166px;height:237px;" /></figure>';
 
-	const [value, setValue] = React.useState(defaultValue);
+	React.useEffect(() => {
+		setTimeout(() => {
+			setValue(defaultValue);
+		}, 5000);
+	}, []);
+	const [value, setValue] = React.useState("");
 
 	return (
 		<div style={{ width: 800 }}>
@@ -61,7 +66,7 @@ const App = () => {
 				mediaUploadConfig={mediaUploadConfig}
 				value={value}
 				onChange={(e) => {
-					console.log("eeee", e);
+					// console.log("eeee", e);
 					setValue(e);
 				}}
 			/>

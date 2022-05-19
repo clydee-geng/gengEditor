@@ -30,7 +30,8 @@ import {
 import MediaContent from "../PresetsComps/Media/Content";
 import classnames from "classnames";
 import { decorators } from "./decorators";
-import { IMediaUploadConfig, ICommonCompsProps } from "@alias/types/interfaces";
+import { ICommonCompsProps } from "@alias/types/interfaces";
+import { ICommonProps as GengEditorProps } from "../../src/index";
 
 const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
 	return {
@@ -39,13 +40,8 @@ const PresetsCompsList = Object.keys(PresetsComps).map((item: string) => {
 	};
 });
 
-interface IProps {
-	style?: React.CSSProperties;
-	disabled?: boolean;
-	mediaUploadConfig?: IMediaUploadConfig;
-	value?: string;
-	onChange?: (val: string) => void;
-	placeholder?: string;
+interface IProps extends GengEditorProps {
+	initValue?: string;
 }
 
 const EditorComp: React.FC<IProps> = (props) => {
@@ -54,7 +50,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 		disabled,
 		mediaUploadConfig,
 		placeholder = "请输入...",
-		value = "",
+		initValue = "",
 		onChange,
 	} = props;
 	/**
@@ -76,7 +72,7 @@ const EditorComp: React.FC<IProps> = (props) => {
 					}),
 				htmlToBlock,
 				htmlToEntity,
-			})(value),
+			})(initValue),
 			decorators
 		)
 	);
