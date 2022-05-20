@@ -19,7 +19,7 @@ module.exports = {
 		// "draft-js": "draft-js",
 		// "draft-convert": "draft-convert",
 		// "@simonwep/pickr": "@simonwep/pickr",
-		// "antd": "antd",
+		antd: "antd",
 		// "classnames":"classnames",
 	},
 };

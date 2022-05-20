@@ -1,6 +1,6 @@
 {
 	"name": "geng-editor",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"main": "dist/gengEditor.js",
 	"typings": "gengEditor.d.ts",
 	"repository": "git@github.com:clydee-geng/gengEditor.git",
@@ -25,7 +25,6 @@
 	},
 	"dependencies": {
 		"@simonwep/pickr": "^1.8.2",
-		"antd": "^4.18.4",
 		"classnames": "^2.3.1",
 		"draft-convert": "^2.1.12",
 		"draft-js": "0.10.5"
@@ -68,11 +67,13 @@
 		"webpack": "4.26.0",
 		"webpack-cli": "3.1.2",
 		"webpack-dev-server": "3.1.10",
-		"webpack-merge": "^5.8.0"
+		"webpack-merge": "^5.8.0",
+		"antd": "^4.18.4"
 	},
 	"peerDependencies": {
 		"react": ">=16.8.0",
-		"react-dom": ">=16.8.0"
+		"react-dom": ">=16.8.0",
+		"antd": ">=4.x"
 	},
 	"lint-staged": {
 		"*.{tsx,ts,js,css,md,less,json,yml}": "prettier --write",
