@@ -63,7 +63,6 @@ const App = () => {
 	return (
 		<div style={{ width: 500 }}>
 			<GengEditor
-				disabled
 				mediaUploadConfig={mediaUploadConfig}
 				value={value}
 				onChange={(e) => {

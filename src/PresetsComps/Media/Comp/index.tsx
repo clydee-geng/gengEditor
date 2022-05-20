@@ -2,7 +2,16 @@ import React from "react";
 import { EditorState, AtomicBlockUtils } from "draft-js";
 import PopoverBtn from "../../PopoverBtn";
 import styles from "./index.less";
-import { Button, Tabs, Upload, Input, message, Spin, UploadProps } from "antd";
+import {
+	Button,
+	Tabs,
+	Upload,
+	Input,
+	message,
+	Spin,
+	UploadProps,
+	Tooltip,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { checkFileType } from "@alias/utils";
 import { IMediaUploadItemConfig } from "@alias/types/interfaces";
@@ -129,26 +138,28 @@ const Comp: React.FC<IProps> = (props) => {
 			<div className={styles.popverContent}>
 				<Tabs>
 					<Tabs.TabPane tab={`上传${typeFormatFn()}`} key="1">
-						<Spin spinning={isUploading} tip="上传中...">
-							<Upload
-								accept={acceptArr?.join(", ")}
-								name="avatar"
-								listType="picture-card"
-								showUploadList={false}
-								beforeUpload={beforeUpload}
-								customRequest={customRequest}
-							>
-								{curUrl ? (
-									typeof renderUploadedComp === "function" &&
-									renderUploadedComp(curUrl)
-								) : (
-									<div>
-										<PlusOutlined />
-										<div>{`选择${typeFormatFn()}`}</div>
-									</div>
-								)}
-							</Upload>
-						</Spin>
+						<Tooltip title={curUrl && !isUploading ? "点击再次上传" : ""}>
+							<Spin spinning={isUploading} tip="上传中...">
+								<Upload
+									accept={acceptArr?.join(", ")}
+									name="avatar"
+									listType="picture-card"
+									showUploadList={false}
+									beforeUpload={beforeUpload}
+									customRequest={customRequest}
+								>
+									{curUrl ? (
+										typeof renderUploadedComp === "function" &&
+										renderUploadedComp(curUrl)
+									) : (
+										<div>
+											<PlusOutlined />
+											<div>{`选择${typeFormatFn()}`}</div>
+										</div>
+									)}
+								</Upload>
+							</Spin>
+						</Tooltip>
 					</Tabs.TabPane>
 					<Tabs.TabPane tab={`网络${typeFormatFn()}`} key="2">
 						<div
